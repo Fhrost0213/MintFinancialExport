@@ -1,0 +1,44 @@
+IF OBJECT_ID ( 'msp_AccountMappingInsert', 'P' ) IS NOT NULL   
+    DROP PROCEDURE msp_AccountMappingInsert;  
+GO  
+
+CREATE PROCEDURE [dbo].[msp_AccountMappingInsert]
+	@AccountID INT,
+	@AccountTypeID INT
+
+AS
+
+SET NOCOUNT ON
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED	
+
+DECLARE @TranStarted bit
+
+BEGIN TRY
+	
+	/* START AN EXPLICIT TRANSACTION IF THERE ISNT ONE ALREADY */
+	IF @@TRANCOUNT = 0
+	BEGIN
+		SET @TranStarted = 1
+		BEGIN TRAN
+	END
+	
+	INSERT INTO [dbo].[AccountMapping]
+	(AccountID, AccountTypeID)
+	SELECT @AccountID, @AccountTypeID
+	
+	/* COMMIT THE EXPLICIT TRANSACTION IF THERE ONE WAS STARTED VIA THIS PROCEDURE */
+	IF @TranStarted = 1
+		COMMIT TRAN
+
+END TRY
+BEGIN CATCH
+
+	/* ONLY ATTEMPT TO ROLLBACK THE TRAN IF I STARTED ONE */
+	IF @TranStarted = 1
+		ROLLBACK TRAN
+
+	EXEC usp_GetErrorInfo;
+
+END CATCH
+
+GO

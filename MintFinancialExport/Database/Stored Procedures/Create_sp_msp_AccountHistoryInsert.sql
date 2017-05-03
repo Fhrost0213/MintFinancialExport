@@ -1,0 +1,44 @@
+IF OBJECT_ID ( 'msp_AccountHistoryInsert', 'P' ) IS NOT NULL   
+    DROP PROCEDURE msp_AccountHistoryInsert;  
+GO  
+
+CREATE PROCEDURE [dbo].[msp_AccountHistoryInsert]
+	@AccountID INT,
+	@Amount money
+
+AS
+
+SET NOCOUNT ON
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED	
+
+DECLARE @TranStarted bit
+
+BEGIN TRY
+	
+	/* START AN EXPLICIT TRANSACTION IF THERE ISNT ONE ALREADY */
+	IF @@TRANCOUNT = 0
+	BEGIN
+		SET @TranStarted = 1
+		BEGIN TRAN
+	END
+	
+	INSERT INTO [dbo].[AccountHistory]
+	(AccountID, Amount)
+	SELECT @AccountID, @Amount
+	
+	/* COMMIT THE EXPLICIT TRANSACTION IF THERE ONE WAS STARTED VIA THIS PROCEDURE */
+	IF @TranStarted = 1
+		COMMIT TRAN
+
+END TRY
+BEGIN CATCH
+
+	/* ONLY ATTEMPT TO ROLLBACK THE TRAN IF I STARTED ONE */
+	IF @TranStarted = 1
+		ROLLBACK TRAN
+
+	EXEC usp_GetErrorInfo;
+
+END CATCH
+
+GO

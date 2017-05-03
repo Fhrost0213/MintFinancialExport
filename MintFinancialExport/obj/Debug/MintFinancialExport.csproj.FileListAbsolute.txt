@@ -55,3 +55,6 @@ F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\bin\Debug\Ent
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\bin\Debug\EntityFramework.SqlServer.xml
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\bin\Debug\System.Data.SQLite.xml
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\bin\Debug\System.Data.SQLite.dll.config
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\MintFinancialExport.exe.config
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.exe
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.pdb

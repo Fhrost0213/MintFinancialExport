@@ -24,20 +24,6 @@ namespace MintFinancialExport.Models
 
         public ObservableCollection<Account> GetAccounts(string userName, string password)
         {
-            //string session = "";
-            //string guid = "";
-
-            //ChromeCookieReader wb = new ChromeCookieReader();
-            //var cookies = wb.ReadCookies("mint.intuit.com");
-            //var test = wb.ReadCookies("pf.intuit.com");
-
-            //foreach (var cookie in cookies)
-            //{
-            //    if (cookie.Item1 == "MINTJSESSIONID") session = cookie.Item2;
-            //    if (cookie.Item1 == "userguid") guid = cookie.Item2;
-  
-            //}
-
             var data = GetMintInfo("--accounts", userName, password);
 
             return JsonConvert.DeserializeObject<ObservableCollection<Account>>(data);
