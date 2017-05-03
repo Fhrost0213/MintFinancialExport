@@ -1,0 +1,12 @@
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Tests.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Tests.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.exe
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\nunit.framework.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\Newtonsoft.Json.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.exe.config
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\nunit.framework.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\Newtonsoft.Json.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.csprojResolveAssemblyReference.cache
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.pdb
