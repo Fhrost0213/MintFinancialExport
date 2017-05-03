@@ -24,21 +24,21 @@ namespace MintFinancialExport.Models
 
         public ObservableCollection<Account> GetAccounts(string userName, string password)
         {
-            string session = "";
-            string guid = "";
+            //string session = "";
+            //string guid = "";
 
-            ChromeCookieReader wb = new ChromeCookieReader();
-            var cookies = wb.ReadCookies("mint.intuit.com");
-            var test = wb.ReadCookies("pf.intuit.com");
+            //ChromeCookieReader wb = new ChromeCookieReader();
+            //var cookies = wb.ReadCookies("mint.intuit.com");
+            //var test = wb.ReadCookies("pf.intuit.com");
 
-            foreach (var cookie in cookies)
-            {
-                if (cookie.Item1 == "MINTJSESSIONID") session = cookie.Item2;
-                if (cookie.Item1 == "userguid") guid = cookie.Item2;
+            //foreach (var cookie in cookies)
+            //{
+            //    if (cookie.Item1 == "MINTJSESSIONID") session = cookie.Item2;
+            //    if (cookie.Item1 == "userguid") guid = cookie.Item2;
   
-            }
+            //}
 
-            var data = GetMintInfo("--accounts", userName, password, session, guid);
+            var data = GetMintInfo("--accounts", userName, password);
 
             return JsonConvert.DeserializeObject<ObservableCollection<Account>>(data);
         }
@@ -50,7 +50,7 @@ namespace MintFinancialExport.Models
             //var test = JsonConvert.DeserializeObject<Budget>(data);
         }
 
-        public string GetMintInfo(string info, string userName, string password, string session, string guid)
+        public string GetMintInfo(string info, string userName, string password)
         {
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -60,7 +60,7 @@ namespace MintFinancialExport.Models
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
 
-            startInfo.Arguments = @"C:\Users\Bryan\AppData\Local\Programs\Python\Python36-32\Scripts\mintapi-script.py " + info + " " + userName + " " + password + " --session " + session + " --thx_guid + " + guid;
+            startInfo.Arguments = @"C:\Users\Bryan\AppData\Local\Programs\Python\Python36-32\Scripts\mintapi-script.py " + info + " " + userName + " " + password;
             process.StartInfo = startInfo;
             process.Start();
 

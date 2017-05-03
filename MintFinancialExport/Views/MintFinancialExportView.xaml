@@ -21,6 +21,12 @@
         <ToolBar>
             <Button Content="GetData" Command="{Binding ClickCommand}"/>
             <Button Content="Account Mapping" Command="{Binding AccountMappingCommand}"/>
+            <Menu x:Name="mnuExport" >
+                <MenuItem Header="Export">
+                    <MenuItem Header="Create Net Worth Statement"/>
+                    <MenuItem Header="Create Income Statement"/>
+                </MenuItem>
+            </Menu>
         </ToolBar>
         
         <StackPanel Orientation="Horizontal" Grid.Row="1">

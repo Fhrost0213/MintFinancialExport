@@ -13,27 +13,13 @@ namespace MintFinancialExport.ViewModels
 {
     class AccountMappingViewModel : BaseViewModel
     {
-        public ObservableCollection<Account> AccountList { get; set; }
+        public ObservableCollection<AccountMapping> AccountMappingList { get; set; }
 
 
         public AccountMappingViewModel()
         {
+            AccountMappingList = new ObservableCollection<AccountMapping>();
             RefreshAccountsCommand = new RelayCommand(RefreshAccountsCommandExecuted);
-        }
-
-        private Enums.AccountType _accountType;
-
-        public Enums.AccountType AccountType
-        {
-            get { return _accountType; }
-            set
-            {
-                if (_accountType != value)
-                {
-                    _accountType = value;
-                    OnPropertyChanged(nameof(AccountType));
-                }
-            }
         }
 
         private ICommand _refreshAccountsCommand;
@@ -51,14 +37,23 @@ namespace MintFinancialExport.ViewModels
 
         private void RefreshAccountsCommandExecuted(object obj)
         {
-            //AccountInfoView accountInfoView = new AccountInfoView();
-            //accountInfoView.ShowDialog();
-            //string userName = accountInfoView.txtUserName.Text;
-            //string password = accountInfoView.txtPassword.Text;
+            AccountInfoView accountInfoView = new AccountInfoView();
+            accountInfoView.ShowDialog();
+            string userName = accountInfoView.txtUserName.Text;
+            string password = accountInfoView.txtPassword.Text;
 
-            //MintFinancialExportModel mintFinancialExportModel = new MintFinancialExportModel();
+            MintFinancialExportModel mintFinancialExportModel = new MintFinancialExportModel();
 
-            //AccountList = mintFinancialExportModel.GetAccounts(userName, password);
+            var accountList = mintFinancialExportModel.GetAccounts(userName, password);
+
+            foreach (Account account in accountList)
+            {
+                AccountMapping mapping = new AccountMapping();
+                mapping.AccountName = account.Name;
+                mapping.AccountType = Enums.AccountType.Taxable;
+
+                AccountMappingList.Add(mapping);
+            }
         }
     }
 }

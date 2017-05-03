@@ -22,14 +22,14 @@
         </ToolBar>
 
 
-        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding Source=AccountList}">
-            <DataGrid.Columns>
+        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList}">
+            <!--<DataGrid.Columns>
                 <DataGridTextColumn x:Name="cboMintAccounts" Header="Mint Account" Binding="{Binding Name}"/>
                 <DataGridComboBoxColumn x:Name="cboAccountType" Header="Account Type" ItemsSource="{Binding AccountType, Converter={ext:EnumToCollectionConverter}, Mode=OneTime}"
                                                                   SelectedValuePath="Value"
                                                                   DisplayMemberPath="Description"
                                                                   SelectedValueBinding="{Binding Path=AccountList}"/>
-            </DataGrid.Columns>
+            </DataGrid.Columns>-->
         </DataGrid>
 
 

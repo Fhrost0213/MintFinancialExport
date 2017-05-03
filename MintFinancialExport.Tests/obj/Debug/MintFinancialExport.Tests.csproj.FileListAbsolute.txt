@@ -10,3 +10,6 @@ F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Deb
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.csprojResolveAssemblyReference.cache
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.dll
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\System.Data.SQLite.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\System.Data.SQLite.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\System.Data.SQLite.dll.config

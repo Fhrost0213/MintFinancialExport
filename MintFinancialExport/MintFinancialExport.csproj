@@ -94,6 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Entities\AccountMapping.cs" />
     <Compile Include="Entities\Budget.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Export.cs" />
