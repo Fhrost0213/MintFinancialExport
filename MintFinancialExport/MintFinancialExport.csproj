@@ -64,6 +64,7 @@
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.105.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -94,11 +95,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataLayer.cs" />
     <Compile Include="Entities\AccountMapping.cs" />
     <Compile Include="Entities\Budget.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Export.cs" />
     <Compile Include="Interfaces\IMintFinancialExportViewModel.cs" />
+    <Compile Include="MFE.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MFE.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MintFinancialExportModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="WebCookies.cs" />
@@ -153,6 +160,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="EF.Reverse.POCO.ttinclude" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -164,7 +173,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Database\Stored Procedures\Create_sp_msp_AccountGet.sql" />
     <Content Include="Database\Stored Procedures\Create_sp_msp_AccountGetList.sql" />
@@ -183,6 +194,10 @@
     <Content Include="Database\Tables\Create_Table_dbo_AccountHistory.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountMapping.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountType.sql" />
+    <Content Include="MFE.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MFE.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.0\build\net451\System.Data.SQLite.Core.targets')" />

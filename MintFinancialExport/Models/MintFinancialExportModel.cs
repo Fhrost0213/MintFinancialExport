@@ -12,9 +12,10 @@ namespace MintFinancialExport.Models
 {
     public class MintFinancialExportModel
     {
-        public void GetTransactions()
+        public void GetTransactions(string userName, string password)
         {
-            //var data = GetMintInfo("--extended-transactions --include-investment");
+            DateTime startDate = DateTime.Now.AddYears(-1); 
+            var data = GetMintInfo("--extended-transactions --start-date " + startDate + " --include-investment " + userName + " " + password);
         }
 
         public void GetNetWorth()
@@ -24,7 +25,7 @@ namespace MintFinancialExport.Models
 
         public ObservableCollection<Account> GetAccounts(string userName, string password)
         {
-            var data = GetMintInfo("--accounts", userName, password);
+            var data = GetMintInfo("--accounts " + userName + " " + password);
 
             return JsonConvert.DeserializeObject<ObservableCollection<Account>>(data);
         }
@@ -36,7 +37,7 @@ namespace MintFinancialExport.Models
             //var test = JsonConvert.DeserializeObject<Budget>(data);
         }
 
-        public string GetMintInfo(string info, string userName, string password)
+        public string GetMintInfo(string arguments)
         {
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -46,7 +47,7 @@ namespace MintFinancialExport.Models
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
 
-            startInfo.Arguments = @"C:\Users\Bryan\AppData\Local\Programs\Python\Python36-32\Scripts\mintapi-script.py " + info + " " + userName + " " + password;
+            startInfo.Arguments = @"C:\Users\Bryan\AppData\Local\Programs\Python\Python36-32\Scripts\mintapi-script.py " + arguments;
             process.StartInfo = startInfo;
             process.Start();
 
