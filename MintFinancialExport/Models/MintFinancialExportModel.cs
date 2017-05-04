@@ -23,11 +23,11 @@ namespace MintFinancialExport.Models
             //var data = GetMintInfo("--net-worth");
         }
 
-        public ObservableCollection<Account> GetAccounts(string userName, string password)
+        public ObservableCollection<Entities.Account> GetAccounts(string userName, string password)
         {
             var data = GetMintInfo("--accounts " + userName + " " + password);
 
-            return JsonConvert.DeserializeObject<ObservableCollection<Account>>(data);
+            return JsonConvert.DeserializeObject<ObservableCollection<Entities.Account>>(data);
         }
 
         public void GetBudget()

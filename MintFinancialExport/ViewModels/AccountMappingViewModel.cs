@@ -4,6 +4,7 @@ using MintFinancialExport.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +14,40 @@ namespace MintFinancialExport.ViewModels
 {
     class AccountMappingViewModel : BaseViewModel
     {
-        public ObservableCollection<AccountMapping> AccountMappingList { get; set; }
+        private List<AccountMapping> _accountMappingList;
+        public List<AccountMapping> AccountMappingList
+        {
+            get { return _accountMappingList; }
+            set
+            {
+                _accountMappingList = value;
+                OnPropertyChanged("AccountMappingList");
+            }
+        }
 
+        private List<AccountType> _accountTypesList;
+        public List<AccountType> AccountTypesList
+        {
+            get { return _accountTypesList; }
+            set
+            {
+                _accountTypesList = value;
+                OnPropertyChanged("AccountTypesList");
+            }
+        }
 
         public AccountMappingViewModel()
         {
-            AccountMappingList = new ObservableCollection<AccountMapping>();
+            AccountMappingList = DataAccess.GetAccountMappings();
+            AccountTypesList = DataAccess.GetAccountTypes();
             RefreshAccountsCommand = new RelayCommand(RefreshAccountsCommandExecuted);
+            SaveCommand = new RelayCommand(SaveCommandExecuted);
+        }
+
+        private void LoadAccountMappings()
+        {
+            MyDbContext db = new MyDbContext();
+            AccountMappingList = db.AccountMappings.ToList();
         }
 
         private ICommand _refreshAccountsCommand;
@@ -35,6 +63,24 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
+        private ICommand _saveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return _saveCommand;
+            }
+            set
+            {
+                _saveCommand = value;
+            }
+        }
+
+        private void SaveCommandExecuted(object obj)
+        {
+            DataAccess.SaveAccountMappings(AccountMappingList);
+        }
+
         private void RefreshAccountsCommandExecuted(object obj)
         {
             AccountInfoView accountInfoView = new AccountInfoView();
@@ -46,13 +92,13 @@ namespace MintFinancialExport.ViewModels
 
             var accountList = mintFinancialExportModel.GetAccounts(userName, password);
 
-            foreach (Account account in accountList)
+            foreach (Entities.Account account in accountList)
             {
-                AccountMapping mapping = new AccountMapping();
-                mapping.AccountName = account.Name;
-                mapping.AccountType = Enums.AccountType.Taxable;
+                //Entities.AccountMapping mapping = new Entities.AccountMapping();
+                //mapping.AccountName = account.Name;
+                //mapping.AccountType = Enums.AccountType.Taxable;
 
-                AccountMappingList.Add(mapping);
+                //AccountMappingList.Add(mapping);
             }
         }
     }

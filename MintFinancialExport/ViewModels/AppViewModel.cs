@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MintFinancialExport.ViewModels
 {
-    abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string property)

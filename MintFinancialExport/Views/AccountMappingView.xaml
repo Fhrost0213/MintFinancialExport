@@ -18,18 +18,31 @@
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
+            <Button Content="Save" Command="{Binding SaveCommand}"/>
             <Button Content="Refresh Account List" Command="{Binding RefreshAccountsCommand}"/>
         </ToolBar>
 
 
-        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList}">
-            <!--<DataGrid.Columns>
-                <DataGridTextColumn x:Name="cboMintAccounts" Header="Mint Account" Binding="{Binding Name}"/>
-                <DataGridComboBoxColumn x:Name="cboAccountType" Header="Account Type" ItemsSource="{Binding AccountType, Converter={ext:EnumToCollectionConverter}, Mode=OneTime}"
-                                                                  SelectedValuePath="Value"
-                                                                  DisplayMemberPath="Description"
-                                                                  SelectedValueBinding="{Binding Path=AccountList}"/>
-            </DataGrid.Columns>-->
+        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Account Name" Binding="{Binding Account.AccountName}"/>
+                <DataGridComboBoxColumn Header="Account Type" 
+                                        DisplayMemberPath="AccountTypeDesc"
+                                        SelectedValuePath="AccountTypeId" 
+                                        SelectedValueBinding="{Binding AccountTypeId, Mode=TwoWay}">
+
+                    <DataGridComboBoxColumn.ElementStyle>
+                    <Style TargetType="{x:Type ComboBox}">
+                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountTypesList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                    </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountTypesList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
         </DataGrid>
 
 

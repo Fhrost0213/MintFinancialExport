@@ -8,19 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accountget.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accountgetlist.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accounthistoryget.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accounthistorygetlist.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accounthistoryinsert.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accountinsert.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accountmappingget.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accountmappinggetlist.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accountmappinginsert.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accounttypeget.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accounttypegetlist.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_msp_accounttypeinsert.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/stored%20procedures/create_sp_usp_geterrorinfo.sql")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_account.sql")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_accounthistory.sql")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_accountmapping.sql")]

@@ -5,7 +5,9 @@ using MintFinancialExport.Views;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity.Migrations;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Input;
 
 namespace MintFinancialExport.ViewModels
@@ -14,12 +16,12 @@ namespace MintFinancialExport.ViewModels
     {
         MintFinancialExportModel _mintFinancialExportModel;
 
-        public ObservableCollection<Account> AccountList { get; set; }
+        public ObservableCollection<Entities.Account> AccountList { get; set; }
 
-        private double _mortgageAmount { get; set; }
-        private double _physicalAssetsAmount { get; set; }
+        private decimal? _mortgageAmount { get; set; }
+        private decimal? _physicalAssetsAmount { get; set; }
 
-        public double PhysicalAssetsAmount
+        public decimal? PhysicalAssetsAmount
         {
             get
             {
@@ -31,7 +33,7 @@ namespace MintFinancialExport.ViewModels
                 OnPropertyChanged("PhysicalAssetsAmount");
             }
         }
-        public double MortgageAmount
+        public decimal? MortgageAmount
         {
             get
             {
@@ -91,15 +93,17 @@ namespace MintFinancialExport.ViewModels
             accountInfoView.ShowDialog();
             string userName = accountInfoView.txtUserName.Text;
             string password = accountInfoView.txtPassword.Text;
-            
-            
+
             //Export export = new Export();
 
             if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
             {
                 AccountList = _mintFinancialExportModel.GetAccounts(userName, password);
             }
-            
+
+            DataAccess.SyncAccounts(AccountList);
+
+
 
             //export.ExportToExcel(AccountList, _physicalAssetsAmount, _mortgageAmount);
 
@@ -108,6 +112,9 @@ namespace MintFinancialExport.ViewModels
             //GetNetWorth();
 
             //GetTransactions();
+
+            
+            //db.MspAccountInsert(2, "EntityTest");
         }
     }
 }

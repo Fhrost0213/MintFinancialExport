@@ -36,6 +36,8 @@ namespace MintFinancialExport
     public interface IMyDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<Account> Accounts { get; set; } // Account
+        System.Data.Entity.DbSet<AccountHistory> AccountHistories { get; set; } // AccountHistory
+        System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; } // AccountMapping
         System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; } // AccountType
 
         int SaveChanges();
@@ -50,12 +52,6 @@ namespace MintFinancialExport
         System.Data.Entity.DbSet Set(System.Type entityType);
         System.Data.Entity.DbSet<TEntity> Set<TEntity>() where TEntity : class;
         string ToString();
-
-        // Stored Procedures
-        System.Collections.Generic.List<MspAccountInsertReturnModel> MspAccountInsert(int? accountId, string accountName);
-        System.Collections.Generic.List<MspAccountInsertReturnModel> MspAccountInsert(int? accountId, string accountName, out int procResult);
-        System.Threading.Tasks.Task<System.Collections.Generic.List<MspAccountInsertReturnModel>> MspAccountInsertAsync(int? accountId, string accountName);
-
     }
 
     #endregion
@@ -66,6 +62,8 @@ namespace MintFinancialExport
     public class MyDbContext : System.Data.Entity.DbContext, IMyDbContext
     {
         public System.Data.Entity.DbSet<Account> Accounts { get; set; } // Account
+        public System.Data.Entity.DbSet<AccountHistory> AccountHistories { get; set; } // AccountHistory
+        public System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; } // AccountMapping
         public System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; } // AccountType
 
         static MyDbContext()
@@ -117,55 +115,19 @@ namespace MintFinancialExport
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Configurations.Add(new AccountConfiguration());
+            modelBuilder.Configurations.Add(new AccountHistoryConfiguration());
+            modelBuilder.Configurations.Add(new AccountMappingConfiguration());
             modelBuilder.Configurations.Add(new AccountTypeConfiguration());
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
         {
             modelBuilder.Configurations.Add(new AccountConfiguration(schema));
+            modelBuilder.Configurations.Add(new AccountHistoryConfiguration(schema));
+            modelBuilder.Configurations.Add(new AccountMappingConfiguration(schema));
             modelBuilder.Configurations.Add(new AccountTypeConfiguration(schema));
             return modelBuilder;
         }
-
-        // Stored Procedures
-        public System.Collections.Generic.List<MspAccountInsertReturnModel> MspAccountInsert(int? accountId, string accountName)
-        {
-            int procResult;
-            return MspAccountInsert(accountId, accountName, out procResult);
-        }
-
-        public System.Collections.Generic.List<MspAccountInsertReturnModel> MspAccountInsert(int? accountId, string accountName, out int procResult)
-        {
-            var accountIdParam = new System.Data.SqlClient.SqlParameter { ParameterName = "@AccountID", SqlDbType = System.Data.SqlDbType.Int, Direction = System.Data.ParameterDirection.Input, Value = accountId.GetValueOrDefault(), Precision = 10, Scale = 0 };
-            if (!accountId.HasValue)
-                accountIdParam.Value = System.DBNull.Value;
-
-            var accountNameParam = new System.Data.SqlClient.SqlParameter { ParameterName = "@AccountName", SqlDbType = System.Data.SqlDbType.VarChar, Direction = System.Data.ParameterDirection.Input, Value = accountName, Size = 255 };
-            if (accountNameParam.Value == null)
-                accountNameParam.Value = System.DBNull.Value;
-
-            var procResultParam = new System.Data.SqlClient.SqlParameter { ParameterName = "@procResult", SqlDbType = System.Data.SqlDbType.Int, Direction = System.Data.ParameterDirection.Output };
-            var procResultData = Database.SqlQuery<MspAccountInsertReturnModel>("EXEC @procResult = [dbo].[msp_AccountInsert] @AccountID, @AccountName", accountIdParam, accountNameParam, procResultParam).ToList();
-
-            procResult = (int) procResultParam.Value;
-            return procResultData;
-        }
-
-        public async System.Threading.Tasks.Task<System.Collections.Generic.List<MspAccountInsertReturnModel>> MspAccountInsertAsync(int? accountId, string accountName)
-        {
-            var accountIdParam = new System.Data.SqlClient.SqlParameter { ParameterName = "@AccountID", SqlDbType = System.Data.SqlDbType.Int, Direction = System.Data.ParameterDirection.Input, Value = accountId.GetValueOrDefault(), Precision = 10, Scale = 0 };
-            if (!accountId.HasValue)
-                accountIdParam.Value = System.DBNull.Value;
-
-            var accountNameParam = new System.Data.SqlClient.SqlParameter { ParameterName = "@AccountName", SqlDbType = System.Data.SqlDbType.VarChar, Direction = System.Data.ParameterDirection.Input, Value = accountName, Size = 255 };
-            if (accountNameParam.Value == null)
-                accountNameParam.Value = System.DBNull.Value;
-
-            var procResultData = await Database.SqlQuery<MspAccountInsertReturnModel>("EXEC [dbo].[msp_AccountInsert] @AccountID, @AccountName", accountIdParam, accountNameParam).ToListAsync();
-
-            return procResultData;
-        }
-
     }
     #endregion
 
@@ -175,11 +137,15 @@ namespace MintFinancialExport
     public class FakeMyDbContext : IMyDbContext
     {
         public System.Data.Entity.DbSet<Account> Accounts { get; set; }
+        public System.Data.Entity.DbSet<AccountHistory> AccountHistories { get; set; }
+        public System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; }
         public System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; }
 
         public FakeMyDbContext()
         {
             Accounts = new FakeDbSet<Account>("AccountId");
+            AccountHistories = new FakeDbSet<AccountHistory>("AccountHistoryId");
+            AccountMappings = new FakeDbSet<AccountMapping>("AccountMappingId");
             AccountTypes = new FakeDbSet<AccountType>("AccountTypeId");
         }
 
@@ -240,27 +206,6 @@ namespace MintFinancialExport
         public override string ToString()
         {
             throw new System.NotImplementedException();
-        }
-
-
-        // Stored Procedures
-        public System.Collections.Generic.List<MspAccountInsertReturnModel> MspAccountInsert(int? accountId, string accountName)
-        {
-            int procResult;
-            return MspAccountInsert(accountId, accountName, out procResult);
-        }
-
-        public System.Collections.Generic.List<MspAccountInsertReturnModel> MspAccountInsert(int? accountId, string accountName, out int procResult)
-        {
-
-            procResult = 0;
-            return new System.Collections.Generic.List<MspAccountInsertReturnModel>();
-        }
-
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<MspAccountInsertReturnModel>> MspAccountInsertAsync(int? accountId, string accountName)
-        {
-            int procResult;
-            return System.Threading.Tasks.Task.FromResult(MspAccountInsert(accountId, accountName, out procResult));
         }
 
     }
@@ -531,13 +476,13 @@ namespace MintFinancialExport
         // Reverse navigation
 
         /// <summary>
-        /// Child AccountHistories where [AccountHistory].[AccountID] point to this entity (FK__AccountHi__Accou__0CBAE877)
+        /// Child AccountHistories where [AccountHistory].[AccountID] point to this entity (FK__AccountHi__Accou__0519C6AF)
         /// </summary>
-        public virtual System.Collections.Generic.ICollection<AccountHistory> AccountHistories { get; set; } // AccountHistory.FK__AccountHi__Accou__0CBAE877
+        public virtual System.Collections.Generic.ICollection<AccountHistory> AccountHistories { get; set; } // AccountHistory.FK__AccountHi__Accou__0519C6AF
         /// <summary>
-        /// Child AccountMappings where [AccountMapping].[AccountID] point to this entity (FK__AccountMa__Accou__09DE7BCC)
+        /// Child AccountMappings where [AccountMapping].[AccountID] point to this entity (FK__AccountMa__Accou__173876EA)
         /// </summary>
-        public virtual System.Collections.Generic.ICollection<AccountMapping> AccountMappings { get; set; } // AccountMapping.FK__AccountMa__Accou__09DE7BCC
+        public virtual System.Collections.Generic.ICollection<AccountMapping> AccountMappings { get; set; } // AccountMapping.FK__AccountMa__Accou__173876EA
 
         public Account()
         {
@@ -546,42 +491,41 @@ namespace MintFinancialExport
         }
     }
 
-    // The table 'AccountHistory' is not usable by entity framework because it
-    // does not have a primary key. It is listed here for completeness.
     // AccountHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
     public class AccountHistory
     {
+        public int AccountHistoryId { get; set; } // AccountHistoryID (Primary key)
         public int? AccountId { get; set; } // AccountID
         public decimal? Amount { get; set; } // Amount
+        public System.DateTime? AsOfDate { get; set; } // AsOfDate
 
         // Foreign keys
 
         /// <summary>
-        /// Parent Account pointed by [AccountHistory].([AccountId]) (FK__AccountHi__Accou__0CBAE877)
+        /// Parent Account pointed by [AccountHistory].([AccountId]) (FK__AccountHi__Accou__0519C6AF)
         /// </summary>
-        public virtual Account Account { get; set; } // FK__AccountHi__Accou__0CBAE877
+        public virtual Account Account { get; set; } // FK__AccountHi__Accou__0519C6AF
     }
 
-    // The table 'AccountMapping' is not usable by entity framework because it
-    // does not have a primary key. It is listed here for completeness.
     // AccountMapping
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
     public class AccountMapping
     {
+        public int AccountMappingId { get; set; } // AccountMappingID (Primary key)
         public int? AccountId { get; set; } // AccountID
         public int? AccountTypeId { get; set; } // AccountTypeID
 
         // Foreign keys
 
         /// <summary>
-        /// Parent Account pointed by [AccountMapping].([AccountId]) (FK__AccountMa__Accou__09DE7BCC)
+        /// Parent Account pointed by [AccountMapping].([AccountId]) (FK__AccountMa__Accou__173876EA)
         /// </summary>
-        public virtual Account Account { get; set; } // FK__AccountMa__Accou__09DE7BCC
+        public virtual Account Account { get; set; } // FK__AccountMa__Accou__173876EA
         /// <summary>
-        /// Parent AccountType pointed by [AccountMapping].([AccountTypeId]) (FK__AccountMa__Accou__0AD2A005)
+        /// Parent AccountType pointed by [AccountMapping].([AccountTypeId]) (FK__AccountMa__Accou__182C9B23)
         /// </summary>
-        public virtual AccountType AccountType { get; set; } // FK__AccountMa__Accou__0AD2A005
+        public virtual AccountType AccountType { get; set; } // FK__AccountMa__Accou__182C9B23
     }
 
     // AccountType
@@ -590,13 +534,14 @@ namespace MintFinancialExport
     {
         public int AccountTypeId { get; set; } // AccountTypeID (Primary key)
         public string AccountTypeName { get; set; } // AccountTypeName (length: 255)
+        public string AccountTypeDesc { get; set; } // AccountTypeDesc (length: 255)
 
         // Reverse navigation
 
         /// <summary>
-        /// Child AccountMappings where [AccountMapping].[AccountTypeID] point to this entity (FK__AccountMa__Accou__0AD2A005)
+        /// Child AccountMappings where [AccountMapping].[AccountTypeID] point to this entity (FK__AccountMa__Accou__182C9B23)
         /// </summary>
-        public virtual System.Collections.Generic.ICollection<AccountMapping> AccountMappings { get; set; } // AccountMapping.FK__AccountMa__Accou__0AD2A005
+        public virtual System.Collections.Generic.ICollection<AccountMapping> AccountMappings { get; set; } // AccountMapping.FK__AccountMa__Accou__182C9B23
 
         public AccountType()
         {
@@ -622,8 +567,56 @@ namespace MintFinancialExport
             ToTable("Account", schema);
             HasKey(x => x.AccountId);
 
-            Property(x => x.AccountId).HasColumnName(@"AccountID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+            Property(x => x.AccountId).HasColumnName(@"AccountID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
             Property(x => x.AccountName).HasColumnName(@"AccountName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
+        }
+    }
+
+    // AccountHistory
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
+    public class AccountHistoryConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<AccountHistory>
+    {
+        public AccountHistoryConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public AccountHistoryConfiguration(string schema)
+        {
+            ToTable("AccountHistory", schema);
+            HasKey(x => x.AccountHistoryId);
+
+            Property(x => x.AccountHistoryId).HasColumnName(@"AccountHistoryID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            Property(x => x.AccountId).HasColumnName(@"AccountID").HasColumnType("int").IsOptional();
+            Property(x => x.Amount).HasColumnName(@"Amount").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.AsOfDate).HasColumnName(@"AsOfDate").HasColumnType("datetime").IsOptional();
+
+            // Foreign keys
+            HasOptional(a => a.Account).WithMany(b => b.AccountHistories).HasForeignKey(c => c.AccountId).WillCascadeOnDelete(false); // FK__AccountHi__Accou__0519C6AF
+        }
+    }
+
+    // AccountMapping
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
+    public class AccountMappingConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<AccountMapping>
+    {
+        public AccountMappingConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public AccountMappingConfiguration(string schema)
+        {
+            ToTable("AccountMapping", schema);
+            HasKey(x => x.AccountMappingId);
+
+            Property(x => x.AccountMappingId).HasColumnName(@"AccountMappingID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            Property(x => x.AccountId).HasColumnName(@"AccountID").HasColumnType("int").IsOptional();
+            Property(x => x.AccountTypeId).HasColumnName(@"AccountTypeID").HasColumnType("int").IsOptional();
+
+            // Foreign keys
+            HasOptional(a => a.Account).WithMany(b => b.AccountMappings).HasForeignKey(c => c.AccountId).WillCascadeOnDelete(false); // FK__AccountMa__Accou__173876EA
+            HasOptional(a => a.AccountType).WithMany(b => b.AccountMappings).HasForeignKey(c => c.AccountTypeId).WillCascadeOnDelete(false); // FK__AccountMa__Accou__182C9B23
         }
     }
 
@@ -643,22 +636,8 @@ namespace MintFinancialExport
 
             Property(x => x.AccountTypeId).HasColumnName(@"AccountTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
             Property(x => x.AccountTypeName).HasColumnName(@"AccountTypeName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
+            Property(x => x.AccountTypeDesc).HasColumnName(@"AccountTypeDesc").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
         }
-    }
-
-    #endregion
-
-    #region Stored procedure return models
-
-    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
-    public class MspAccountInsertReturnModel
-    {
-        public System.Int32? ErrorNumber { get; set; }
-        public System.Int32? ErrorSeverity { get; set; }
-        public System.Int32? ErrorState { get; set; }
-        public System.String ErrorProcedure { get; set; }
-        public System.Int32? ErrorLine { get; set; }
-        public System.String ErrorMessage { get; set; }
     }
 
     #endregion

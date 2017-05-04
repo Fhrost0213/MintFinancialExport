@@ -63,6 +63,10 @@
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged, Version=1.53.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.53.0\lib\netstandard10\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -95,8 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataLayer.cs" />
-    <Compile Include="Entities\AccountMapping.cs" />
+    <Compile Include="DataAccess.cs" />
     <Compile Include="Entities\Budget.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="Export.cs" />
@@ -177,23 +180,11 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountGet.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountGetList.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountHistoryGet.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountHistoryGetList.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountHistoryInsert.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountInsert.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountMappingGet.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountMappingGetList.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountMappingInsert.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountTypeGet.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountTypeGetList.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_msp_AccountTypeInsert.sql" />
-    <Content Include="Database\Stored Procedures\Create_sp_usp_GetErrorInfo.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_Account.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountHistory.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountMapping.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountType.sql" />
+    <None Include="FodyWeavers.xml" />
     <Content Include="MFE.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MFE.cs</LastGenOutput>
@@ -206,5 +197,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.105.0\build\net451\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.105.0\build\net451\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.2.0.0\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.0\build\dotnet\Fody.targets'))" />
   </Target>
+  <Import Project="..\packages\Fody.2.0.0\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\dotnet\Fody.targets')" />
 </Project>

@@ -35,7 +35,7 @@ namespace MintFinancialExport.Entities
         public string Currency { get; set; }
         public string Id { get; set; }
         public string IsHostAccount { get; set; }
-        public double Value { get; set; }
+        public decimal? Value { get; set; }
         public string FiLoginId { get; set; }
         public string UsageType { get; set; }
         public string InterestRate { get; set; }

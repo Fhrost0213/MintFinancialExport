@@ -1,19 +1,20 @@
 ﻿using Microsoft.Office.Interop.Excel;
-using MintFinancialExport.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MintFinancialExport.Entities;
 
 namespace MintFinancialExport
 {
     class Export
     {
-        public void ExportToExcel(ObservableCollection<Account> accounts, double physicalAssetsAmount, double mortgageAmount)
+        public void ExportToExcel(ObservableCollection<Entities.Account> accounts, decimal? physicalAssetsAmount, decimal? mortgageAmount)
         {
-            double assetsTotal = 0;
-            double debtsTotal = 0;
-            double total = 0;
+            decimal? assetsTotal = 0;
+            decimal? debtsTotal = 0;
+            decimal? total = 0;
             //int iCnt = 1;
             var excel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -72,6 +73,7 @@ namespace MintFinancialExport
 
             worksheet.Cells[9, 1] = "Websites";
             worksheet.Cells[10, 1] = "Physical Assets";
+            // TODO - change this to mapping
             assetsTotal = assetsTotal + physicalAssetsAmount;
             worksheet.Cells[10, 2] = physicalAssetsAmount;
 
@@ -99,6 +101,7 @@ namespace MintFinancialExport
             if (mortgageAmount >= 0) mortgageAmount = -mortgageAmount;
             worksheet.Cells[14, 1] = "Student Loans";
             worksheet.Cells[15, 1] = "Mortgages";
+            // TODO - change this to mapping
             debtsTotal = debtsTotal + mortgageAmount;
             worksheet.Cells[15, 2] = mortgageAmount;
 
@@ -128,11 +131,11 @@ namespace MintFinancialExport
             workbook.Close();
         }
 
-        public double GetTotal(IEnumerable<Account> accounts)
+        public decimal? GetTotal(IEnumerable<Entities.Account> accounts)
         {
-            double total = 0;
+            decimal? total = 0;
 
-            foreach (Account account in accounts)
+            foreach (Entities.Account account in accounts)
             {
                 total = total + account.Value;
             }
