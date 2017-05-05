@@ -27,3 +27,5 @@ INSERT INTO [dbo].[AccountType]
 SELECT 10, 'StudentLoans', 'Student Loans'
 INSERT INTO [dbo].[AccountType]
 SELECT 11, 'Mortgages', 'Mortgages'	
+INSERT INTO [dbo].[AccountType]
+SELECT 99, 'None', 'None'	

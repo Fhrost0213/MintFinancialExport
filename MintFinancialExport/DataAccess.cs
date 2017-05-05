@@ -17,8 +17,15 @@ namespace MintFinancialExport
             // Sync accounts with DB
             foreach (var account in accountlist)
             {
-                var accountItem = db.Accounts.FirstOrDefault(n => n.AccountName.Equals(account.Name));
+                Account accountItem = db.Accounts.FirstOrDefault(n => n.AccountName.Equals(account.Name));
+                if (accountItem == null)
+                {
+                    accountItem = new Account();
+                    accountItem.AccountName = account.Name;
+                }
+
                 db.Accounts.AddOrUpdate(accountItem);
+                db.SaveChanges();
 
                 // Store off a snapshot of account history
                 AccountHistory accountHistory = new AccountHistory();
@@ -44,14 +51,22 @@ namespace MintFinancialExport
             return db.AccountTypes.ToList();
         }
 
-        public static void SaveAccountMappings(List<AccountMapping> accountMappingList)
+        public static List<Account> GetAccounts()
+        {
+            MyDbContext db = new MyDbContext();
+            return db.Accounts.ToList();
+        }
+
+        public static void SaveList<T>(List<T> itemList) where T : class
         {
             MyDbContext db = new MyDbContext();
 
-            foreach (var accountMapping in accountMappingList)
+            foreach (var item in itemList)
             {
-                db.AccountMappings.AddOrUpdate(accountMapping);
+                db.Set<T>().AddOrUpdate(item);
             }
+
+            db.SaveChanges();
         }
     }
 }

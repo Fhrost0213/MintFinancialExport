@@ -52,6 +52,7 @@ namespace MintFinancialExport.ViewModels
 
             ClickCommand = new RelayCommand(ClickCommandExecuted);
             AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
+            AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
         }
 
         private ICommand _clickCommand;
@@ -78,6 +79,26 @@ namespace MintFinancialExport.ViewModels
             {
                 _accountMappingCommand = value;
             }
+        }
+
+        private ICommand _accountBrowserCommand;
+        public ICommand AccountBrowserCommand
+        {
+            get
+            {
+                return _accountBrowserCommand;
+            }
+            set
+            {
+                _accountBrowserCommand = value;
+            }
+        }
+
+        private void AccountBrowserCommandExecuted(object obj)
+        {
+            AccountView accountView = new AccountView();
+            accountView.ShowDialog();
+
         }
 
         private void AccountMappingCommandExecuted(object obj)

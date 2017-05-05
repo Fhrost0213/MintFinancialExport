@@ -19,13 +19,12 @@
 
         <ToolBar Grid.Row="0">
             <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Button Content="Refresh Account List" Command="{Binding RefreshAccountsCommand}"/>
         </ToolBar>
 
 
-        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList}" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList, Mode=TwoWay}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Account Name" Binding="{Binding Account.AccountName}"/>
+                <DataGridTextColumn Header="Account Name" Binding="{Binding Account.AccountName, Mode=TwoWay}"/>
                 <DataGridComboBoxColumn Header="Account Type" 
                                         DisplayMemberPath="AccountTypeDesc"
                                         SelectedValuePath="AccountTypeId" 

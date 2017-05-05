@@ -13,14 +13,23 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <ToolBar>
-            <Button Content="GetData" Command="{Binding ClickCommand}"/>
-            <Button Content="Account Mapping" Command="{Binding AccountMappingCommand}"/>
+            <Menu x:Name="mnuData">
+                <MenuItem Header="Data">
+                    <MenuItem Header="Retrieve all data" Command="{Binding ClickCommand}"/>
+                    <MenuItem Header="Retrieve account data" Command="{Binding ClickCommand}"/>
+                    <MenuItem Header="Retrieve transaction data"/>
+                </MenuItem>
+            </Menu>
+            <Menu x:Name="mnuBrowsers">
+                <MenuItem Header="Browsers">
+                    <MenuItem Header="Accounts" Command="{Binding AccountBrowserCommand}"/>
+                    <MenuItem Header="Account Mappings" Command="{Binding AccountMappingCommand}"/>
+                </MenuItem>
+            </Menu>
             <Menu x:Name="mnuExport" >
                 <MenuItem Header="Export">
                     <MenuItem Header="Create Net Worth Statement"/>
@@ -29,18 +38,7 @@
             </Menu>
         </ToolBar>
         
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <Label Content="Physical Assets:" />
-            <TextBox x:Name="txtPhysicalAssets" Width="50" Height="20" Text="{Binding Path=PhysicalAssetsAmount }"/>
-            
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="2">
-            <Label Content="Mortgage:" />
-            <TextBox x:Name="txtMortgage" Width="50" Height="20" Text="{Binding Path=MortgageAmount}"/>
-        </StackPanel>
-
-        <ListView Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding AccountList, UpdateSourceTrigger=PropertyChanged}">
+        <ListView Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding AccountList, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="Name" Header="Name" DisplayMemberBinding="{Binding Name}"/>

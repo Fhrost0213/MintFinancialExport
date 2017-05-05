@@ -111,12 +111,20 @@
     </Compile>
     <Compile Include="Models\MintFinancialExportModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="Views\AccountView.xaml.cs">
+      <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WebCookies.cs" />
     <Page Include="Views\AccountInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountMappingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,7 +140,7 @@
     <Compile Include="Entities\Enums.cs" />
     <Compile Include="ViewModels\AccountInfoViewModel.cs" />
     <Compile Include="ViewModels\AccountMappingViewModel.cs" />
-    <Compile Include="ViewModels\AppViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\AccountInfoView.xaml.cs">
       <DependentUpon>AccountInfoView.xaml</DependentUpon>
     </Compile>
