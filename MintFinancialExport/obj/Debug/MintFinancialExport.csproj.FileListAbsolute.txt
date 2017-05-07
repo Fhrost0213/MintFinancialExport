@@ -97,3 +97,6 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\De
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.csproj.GenerateResource.Cache
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\Views\AccountView.g.cs
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\Views\AccountView.baml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\AccountView.g.cs
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport_Content.g.cs
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\AccountView.baml

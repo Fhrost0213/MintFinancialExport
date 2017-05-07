@@ -1,4 +1,4 @@
-﻿using MintFinancialExport.Entities;
+﻿using MintFinancialExport.Core.Entities;
 using MintFinancialExport.Interfaces;
 using MintFinancialExport.Models;
 using MintFinancialExport.Views;
@@ -16,7 +16,7 @@ namespace MintFinancialExport.ViewModels
     {
         MintFinancialExportModel _mintFinancialExportModel;
 
-        public ObservableCollection<Entities.Account> AccountList { get; set; }
+        public ObservableCollection<Core.Entities.Account> AccountList { get; set; }
 
         private decimal? _mortgageAmount { get; set; }
         private decimal? _physicalAssetsAmount { get; set; }
@@ -51,6 +51,7 @@ namespace MintFinancialExport.ViewModels
             _mintFinancialExportModel = new MintFinancialExportModel();
 
             ClickCommand = new RelayCommand(ClickCommandExecuted);
+            ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
             AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
             AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
         }
@@ -65,6 +66,19 @@ namespace MintFinancialExport.ViewModels
             set
             {
                 _clickCommand = value;
+            }
+        }
+
+        private ICommand _exportNetWorthCommand;
+        public ICommand ExportNetWorthCommand
+        {
+            get
+            {
+                return _exportNetWorthCommand;
+            }
+            set
+            {
+                _exportNetWorthCommand = value;
             }
         }
 
@@ -136,6 +150,12 @@ namespace MintFinancialExport.ViewModels
 
             
             //db.MspAccountInsert(2, "EntityTest");
+        }
+
+        private void ExportNetWorthCommandExecuted(object obj)
+        {
+            Export export = new Export();
+            export.ExportAccounts();
         }
     }
 }

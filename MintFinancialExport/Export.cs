@@ -1,16 +1,15 @@
 ﻿using Microsoft.Office.Interop.Excel;
-
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MintFinancialExport.Entities;
+using MintFinancialExport.Core.Entities;
 
 namespace MintFinancialExport
 {
     class Export
     {
-        public void ExportToExcel(ObservableCollection<Entities.Account> accounts, decimal? physicalAssetsAmount, decimal? mortgageAmount)
+        public void ExportToExcel(ObservableCollection<Core.Entities.Account> accounts, decimal? physicalAssetsAmount, decimal? mortgageAmount)
         {
             decimal? assetsTotal = 0;
             decimal? debtsTotal = 0;
@@ -131,16 +130,88 @@ namespace MintFinancialExport
             workbook.Close();
         }
 
-        public decimal? GetTotal(IEnumerable<Entities.Account> accounts)
+        public decimal? GetTotal(IEnumerable<Core.Entities.Account> accounts)
         {
             decimal? total = 0;
 
-            foreach (Entities.Account account in accounts)
+            foreach (Core.Entities.Account account in accounts)
             {
                 total = total + account.Value;
             }
 
             return total;
+        }
+
+        public void ExportAccounts()
+        {
+            List<ExportAccount> exportAccountList = new List<ExportAccount>();
+
+            List<AccountType> types = DataAccess.GetList<AccountType>();
+
+            foreach (AccountType type in types)
+            {
+                ExportAccount exportAccount = new ExportAccount();
+                exportAccount.AccountTypeID = type.AccountTypeId;
+                exportAccount.AccountTypeName = type.AccountTypeDesc;
+                exportAccount.IsAsset = type.IsAsset;
+                exportAccount.Value = 0;
+                exportAccountList.Add(exportAccount);
+            }
+
+            var latestRunId = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).First().RunId;
+
+            var accountHistoryList = DataAccess.GetList<AccountHistory>().Where(a => a.RunId.Equals(latestRunId));
+
+            foreach (var item in accountHistoryList)
+            {
+                if (item.Account.AccountMappings.Count != 0)
+                {
+                    var mapping = item.Account.AccountMappings.First();
+                    var typeID = (int)mapping.AccountTypeId;
+
+                    var value = exportAccountList.Where(i => i.AccountTypeID == typeID).First();
+                    value.Value = value.Value + item.Amount;
+                }
+                else
+                {
+                    //throw new Exception(item.Account.AccountName + " is not mapped. If you do not wish to include this account in the statement, then map it to Account Type = None");
+                }
+            }
+
+            var assets = exportAccountList.Where(n => n.IsAsset == true && n.AccountTypeID != 99);
+            var debts = exportAccountList.Where(n => n.IsAsset == false && n.AccountTypeID != 99);
+
+            var excel = new Microsoft.Office.Interop.Excel.Application();
+            var workbook = excel.Workbooks.Add();
+            var worksheet = workbook.Sheets.Add();
+
+            int iCnt = 2;
+
+            worksheet.Cells[1, 1] = "Net Worth Statement";
+            worksheet.Cells[2, 1] = "Assets";
+
+            foreach (var asset in assets)
+            {
+                iCnt = iCnt + 1;
+                // Write to excel
+                worksheet.Cells[iCnt, 1] = asset.AccountTypeName;
+                worksheet.Cells[iCnt, 2] = asset.Value;
+            }
+
+            iCnt = iCnt + 1;
+            worksheet.Cells[iCnt, 1] = "Debts";
+
+            foreach (var debt in debts)
+            {
+                iCnt = iCnt + 1;
+                // Write to excel
+                worksheet.Cells[iCnt, 1] = debt.AccountTypeName;
+                worksheet.Cells[iCnt, 2] = debt.Value;
+            }
+
+            workbook.SaveAs("C:\\test\\test.xlsx");
+
+            workbook.Close();
         }
     }
 }

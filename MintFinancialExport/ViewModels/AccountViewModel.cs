@@ -24,7 +24,7 @@ namespace MintFinancialExport.ViewModels
         {
             SaveCommand = new RelayCommand(SaveCommandExecuted);
             RefreshAccountsCommand = new RelayCommand(RefreshAccountsCommandExecuted);
-            AccountList = DataAccess.GetAccounts();
+            AccountList = DataAccess.GetList<Account>();
         }
 
 

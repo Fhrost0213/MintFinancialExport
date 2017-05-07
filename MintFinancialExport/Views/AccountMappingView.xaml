@@ -24,7 +24,22 @@
 
         <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList, Mode=TwoWay}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Account Name" Binding="{Binding Account.AccountName, Mode=TwoWay}"/>
+                <DataGridComboBoxColumn Header="Account" 
+                                        DisplayMemberPath="AccountName"
+                                        SelectedValuePath="AccountId" 
+                                        SelectedValueBinding="{Binding AccountId, Mode=TwoWay}">
+
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
                 <DataGridComboBoxColumn Header="Account Type" 
                                         DisplayMemberPath="AccountTypeDesc"
                                         SelectedValuePath="AccountTypeId" 

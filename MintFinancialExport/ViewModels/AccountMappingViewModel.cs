@@ -1,4 +1,4 @@
-﻿using MintFinancialExport.Entities;
+﻿using MintFinancialExport.Core.Entities;
 using MintFinancialExport.Models;
 using MintFinancialExport.Views;
 using System;
@@ -15,6 +15,9 @@ namespace MintFinancialExport.ViewModels
     class AccountMappingViewModel : BaseViewModel
     {
         private List<AccountMapping> _accountMappingList;
+        private List<Account> _accountList;
+        private List<AccountType> _accountTypesList;
+
         public List<AccountMapping> AccountMappingList
         {
             get { return _accountMappingList; }
@@ -25,7 +28,16 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        private List<AccountType> _accountTypesList;
+        public List<Account> AccountList
+        {
+            get { return _accountList; }
+            set
+            {
+                _accountList = value;
+                OnPropertyChanged("AccountList");
+            }
+        }
+
         public List<AccountType> AccountTypesList
         {
             get { return _accountTypesList; }
@@ -37,9 +49,10 @@ namespace MintFinancialExport.ViewModels
         }
 
         public AccountMappingViewModel()
-        {
-            AccountMappingList = DataAccess.GetAccountMappings();
-            AccountTypesList = DataAccess.GetAccountTypes();
+        { 
+            AccountList = DataAccess.GetList<Account>();
+            AccountMappingList = DataAccess.GetList<AccountMapping>();
+            AccountTypesList = DataAccess.GetList<AccountType>();
             SaveCommand = new RelayCommand(SaveCommandExecuted);
         }
 

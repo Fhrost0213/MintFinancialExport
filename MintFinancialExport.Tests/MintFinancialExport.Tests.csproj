@@ -47,9 +47,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MintFinancialExport\MintFinancialExport.csproj">
+    <ProjectReference Include="..\MintFinancialExport\MintFinancialExport.Application.csproj">
       <Project>{ea2e77fc-46f8-4bbf-b2fb-a7e2f20d9010}</Project>
-      <Name>MintFinancialExport</Name>
+      <Name>MintFinancialExport.Application</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -28,3 +28,7 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\obj\Debug\MintFinancialExport.Tests.pdb
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Core.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Core.pdb

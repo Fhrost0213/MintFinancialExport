@@ -2,7 +2,8 @@ CREATE TABLE [dbo].[AccountType]
 (
 	AccountTypeID INT NOT NULL PRIMARY KEY,
 	AccountTypeName VARCHAR(255) NOT NULL,
-	AccountTypeDesc VARCHAR(255)
+	AccountTypeDesc VARCHAR(255),
+	IsAsset BIT
 )
 
 INSERT INTO [dbo].[AccountType]

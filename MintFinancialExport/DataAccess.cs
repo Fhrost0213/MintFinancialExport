@@ -10,9 +10,12 @@ namespace MintFinancialExport
 {
     public static class DataAccess
     {
-        public static void SyncAccounts(ObservableCollection<Entities.Account> accountlist)
+        public static void SyncAccounts(ObservableCollection<Core.Entities.Account> accountlist)
         {
             MyDbContext db = new MyDbContext();
+
+            var nextRunID = db.AccountHistories.OrderByDescending(a => a.RunId).FirstOrDefault().RunId + 1;
+            DateTime asOfDate = System.DateTime.Now;
 
             // Sync accounts with DB
             foreach (var account in accountlist)
@@ -32,29 +35,12 @@ namespace MintFinancialExport
                 accountHistory.Account = accountItem;
                 accountHistory.AccountId = accountItem.AccountId;
                 accountHistory.Amount = account.Value;
-                accountHistory.AsOfDate = System.DateTime.Now;
+                accountHistory.AsOfDate = asOfDate;
+                accountHistory.RunId = nextRunID;
                 db.AccountHistories.Add(accountHistory);
 
                 db.SaveChanges();
             }
-        }
-
-        public static List<AccountMapping> GetAccountMappings()
-        {
-            MyDbContext db = new MyDbContext();
-            return db.AccountMappings.ToList();
-        }
-
-        public static List<AccountType> GetAccountTypes()
-        {
-            MyDbContext db = new MyDbContext();
-            return db.AccountTypes.ToList();
-        }
-
-        public static List<Account> GetAccounts()
-        {
-            MyDbContext db = new MyDbContext();
-            return db.Accounts.ToList();
         }
 
         public static void SaveList<T>(List<T> itemList) where T : class
@@ -67,6 +53,12 @@ namespace MintFinancialExport
             }
 
             db.SaveChanges();
+        }
+
+        public static List<T> GetList<T>() where T: class
+        {
+            MyDbContext db = new MyDbContext();
+            return db.Set<T>().ToList();
         }
     }
 }

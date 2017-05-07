@@ -1,4 +1,4 @@
-﻿using MintFinancialExport.Entities;
+﻿using MintFinancialExport.Core.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,11 +23,11 @@ namespace MintFinancialExport.Models
             //var data = GetMintInfo("--net-worth");
         }
 
-        public ObservableCollection<Entities.Account> GetAccounts(string userName, string password)
+        public ObservableCollection<Core.Entities.Account> GetAccounts(string userName, string password)
         {
             var data = GetMintInfo("--accounts " + userName + " " + password);
 
-            return JsonConvert.DeserializeObject<ObservableCollection<Entities.Account>>(data);
+            return JsonConvert.DeserializeObject<ObservableCollection<Core.Entities.Account>>(data);
         }
 
         public void GetBudget()

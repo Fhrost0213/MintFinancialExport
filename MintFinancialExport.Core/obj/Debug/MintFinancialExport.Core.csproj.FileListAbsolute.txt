@@ -1,0 +1,5 @@
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Core\bin\Debug\MintFinancialExport.Core.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Core\bin\Debug\MintFinancialExport.Core.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Core\obj\Debug\MintFinancialExport.Core.csprojResolveAssemblyReference.cache
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Core\obj\Debug\MintFinancialExport.Core.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Core\obj\Debug\MintFinancialExport.Core.pdb
