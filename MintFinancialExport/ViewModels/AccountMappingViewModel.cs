@@ -1,13 +1,6 @@
-﻿using MintFinancialExport.Core.Entities;
-using MintFinancialExport.Models;
-using MintFinancialExport.Views;
-using System;
+﻿using MintFinancialExport.Data;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MintFinancialExport.ViewModels
@@ -15,7 +8,7 @@ namespace MintFinancialExport.ViewModels
     class AccountMappingViewModel : BaseViewModel
     {
         private List<AccountMapping> _accountMappingList;
-        private List<Account> _accountList;
+        private List<Data.Account> _accountList;
         private List<AccountType> _accountTypesList;
 
         public List<AccountMapping> AccountMappingList
@@ -28,7 +21,7 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        public List<Account> AccountList
+        public List<Data.Account> AccountList
         {
             get { return _accountList; }
             set
@@ -55,13 +48,6 @@ namespace MintFinancialExport.ViewModels
             AccountTypesList = DataAccess.GetList<AccountType>();
             SaveCommand = new RelayCommand(SaveCommandExecuted);
         }
-
-        private void LoadAccountMappings()
-        {
-            MyDbContext db = new MyDbContext();
-            AccountMappingList = db.AccountMappings.ToList();
-        }
-
 
         private ICommand _saveCommand;
         public ICommand SaveCommand

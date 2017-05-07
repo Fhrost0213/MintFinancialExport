@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MintFinancialExport.Web", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MintFinancialExport.Core", "MintFinancialExport.Core\MintFinancialExport.Core.csproj", "{CAE8A8BF-3CD9-435D-B5B1-28FA2EC70B3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MintFinancialExport.Data", "MintFinancialExport.Data\MintFinancialExport.Data.csproj", "{380CE60F-FCD2-481D-A83B-DDBCD991FC0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{CAE8A8BF-3CD9-435D-B5B1-28FA2EC70B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE8A8BF-3CD9-435D-B5B1-28FA2EC70B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE8A8BF-3CD9-435D-B5B1-28FA2EC70B3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{380CE60F-FCD2-481D-A83B-DDBCD991FC0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{380CE60F-FCD2-481D-A83B-DDBCD991FC0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{380CE60F-FCD2-481D-A83B-DDBCD991FC0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{380CE60F-FCD2-481D-A83B-DDBCD991FC0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

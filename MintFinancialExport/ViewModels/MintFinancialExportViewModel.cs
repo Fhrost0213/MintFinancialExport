@@ -1,13 +1,8 @@
-﻿using MintFinancialExport.Core.Entities;
+﻿using MintFinancialExport.Data;
 using MintFinancialExport.Interfaces;
 using MintFinancialExport.Models;
 using MintFinancialExport.Views;
-using Newtonsoft.Json;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.Entity.Migrations;
-using System.Diagnostics;
-using System.Linq;
 using System.Windows.Input;
 
 namespace MintFinancialExport.ViewModels
@@ -16,35 +11,7 @@ namespace MintFinancialExport.ViewModels
     {
         MintFinancialExportModel _mintFinancialExportModel;
 
-        public ObservableCollection<Core.Entities.Account> AccountList { get; set; }
-
-        private decimal? _mortgageAmount { get; set; }
-        private decimal? _physicalAssetsAmount { get; set; }
-
-        public decimal? PhysicalAssetsAmount
-        {
-            get
-            {
-                return _physicalAssetsAmount;
-            }
-            set
-            {
-                _physicalAssetsAmount = value;
-                OnPropertyChanged("PhysicalAssetsAmount");
-            }
-        }
-        public decimal? MortgageAmount
-        {
-            get
-            {
-                return _mortgageAmount;
-            }
-            set
-            {
-                _mortgageAmount = value;
-                OnPropertyChanged("MortgageAmount");
-            }
-        }
+        public ObservableCollection<Core.Entities.MintAccount> AccountList { get; set; }
 
         public MintFinancialExportViewModel()
         {
@@ -154,6 +121,16 @@ namespace MintFinancialExport.ViewModels
 
         private void ExportNetWorthCommandExecuted(object obj)
         {
+            MyDbContext db = new MyDbContext();
+            var accounts = DataAccess.GetList<Account>();
+            var manualAccounts = accounts.FindAll(m => m.IsManual == true);
+
+            foreach (var account in manualAccounts)
+            {
+                ManualAccountView view = new ManualAccountView();
+                view.ShowDialog();
+            }
+
             Export export = new Export();
             export.ExportAccounts();
         }

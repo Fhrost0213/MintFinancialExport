@@ -26,7 +26,7 @@
         <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountList, Mode=TwoWay}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Account Name" Binding="{Binding AccountName, Mode=TwoWay}"/>
-                
+                <DataGridCheckBoxColumn Header="Is Manual?" Binding="{Binding IsManual, Mode=TwoWay}"/>
             </DataGrid.Columns>
         </DataGrid>
 

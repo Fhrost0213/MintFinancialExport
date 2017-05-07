@@ -1,0 +1,13 @@
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Data.dll.config
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Data.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Data.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\EntityFramework.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\EntityFramework.SqlServer.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Core.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Core.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Core.dll.config
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\EntityFramework.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\EntityFramework.SqlServer.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\obj\Debug\MintFinancialExport.Data.csprojResolveAssemblyReference.cache
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\obj\Debug\MintFinancialExport.Data.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\obj\Debug\MintFinancialExport.Data.pdb
