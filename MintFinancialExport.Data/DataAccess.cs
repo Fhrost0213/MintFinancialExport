@@ -59,5 +59,12 @@ namespace MintFinancialExport.Data
             MyDbContext db = new MyDbContext();
             return db.Set<T>().ToList();
         }
+
+        public static int? GetAccountTypeIdFromAccountName(string accountName)
+        {
+            MyDbContext db = new MyDbContext();
+
+            return db.AccountMappings.Where(a => a.Account.AccountName == accountName).FirstOrDefault().AccountTypeId;
+        }
     }
 }

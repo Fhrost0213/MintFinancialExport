@@ -2,6 +2,7 @@
 using MintFinancialExport.Interfaces;
 using MintFinancialExport.Models;
 using MintFinancialExport.Views;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -121,18 +122,23 @@ namespace MintFinancialExport.ViewModels
 
         private void ExportNetWorthCommandExecuted(object obj)
         {
-            MyDbContext db = new MyDbContext();
+            Dictionary<string, decimal?> values = new Dictionary<string, decimal?>();
+
             var accounts = DataAccess.GetList<Account>();
             var manualAccounts = accounts.FindAll(m => m.IsManual == true);
 
             foreach (var account in manualAccounts)
             {
                 ManualAccountView view = new ManualAccountView();
+                ManualAccountViewModel model = new ManualAccountViewModel();
+                view.DataContext = model;
+                model.AccountName = account.AccountName;
                 view.ShowDialog();
+                values.Add(account.AccountName, model.Value);
             }
 
             Export export = new Export();
-            export.ExportAccounts();
+            export.ExportAccounts(values);
         }
     }
 }

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\App.xaml
-4-1656244455
+5-965452075
 42000562997
-16354330143
+18-296503235
 26-880424974
-Views\AccountInfoView.xaml;Views\AccountMappingView.xaml;Views\AccountView.xaml;Views\MintFinancialExportView.xaml;
+Views\AccountInfoView.xaml;Views\AccountMappingView.xaml;Views\AccountView.xaml;Views\ManualAccountView.xaml;Views\MintFinancialExportView.xaml;
 
 False
 

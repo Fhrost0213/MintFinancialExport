@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MintFinancialExport.Views"
+        xmlns:local="clr-namespace:MintFinancialExport.ViewModels"
         mc:Ignorable="d"
         Title="ManualAccountView" Height="300" Width="300">
+    <Window.DataContext>
+        <local:ManualAccountViewModel/>
+    </Window.DataContext>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -15,12 +18,12 @@
 
         <StackPanel Grid.Row="0">
             <Label Content="Account"/>
-            <TextBox/>
+            <TextBox Text="{Binding AccountName}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1">
             <Label Content="Value"/>
-            <TextBox/>
+            <TextBox Text="{Binding Value, Mode=TwoWay}"/>
         </StackPanel>
 
 

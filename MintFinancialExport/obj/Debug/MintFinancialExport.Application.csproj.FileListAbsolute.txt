@@ -40,3 +40,5 @@ F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Min
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.pdb
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\bin\Debug\EntityFramework.SqlServer.dll
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\bin\Debug\EntityFramework.SqlServer.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\ManualAccountView.g.cs
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\ManualAccountView.baml
