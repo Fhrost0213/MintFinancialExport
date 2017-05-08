@@ -8,9 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_account.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_accounthistory.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_accountmapping.sql")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("database/tables/create_table_dbo_accounttype.sql")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/save.ico")]
 
 
