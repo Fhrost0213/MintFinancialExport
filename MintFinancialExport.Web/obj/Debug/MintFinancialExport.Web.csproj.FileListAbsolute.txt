@@ -65,3 +65,4 @@ F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Web\bin\Micro
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Web\obj\Debug\MintFinancialExport.Web.csprojResolveAssemblyReference.cache
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Web\obj\Debug\MintFinancialExport.Web.dll
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Web\obj\Debug\MintFinancialExport.Web.pdb
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Web\obj\Debug\MintFinancialExport.Web.csprojResolveAssemblyReference.cache

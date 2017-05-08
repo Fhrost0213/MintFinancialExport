@@ -16,34 +16,30 @@ namespace MintFinancialExport
     {
         public static void SyncAccounts(ObservableCollection<MintAccount> accountlist)
         {
-            MyDbContext db = new MyDbContext();
-
-            var nextRunID = db.AccountHistories.OrderByDescending(a => a.RunId).FirstOrDefault().RunId + 1;
+            var nextRunID = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault().RunId + 1;
             DateTime asOfDate = System.DateTime.Now;
 
             // Sync accounts with DB
             foreach (var account in accountlist)
             {
-                Account accountItem = db.Accounts.FirstOrDefault(n => n.AccountName.Equals(account.Name));
+                Account accountItem = DataAccess.GetList<Account>().FirstOrDefault(n => n.AccountName.Equals(account.Name));
                 if (accountItem == null)
                 {
                     accountItem = new Account();
                     accountItem.AccountName = account.Name;
                 }
 
-                db.Accounts.AddOrUpdate(accountItem);
-                db.SaveChanges();
+                DataAccess.SaveItem(accountItem);
 
                 // Store off a snapshot of account history
                 AccountHistory accountHistory = new AccountHistory();
                 accountHistory.Account = accountItem;
-                accountHistory.AccountId = accountItem.AccountId;
+                accountHistory.AccountId = accountItem.ObjectId;
                 accountHistory.Amount = account.Value;
                 accountHistory.AsOfDate = asOfDate;
                 accountHistory.RunId = nextRunID;
-                db.AccountHistories.Add(accountHistory);
 
-                db.SaveChanges();
+                DataAccess.SaveItem(accountHistory);
             }
 
             // Prompt for manual values
@@ -57,20 +53,20 @@ namespace MintFinancialExport
                 view.DataContext = model;
                 model.AccountName = account.AccountName;
 
-                var previousHistory = db.AccountHistories.Where(a => a.AccountId == account.AccountId).OrderByDescending(r => r.RunId).FirstOrDefault();
+                var previousHistory = DataAccess.GetList<AccountHistory>().Where(a => a.AccountId == account.ObjectId).OrderByDescending(r => r.RunId).FirstOrDefault();
+
                 if (previousHistory != null) model.Value = previousHistory.Amount;
  
                 view.ShowDialog();
 
                 AccountHistory accountHistory = new AccountHistory();
                 accountHistory.Account = account;
-                accountHistory.AccountId = account.AccountId;
+                accountHistory.AccountId = account.ObjectId;
                 accountHistory.Amount = model.Value;
                 accountHistory.AsOfDate = asOfDate;
                 accountHistory.RunId = nextRunID;
-                db.AccountHistories.Add(accountHistory);
 
-                db.SaveChanges();
+                DataAccess.SaveItem(accountHistory);
             }
         }
     }

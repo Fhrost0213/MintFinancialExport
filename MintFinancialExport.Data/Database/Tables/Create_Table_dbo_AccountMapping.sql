@@ -1,0 +1,6 @@
+CREATE TABLE [dbo].[AccountMapping]
+(
+	ObjectID INT IDENTITY NOT NULL PRIMARY KEY,
+	AccountID INT FOREIGN KEY REFERENCES Account(ObjectID),
+	AccountTypeID INT FOREIGN KEY REFERENCES AccountType(ObjectID)
+)

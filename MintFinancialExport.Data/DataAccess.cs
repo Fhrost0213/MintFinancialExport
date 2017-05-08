@@ -21,10 +21,35 @@ namespace MintFinancialExport.Data
             db.SaveChanges();
         }
 
+        public static void SaveItem<T>(T item) where T: class
+        {
+            MyDbContext db = new MyDbContext();
+            db.Set<T>().AddOrUpdate(item);
+
+            db.SaveChanges();
+        }
+
         public static List<T> GetList<T>() where T: class
         {
             MyDbContext db = new MyDbContext();
             return db.Set<T>().ToList();
+        }
+
+        public static void DeleteItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
+        {
+            MyDbContext db = new MyDbContext();
+
+            T instance = db.Set<T>().Where(a => a.ObjectId == objectId).First();
+
+            db.Set<T>().Remove(instance);
+
+            db.SaveChanges();
+        }
+
+        public static bool DoesItemExist<T>(int objectId) where T : class, Core.Interfaces.IObjectIdEntity
+        {
+            MyDbContext db = new MyDbContext();
+            return db.Set<T>().Any(a => a.ObjectId == objectId);
         }
 
         public static int? GetAccountTypeIdFromAccountName(string accountName)

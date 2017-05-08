@@ -25,7 +25,7 @@ namespace MintFinancialExport.Data
             foreach (AccountType type in types)
             {
                 ExportAccount exportAccount = new ExportAccount();
-                exportAccount.AccountTypeID = type.AccountTypeId;
+                exportAccount.AccountTypeID = type.ObjectId;
                 exportAccount.AccountTypeName = type.AccountTypeDesc;
                 exportAccount.IsAsset = type.IsAsset;
                 exportAccount.Value = 0;

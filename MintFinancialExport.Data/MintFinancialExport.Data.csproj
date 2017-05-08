@@ -52,6 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
+    <Compile Include="Partial Entities\Account.cs" />
+    <Compile Include="Partial Entities\AccountHistory.cs" />
+    <Compile Include="Partial Entities\AccountMapping.cs" />
+    <Compile Include="Partial Entities\AccountType.cs" />
     <Compile Include="Export.cs" />
     <Compile Include="MFEDb.cs">
       <AutoGen>True</AutoGen>
@@ -67,6 +71,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\Tables\Create_Table_dbo_Account.sql" />
+    <Content Include="Database\Tables\Create_Table_dbo_AccountHistory.sql" />
+    <Content Include="Database\Tables\Create_Table_dbo_AccountMapping.sql" />
+    <Content Include="Database\Tables\Create_Table_dbo_AccountType.sql" />
+    <Content Include="Database\Views\Create_View_vAccountHistory.sql" />
     <Content Include="MFEDb.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MFEDb.cs</LastGenOutput>
@@ -81,5 +90,6 @@
       <Name>MintFinancialExport.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

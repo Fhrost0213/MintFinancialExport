@@ -30,10 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,17 +52,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests.cs" />
+    <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MintFinancialExport.Core\MintFinancialExport.Core.csproj">
+      <Project>{cae8a8bf-3cd9-435d-b5b1-28fa2ec70b3b}</Project>
+      <Name>MintFinancialExport.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MintFinancialExport.Data\MintFinancialExport.Data.csproj">
+      <Project>{380ce60f-fcd2-481d-a83b-ddbcd991fc0d}</Project>
+      <Name>MintFinancialExport.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MintFinancialExport\MintFinancialExport.Application.csproj">
       <Project>{ea2e77fc-46f8-4bbf-b2fb-a7e2f20d9010}</Project>
       <Name>MintFinancialExport.Application</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\" />
+    <Folder Include="Core\" />
+    <Folder Include="Web\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

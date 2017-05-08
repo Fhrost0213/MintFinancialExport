@@ -169,12 +169,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\Tables\Create_Table_dbo_Account.sql" />
-    <Content Include="Database\Tables\Create_Table_dbo_AccountHistory.sql" />
-    <Content Include="Database\Tables\Create_Table_dbo_AccountMapping.sql" />
-    <Content Include="Database\Tables\Create_Table_dbo_AccountType.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MintFinancialExport.Core\MintFinancialExport.Core.csproj">
       <Project>{cae8a8bf-3cd9-435d-b5b1-28fa2ec70b3b}</Project>
       <Name>MintFinancialExport.Core</Name>

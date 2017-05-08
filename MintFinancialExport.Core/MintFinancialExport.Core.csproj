@@ -47,10 +47,12 @@
     <Compile Include="Entities\MintAccount.cs" />
     <Compile Include="Entities\Budget.cs" />
     <Compile Include="Entities\ExportAccount.cs" />
+    <Compile Include="Interfaces\IObjectIdEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
