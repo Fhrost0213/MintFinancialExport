@@ -7,13 +7,13 @@ namespace MintFinancialExport.Data
 {
     public class Export
     {
-        public void ExportAccounts(Dictionary<string, decimal?> values)
+        public void ExportAccounts()
         {
             var latestRunId = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).First().RunId;
-            ExportAccounts(values, latestRunId);
+            ExportAccounts(latestRunId);
         }
 
-        public void ExportAccounts(Dictionary<string, decimal?> manualValues, int? runId)
+        public void ExportAccounts(int? runId)
         {
             decimal? assetsTotal = 0;
             decimal? debtsTotal = 0;
@@ -30,14 +30,6 @@ namespace MintFinancialExport.Data
                 exportAccount.IsAsset = type.IsAsset;
                 exportAccount.Value = 0;
                 exportAccountList.Add(exportAccount);
-            }
-
-            // Set manual values
-            foreach (var manualValue in manualValues)
-            {
-                var typeId = DataAccess.GetAccountTypeIdFromAccountName(manualValue.Key);
-                var value = exportAccountList.Where(i => i.AccountTypeID == typeId).FirstOrDefault();
-                value.Value = value.Value + manualValue.Value;
             }
 
             var accountHistoryList = DataAccess.GetList<AccountHistory>().Where(a => a.RunId.Equals(runId));

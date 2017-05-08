@@ -104,7 +104,7 @@ namespace MintFinancialExport.ViewModels
                 AccountList = _mintFinancialExportModel.GetAccounts(userName, password);
             }
 
-            DataAccess.SyncAccounts(AccountList);
+            EntitySync.SyncAccounts(AccountList);
 
 
 
@@ -122,23 +122,8 @@ namespace MintFinancialExport.ViewModels
 
         private void ExportNetWorthCommandExecuted(object obj)
         {
-            Dictionary<string, decimal?> values = new Dictionary<string, decimal?>();
-
-            var accounts = DataAccess.GetList<Account>();
-            var manualAccounts = accounts.FindAll(m => m.IsManual == true);
-
-            foreach (var account in manualAccounts)
-            {
-                ManualAccountView view = new ManualAccountView();
-                ManualAccountViewModel model = new ManualAccountViewModel();
-                view.DataContext = model;
-                model.AccountName = account.AccountName;
-                view.ShowDialog();
-                values.Add(account.AccountName, model.Value);
-            }
-
             Export export = new Export();
-            export.ExportAccounts(values);
+            export.ExportAccounts();
         }
     }
 }
