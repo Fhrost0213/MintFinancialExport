@@ -21,7 +21,7 @@ namespace MintFinancialExport.Data
             db.SaveChanges();
         }
 
-        public static void SaveItem<T>(T item) where T: class
+        public static void SaveItem<T>(T item) where T : class
         {
             MyDbContext db = new MyDbContext();
             db.Set<T>().AddOrUpdate(item);
@@ -29,10 +29,17 @@ namespace MintFinancialExport.Data
             db.SaveChanges();
         }
 
-        public static List<T> GetList<T>() where T: class
+        public static List<T> GetList<T>() where T : class
         {
             MyDbContext db = new MyDbContext();
             return db.Set<T>().ToList();
+        }
+
+        public static T GetItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
+        {
+            MyDbContext db = new MyDbContext();
+
+            return db.Set<T>().Where(a => a.ObjectId == objectId).First();
         }
 
         public static void DeleteItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
@@ -46,10 +53,25 @@ namespace MintFinancialExport.Data
             db.SaveChanges();
         }
 
+        public static void DeleteItem<T>(T item) where T : class
+        {
+            MyDbContext db = new MyDbContext();
+
+            db.Set<T>().Remove(item);
+
+            db.SaveChanges();
+        }
+
         public static bool DoesItemExist<T>(int objectId) where T : class, Core.Interfaces.IObjectIdEntity
         {
             MyDbContext db = new MyDbContext();
             return db.Set<T>().Any(a => a.ObjectId == objectId);
+        }
+
+        public static bool DoesItemExist<T>(T item) where T : class, Core.Interfaces.IObjectIdEntity
+        {
+            MyDbContext db = new MyDbContext();
+            return db.Set<T>().Any(i => i.ObjectId == item.ObjectId);
         }
 
         public static int? GetAccountTypeIdFromAccountName(string accountName)
