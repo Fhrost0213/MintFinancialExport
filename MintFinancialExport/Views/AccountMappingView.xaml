@@ -18,7 +18,12 @@
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
-            <Button Content="Save" Command="{Binding SaveCommand}"/>
+            <Button Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Save"/>
+                </StackPanel>
+            </Button>
         </ToolBar>
 
 

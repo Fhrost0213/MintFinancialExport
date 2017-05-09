@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/save.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/refresh_grey.ico")]
 
 

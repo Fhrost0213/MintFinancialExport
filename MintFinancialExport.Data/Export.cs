@@ -7,48 +7,10 @@ namespace MintFinancialExport.Data
 {
     public class Export
     {
-        public void ExportAccounts()
-        {
-            var latestRunId = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).First().RunId;
-            ExportAccounts(latestRunId);
-        }
-
-        public void ExportAccounts(int? runId)
+        public void ExportAccounts(List<ExportAccount> exportAccountList)
         {
             decimal? assetsTotal = 0;
             decimal? debtsTotal = 0;
-
-            List<ExportAccount> exportAccountList = new List<ExportAccount>();
-
-            List<AccountType> types = DataAccess.GetList<AccountType>();
-
-            foreach (AccountType type in types)
-            {
-                ExportAccount exportAccount = new ExportAccount();
-                exportAccount.AccountTypeID = type.ObjectId;
-                exportAccount.AccountTypeName = type.AccountTypeDesc;
-                exportAccount.IsAsset = type.IsAsset;
-                exportAccount.Value = 0;
-                exportAccountList.Add(exportAccount);
-            }
-
-            var accountHistoryList = DataAccess.GetList<AccountHistory>().Where(a => a.RunId.Equals(runId));
-
-            foreach (var item in accountHistoryList)
-            {
-                if (item.Account.AccountMappings.Count != 0)
-                {
-                    var mapping = item.Account.AccountMappings.First();
-                    var typeID = (int)mapping.AccountTypeId;
-
-                    var value = exportAccountList.Where(i => i.AccountTypeID == typeID).First();
-                    value.Value = value.Value + item.Amount;
-                }
-                else
-                {
-                    //throw new Exception(item.Account.AccountName + " is not mapped. If you do not wish to include this account in the statement, then map it to Account Type = None");
-                }
-            }
 
             var assets = exportAccountList.Where(n => n.IsAsset == true && n.AccountTypeID != 99);
             var debts = exportAccountList.Where(n => n.IsAsset == false && n.AccountTypeID != 99);

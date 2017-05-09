@@ -12,7 +12,7 @@ namespace MintFinancialExport.ViewModels
     class AccountInfoViewModel : BaseViewModel
     {
         private string _userName { get; set; }
-        private string _password { get; set; }
+        private System.Security.SecureString _password { get; set; }
 
         public string UserName
         {
@@ -27,7 +27,7 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        public string Password
+        public System.Security.SecureString Password
         {
             get
             {
@@ -38,6 +38,11 @@ namespace MintFinancialExport.ViewModels
                 _password = value;
                 OnPropertyChanged("Password");
             }
+        }
+
+        public AccountInfoViewModel()
+        {
+            // Get Account Info from DB if it exists
         }
     }
 }

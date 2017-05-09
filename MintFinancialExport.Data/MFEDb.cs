@@ -39,6 +39,7 @@ namespace MintFinancialExport.Data
         System.Data.Entity.DbSet<AccountHistory> AccountHistories { get; set; } // AccountHistory
         System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; } // AccountMapping
         System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; } // AccountType
+        System.Data.Entity.DbSet<NetWorthHistory> NetWorthHistories { get; set; } // NetWorthHistory
 
         int SaveChanges();
         System.Threading.Tasks.Task<int> SaveChangesAsync();
@@ -65,6 +66,7 @@ namespace MintFinancialExport.Data
         public System.Data.Entity.DbSet<AccountHistory> AccountHistories { get; set; } // AccountHistory
         public System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; } // AccountMapping
         public System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; } // AccountType
+        public System.Data.Entity.DbSet<NetWorthHistory> NetWorthHistories { get; set; } // NetWorthHistory
 
         static MyDbContext()
         {
@@ -124,6 +126,7 @@ namespace MintFinancialExport.Data
             modelBuilder.Configurations.Add(new AccountHistoryConfiguration());
             modelBuilder.Configurations.Add(new AccountMappingConfiguration());
             modelBuilder.Configurations.Add(new AccountTypeConfiguration());
+            modelBuilder.Configurations.Add(new NetWorthHistoryConfiguration());
 
             OnModelCreatingPartial(modelBuilder);
         }
@@ -134,6 +137,7 @@ namespace MintFinancialExport.Data
             modelBuilder.Configurations.Add(new AccountHistoryConfiguration(schema));
             modelBuilder.Configurations.Add(new AccountMappingConfiguration(schema));
             modelBuilder.Configurations.Add(new AccountTypeConfiguration(schema));
+            modelBuilder.Configurations.Add(new NetWorthHistoryConfiguration(schema));
             return modelBuilder;
         }
 
@@ -151,6 +155,7 @@ namespace MintFinancialExport.Data
         public System.Data.Entity.DbSet<AccountHistory> AccountHistories { get; set; }
         public System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; }
         public System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; }
+        public System.Data.Entity.DbSet<NetWorthHistory> NetWorthHistories { get; set; }
 
         public FakeMyDbContext()
         {
@@ -158,6 +163,7 @@ namespace MintFinancialExport.Data
             AccountHistories = new FakeDbSet<AccountHistory>("ObjectId");
             AccountMappings = new FakeDbSet<AccountMapping>("ObjectId");
             AccountTypes = new FakeDbSet<AccountType>("ObjectId");
+            NetWorthHistories = new FakeDbSet<NetWorthHistory>("ObjectId");
 
             InitializePartial();
         }
@@ -593,6 +599,23 @@ namespace MintFinancialExport.Data
         partial void InitializePartial();
     }
 
+    // NetWorthHistory
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
+    public partial class NetWorthHistory
+    {
+        public int ObjectId { get; set; } // ObjectID (Primary key)
+        public decimal? Amount { get; set; } // Amount
+        public System.DateTime? AsOfDate { get; set; } // AsOfDate
+        public int? RunId { get; set; } // RunID
+
+        public NetWorthHistory()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
+    }
+
     #endregion
 
     #region POCO Configuration
@@ -690,6 +713,29 @@ namespace MintFinancialExport.Data
             Property(x => x.AccountTypeName).HasColumnName(@"AccountTypeName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
             Property(x => x.AccountTypeDesc).HasColumnName(@"AccountTypeDesc").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
             Property(x => x.IsAsset).HasColumnName(@"IsAsset").HasColumnType("bit").IsOptional();
+            InitializePartial();
+        }
+        partial void InitializePartial();
+    }
+
+    // NetWorthHistory
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
+    public partial class NetWorthHistoryConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<NetWorthHistory>
+    {
+        public NetWorthHistoryConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public NetWorthHistoryConfiguration(string schema)
+        {
+            ToTable("NetWorthHistory", schema);
+            HasKey(x => x.ObjectId);
+
+            Property(x => x.ObjectId).HasColumnName(@"ObjectID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            Property(x => x.Amount).HasColumnName(@"Amount").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.AsOfDate).HasColumnName(@"AsOfDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.RunId).HasColumnName(@"RunID").HasColumnType("int").IsOptional();
             InitializePartial();
         }
         partial void InitializePartial();

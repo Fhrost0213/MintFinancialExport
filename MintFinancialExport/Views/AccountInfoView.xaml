@@ -13,22 +13,32 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0">
+        <ToolBar Grid.Row="0">
+            <Button IsCancel="True">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Save"/>
+                </StackPanel>
+            </Button>
+        </ToolBar>
+
+        <StackPanel Grid.Row="1">
             <Label Content="User Name:"/>
             <TextBox x:Name="txtUserName" Text="{Binding UserName}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <!--<StackPanel Grid.Row="2">
             <Label Content="Password:"/>
             <TextBox x:Name="txtPassword" Text="{Binding Password}" />
+        </StackPanel>-->
+        <StackPanel Grid.Row="2">
+            <Label Content="Password:"/>
+            <PasswordBox x:Name="txtPassword" PasswordChanged="txtPassword_PasswordChanged"/>
         </StackPanel>
-
-        <Button Grid.Row="2" Content="Done" IsCancel="True"/>
-
     </Grid>
 </Window>

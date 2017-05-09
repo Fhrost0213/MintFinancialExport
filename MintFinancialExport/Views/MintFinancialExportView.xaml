@@ -34,6 +34,7 @@
                 <MenuItem Header="Export">
                     <MenuItem Header="Create Net Worth Statement" Command="{Binding ExportNetWorthCommand}"/>
                     <MenuItem Header="Create Income Statement"/>
+                    <MenuItem Header="Create Asset Allocation Sheet"/>
                 </MenuItem>
             </Menu>
         </ToolBar>

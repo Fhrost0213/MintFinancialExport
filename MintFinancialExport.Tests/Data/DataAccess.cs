@@ -52,9 +52,9 @@ namespace MintFinancialExport.Tests.Data
 
             Assert.That(savedItem != null);
 
-            MintFinancialExport.Data.DataAccess.DeleteItemByObjectId<Account>(savedItem.ObjectId);
+            MintFinancialExport.Data.DataAccess.DeleteItem<Account>(savedItem.ObjectId);
 
-            Assert.That(MintFinancialExport.Data.DataAccess.DoesItemExistByObjectId<Account>(savedItem.ObjectId) == false);
+            Assert.That(MintFinancialExport.Data.DataAccess.DoesItemExist<Account>(savedItem.ObjectId) == false);
         }
 
         [Test]
@@ -75,12 +75,12 @@ namespace MintFinancialExport.Tests.Data
 
             item = MintFinancialExport.Data.DataAccess.GetList<Account>().FirstOrDefault();
 
-            bool isExists = MintFinancialExport.Data.DataAccess.DoesItemExistByObjectId<Account>(item.ObjectId);
+            bool isExists = MintFinancialExport.Data.DataAccess.DoesItemExist<Account>(item.ObjectId);
             Assert.That(isExists == true);
 
             if (added)
             {
-                MintFinancialExport.Data.DataAccess.DeleteItemByObjectId<Account>(item.ObjectId);
+                MintFinancialExport.Data.DataAccess.DeleteItem<Account>(item.ObjectId);
             }
         }
     }

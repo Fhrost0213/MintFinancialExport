@@ -3,12 +3,8 @@ using MintFinancialExport.Data;
 using MintFinancialExport.ViewModels;
 using MintFinancialExport.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MintFinancialExport
 {
@@ -68,6 +64,37 @@ namespace MintFinancialExport
 
                 DataAccess.SaveItem(accountHistory);
             }
+
+            SyncNetWorth(nextRunID);
+        }
+
+        public static void SyncNetWorth(int? runId)
+        {
+            decimal? assetsTotal = 0;
+            decimal? debtsTotal = 0;
+
+            ExportObjects objects = new ExportObjects();
+            var exportAccountList = objects.GetExportAccountList();
+
+            var assets = exportAccountList.Where(n => n.IsAsset == true && n.AccountTypeID != 99);
+            var debts = exportAccountList.Where(n => n.IsAsset == false && n.AccountTypeID != 99);
+
+            foreach (var asset in assets)
+            {
+                assetsTotal = assetsTotal + asset.Value;
+            }
+
+            foreach(var debt in debts)
+            {
+                debtsTotal = debtsTotal + debt.Value;
+            }
+
+            NetWorthHistory NetWorthHistory = new NetWorthHistory();
+            NetWorthHistory.Amount = assetsTotal + debtsTotal;
+            NetWorthHistory.AsOfDate = DateTime.Now;
+            NetWorthHistory.RunId = runId;
+
+            DataAccess.SaveItem(NetWorthHistory);
         }
     }
 }

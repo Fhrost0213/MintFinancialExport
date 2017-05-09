@@ -20,8 +20,8 @@
         <ToolBar Grid.Row="0">
             
             <Button Command="{Binding SaveCommand}">
-                <StackPanel>
-                    <Image Source="Images/Save.ico"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
                     <TextBlock Text="Save"/>
                 </StackPanel>
             </Button>

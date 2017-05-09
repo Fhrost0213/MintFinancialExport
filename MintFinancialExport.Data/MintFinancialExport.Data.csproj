@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
+    <Compile Include="ExportObjects.cs" />
     <Compile Include="Partial Entities\Account.cs" />
     <Compile Include="Partial Entities\AccountHistory.cs" />
     <Compile Include="Partial Entities\AccountMapping.cs" />
@@ -62,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MFEDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Partial Entities\NetWorthHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +77,7 @@
     <Content Include="Database\Tables\Create_Table_dbo_AccountHistory.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountMapping.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountType.sql" />
+    <Content Include="Database\Tables\Create_Table_dbo_NetWorthHistory.sql" />
     <Content Include="Database\Views\Create_View_vAccountHistory.sql" />
     <Content Include="MFEDb.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

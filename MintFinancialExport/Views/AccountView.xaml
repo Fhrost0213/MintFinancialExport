@@ -18,8 +18,18 @@
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
-            <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Button Content="Refresh Account List" Command="{Binding RefreshAccountsCommand}"/>
+            <Button Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Save"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding RefreshAccountsCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Refresh_grey.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Refresh Account List"/>
+                </StackPanel>
+            </Button>
         </ToolBar>
 
 
