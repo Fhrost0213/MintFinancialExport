@@ -1,39 +1,39 @@
 ﻿using MintFinancialExport.Data;
 using MintFinancialExport.Interfaces;
-using MintFinancialExport.Models;
 using MintFinancialExport.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace MintFinancialExport.ViewModels
 {
     class MintFinancialExportViewModel : BaseViewModel, IMintFinancialExportViewModel
     {
-        MintFinancialExportModel _mintFinancialExportModel;
+        MintApi _mintApi;
 
         public ObservableCollection<Core.Entities.MintAccount> AccountList { get; set; }
 
         public MintFinancialExportViewModel()
         {
-            _mintFinancialExportModel = new MintFinancialExportModel();
+            _mintApi = new MintApi();
 
-            ClickCommand = new RelayCommand(ClickCommandExecuted);
+            RetrieveAccountsCommand = new RelayCommand(RetrieveAccountsCommandExecuted);
             ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
             AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
             AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
         }
 
-        private ICommand _clickCommand;
-        public ICommand ClickCommand
+        private ICommand _retrieveAccountsCommand;
+        public ICommand RetrieveAccountsCommand
         {
             get
             {
-                return _clickCommand;
+                return _retrieveAccountsCommand;
             }
             set
             {
-                _clickCommand = value;
+                _retrieveAccountsCommand = value;
             }
         }
 
@@ -90,24 +90,45 @@ namespace MintFinancialExport.ViewModels
 
         }
 
-        private void ClickCommandExecuted(object obj)
+        private void RetrieveAccountsCommandExecuted(object obj)
         {
-            AccountInfoView accountInfoView = new AccountInfoView();
-            accountInfoView.ShowDialog();
-            string userName = accountInfoView.txtUserName.Text;
-            string password = accountInfoView.txtPassword.Text;
-
             //Export export = new Export();
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
-            if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
+
+            AccountList = _mintApi.GetAccounts();
+
+
+            // Prompt for manual values
+            var accounts = DataAccess.GetList<Account>();
+            var manualAccounts = accounts.FindAll(m => m.IsManual == true);
+
+            List<AccountHistory> manualAccountHistory = new List<AccountHistory>();
+
+            foreach (var account in manualAccounts)
             {
-                AccountList = _mintFinancialExportModel.GetAccounts(userName, password);
+                ManualAccountView view = new ManualAccountView();
+                ManualAccountViewModel model = new ManualAccountViewModel();
+                view.DataContext = model;
+                model.AccountName = account.AccountName;
+
+                var previousHistory = DataAccess.GetList<AccountHistory>().Where(a => a.AccountId == account.ObjectId).OrderByDescending(r => r.RunId).FirstOrDefault();
+
+                if (previousHistory != null) model.Value = previousHistory.Amount;
+
+                view.ShowDialog();
+
+                AccountHistory accountHistory = new AccountHistory();
+                accountHistory.Account = account;
+                accountHistory.AccountId = account.ObjectId;
+                accountHistory.Amount = model.Value;
+                accountHistory.AsOfDate = System.DateTime.Now;
+                accountHistory.RunId = DataAccess.GetNextRunId();
+
+                manualAccountHistory.Add(accountHistory);
             }
 
-            EntitySync.SyncAccounts(AccountList);
-
-
+            EntitySync.SyncAccounts(AccountList, manualAccountHistory);
 
             //export.ExportToExcel(AccountList, _physicalAssetsAmount, _mortgageAmount);
 

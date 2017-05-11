@@ -19,8 +19,8 @@
         <ToolBar>
             <Menu x:Name="mnuData">
                 <MenuItem Header="Data">
-                    <MenuItem Header="Retrieve all data" Command="{Binding ClickCommand}"/>
-                    <MenuItem Header="Retrieve account data" Command="{Binding ClickCommand}"/>
+                    <MenuItem Header="Retrieve all data" Command="{Binding RetrieveAccountsCommand}"/>
+                    <MenuItem Header="Retrieve account data" Command="{Binding RetrieveAccountsCommand}"/>
                     <MenuItem Header="Retrieve transaction data"/>
                 </MenuItem>
             </Menu>

@@ -83,7 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EntitySync.cs" />
     <Compile Include="Interfaces\IMintFinancialExportViewModel.cs" />
     <Compile Include="Models\MintFinancialExportModel.cs" />
     <Compile Include="RelayCommand.cs" />

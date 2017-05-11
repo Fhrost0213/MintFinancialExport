@@ -58,23 +58,10 @@ namespace MintFinancialExport.ViewModels
 
         private void RefreshAccountsCommandExecuted(object obj)
         {
-            //AccountInfoView accountInfoView = new AccountInfoView();
-            //accountInfoView.ShowDialog();
-            //string userName = accountInfoView.txtUserName.Text;
-            //string password = accountInfoView.txtPassword.Text;
+            MintApi mintApi = new MintApi();
+            mintApi.RefreshAccounts();
 
-            //MintFinancialExportModel mintFinancialExportModel = new MintFinancialExportModel();
-
-            //var accountList = mintFinancialExportModel.GetAccounts(userName, password);
-
-            //foreach (Entities.Account account in accountList)
-            //{
-                //Entities.AccountMapping mapping = new Entities.AccountMapping();
-                //mapping.AccountName = account.Name;
-                //mapping.AccountType = Enums.AccountType.Taxable;
-
-                //AccountMappingList.Add(mapping);
-            //}
+            AccountList = DataAccess.GetList<Account>();
         }
     }
 }

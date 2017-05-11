@@ -83,5 +83,17 @@ namespace MintFinancialExport.Tests.Data
                 MintFinancialExport.Data.DataAccess.DeleteItem<Account>(item.ObjectId);
             }
         }
+
+        [Test]
+        public void DoesGetNextRunIdGetCorrectly()
+        {
+            int? nextRunId = 0;
+            var latestRun = MintFinancialExport.Data.DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            if (latestRun != null) nextRunId = latestRun.RunId + 1;
+
+            int? nextRunIdCompare = MintFinancialExport.Data.DataAccess.GetNextRunId();
+
+            Assert.That(nextRunId == nextRunIdCompare);
+        }
     }
 }

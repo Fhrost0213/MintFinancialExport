@@ -31,7 +31,7 @@
             <DataGrid.Columns>
                 <DataGridComboBoxColumn Header="Account" 
                                         DisplayMemberPath="AccountName"
-                                        SelectedValuePath="AccountId" 
+                                        SelectedValuePath="ObjectId" 
                                         SelectedValueBinding="{Binding AccountId, Mode=TwoWay}">
 
                     <DataGridComboBoxColumn.ElementStyle>
@@ -47,7 +47,7 @@
                 </DataGridComboBoxColumn>
                 <DataGridComboBoxColumn Header="Account Type" 
                                         DisplayMemberPath="AccountTypeDesc"
-                                        SelectedValuePath="AccountTypeId" 
+                                        SelectedValuePath="ObjectId" 
                                         SelectedValueBinding="{Binding AccountTypeId, Mode=TwoWay}">
 
                     <DataGridComboBoxColumn.ElementStyle>

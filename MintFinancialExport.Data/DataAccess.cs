@@ -87,5 +87,14 @@ namespace MintFinancialExport.Data
 
             return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
         }
+
+        public static int? GetNextRunId()
+        {
+            int? nextRunId = 0;
+            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            if (latestRun != null) nextRunId = latestRun.RunId + 1;
+
+            return nextRunId;
+        }
     }
 }

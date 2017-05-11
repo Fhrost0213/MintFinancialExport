@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
+    <Compile Include="EntitySync.cs" />
     <Compile Include="ExportObjects.cs" />
     <Compile Include="Partial Entities\Account.cs" />
     <Compile Include="Partial Entities\AccountHistory.cs" />
