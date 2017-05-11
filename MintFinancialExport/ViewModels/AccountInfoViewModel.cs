@@ -1,4 +1,5 @@
-﻿using MintFinancialExport.Models;
+﻿using MintFinancialExport.Data;
+using MintFinancialExport.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,17 @@ namespace MintFinancialExport.ViewModels
             set
             {
                 _userName = value;
+
+                User user = DataAccess.GetUserFromUserName(_userName);
+                if (user == null)
+                {
+                    user = new User();
+                    user.UserName = _userName;
+                }
+                
+                user.LastUsedDate = DateTime.Now;
+                DataAccess.SaveItem(user);
+
                 OnPropertyChanged("UserName");
             }
         }
@@ -42,6 +54,12 @@ namespace MintFinancialExport.ViewModels
 
         public AccountInfoViewModel()
         {
+            var lastUsedUser = DataAccess.GetList<User>().OrderByDescending(d => d.LastUsedDate).FirstOrDefault();
+            if (lastUsedUser != null)
+            {
+                UserName = lastUsedUser.UserName;
+            }
+            
             // Get Account Info from DB if it exists
         }
     }

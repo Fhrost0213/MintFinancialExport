@@ -80,5 +80,12 @@ namespace MintFinancialExport.Data
 
             return db.AccountMappings.Where(a => a.Account.AccountName == accountName).FirstOrDefault().AccountTypeId;
         }
+
+        public static User GetUserFromUserName(string userName)
+        {
+            MyDbContext db = new MyDbContext();
+
+            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
+        }
     }
 }

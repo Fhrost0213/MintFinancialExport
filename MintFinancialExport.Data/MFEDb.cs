@@ -40,6 +40,7 @@ namespace MintFinancialExport.Data
         System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; } // AccountMapping
         System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; } // AccountType
         System.Data.Entity.DbSet<NetWorthHistory> NetWorthHistories { get; set; } // NetWorthHistory
+        System.Data.Entity.DbSet<User> Users { get; set; } // User
 
         int SaveChanges();
         System.Threading.Tasks.Task<int> SaveChangesAsync();
@@ -67,6 +68,7 @@ namespace MintFinancialExport.Data
         public System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; } // AccountMapping
         public System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; } // AccountType
         public System.Data.Entity.DbSet<NetWorthHistory> NetWorthHistories { get; set; } // NetWorthHistory
+        public System.Data.Entity.DbSet<User> Users { get; set; } // User
 
         static MyDbContext()
         {
@@ -127,6 +129,7 @@ namespace MintFinancialExport.Data
             modelBuilder.Configurations.Add(new AccountMappingConfiguration());
             modelBuilder.Configurations.Add(new AccountTypeConfiguration());
             modelBuilder.Configurations.Add(new NetWorthHistoryConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
 
             OnModelCreatingPartial(modelBuilder);
         }
@@ -138,6 +141,7 @@ namespace MintFinancialExport.Data
             modelBuilder.Configurations.Add(new AccountMappingConfiguration(schema));
             modelBuilder.Configurations.Add(new AccountTypeConfiguration(schema));
             modelBuilder.Configurations.Add(new NetWorthHistoryConfiguration(schema));
+            modelBuilder.Configurations.Add(new UserConfiguration(schema));
             return modelBuilder;
         }
 
@@ -156,6 +160,7 @@ namespace MintFinancialExport.Data
         public System.Data.Entity.DbSet<AccountMapping> AccountMappings { get; set; }
         public System.Data.Entity.DbSet<AccountType> AccountTypes { get; set; }
         public System.Data.Entity.DbSet<NetWorthHistory> NetWorthHistories { get; set; }
+        public System.Data.Entity.DbSet<User> Users { get; set; }
 
         public FakeMyDbContext()
         {
@@ -164,6 +169,7 @@ namespace MintFinancialExport.Data
             AccountMappings = new FakeDbSet<AccountMapping>("ObjectId");
             AccountTypes = new FakeDbSet<AccountType>("ObjectId");
             NetWorthHistories = new FakeDbSet<NetWorthHistory>("ObjectId");
+            Users = new FakeDbSet<User>("ObjectId");
 
             InitializePartial();
         }
@@ -604,11 +610,29 @@ namespace MintFinancialExport.Data
     public partial class NetWorthHistory
     {
         public int ObjectId { get; set; } // ObjectID (Primary key)
-        public decimal? Amount { get; set; } // Amount
+        public decimal? NetWorthAmount { get; set; } // NetWorthAmount
+        public decimal? AssetAmount { get; set; } // AssetAmount
+        public decimal? DebtAmount { get; set; } // DebtAmount
         public System.DateTime? AsOfDate { get; set; } // AsOfDate
         public int? RunId { get; set; } // RunID
 
         public NetWorthHistory()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
+    }
+
+    // User
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
+    public partial class User
+    {
+        public int ObjectId { get; set; } // ObjectID (Primary key)
+        public string UserName { get; set; } // UserName (length: 255)
+        public System.DateTime? LastUsedDate { get; set; } // LastUsedDate
+
+        public User()
         {
             InitializePartial();
         }
@@ -733,9 +757,33 @@ namespace MintFinancialExport.Data
             HasKey(x => x.ObjectId);
 
             Property(x => x.ObjectId).HasColumnName(@"ObjectID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
-            Property(x => x.Amount).HasColumnName(@"Amount").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.NetWorthAmount).HasColumnName(@"NetWorthAmount").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.AssetAmount).HasColumnName(@"AssetAmount").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.DebtAmount).HasColumnName(@"DebtAmount").HasColumnType("money").IsOptional().HasPrecision(19,4);
             Property(x => x.AsOfDate).HasColumnName(@"AsOfDate").HasColumnType("datetime").IsOptional();
             Property(x => x.RunId).HasColumnName(@"RunID").HasColumnType("int").IsOptional();
+            InitializePartial();
+        }
+        partial void InitializePartial();
+    }
+
+    // User
+    [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.30.0.0")]
+    public partial class UserConfiguration : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<User>
+    {
+        public UserConfiguration()
+            : this("dbo")
+        {
+        }
+
+        public UserConfiguration(string schema)
+        {
+            ToTable("User", schema);
+            HasKey(x => x.ObjectId);
+
+            Property(x => x.ObjectId).HasColumnName(@"ObjectID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
+            Property(x => x.UserName).HasColumnName(@"UserName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
+            Property(x => x.LastUsedDate).HasColumnName(@"LastUsedDate").HasColumnType("datetime").IsOptional();
             InitializePartial();
         }
         partial void InitializePartial();

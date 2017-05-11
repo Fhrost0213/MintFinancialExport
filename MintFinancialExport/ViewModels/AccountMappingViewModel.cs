@@ -65,9 +65,6 @@ namespace MintFinancialExport.ViewModels
         private void SaveCommandExecuted(object obj)
         {
             DataAccess.SaveList(AccountMappingList);
-           // DataAccess.SaveAccountMappings(AccountMappingList);
         }
-
-        
     }
 }
