@@ -95,15 +95,15 @@ namespace MintFinancialExport.ViewModels
             AccountInfoView accountInfoView = new AccountInfoView();
             accountInfoView.ShowDialog();
             string userName = accountInfoView.txtUserName.Text;
-            //string password = accountInfoView.txtPassword.Text;
+            string password = accountInfoView.txtPassword.Text;
 
             //Export export = new Export();
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
-            //if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
-            //{
-            //    AccountList = _mintFinancialExportModel.GetAccounts(userName, password);
-            //}
+            if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
+            {
+                AccountList = _mintFinancialExportModel.GetAccounts(userName, password);
+            }
 
             EntitySync.SyncAccounts(AccountList);
 

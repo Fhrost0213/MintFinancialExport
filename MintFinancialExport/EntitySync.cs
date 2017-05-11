@@ -12,7 +12,9 @@ namespace MintFinancialExport
     {
         public static void SyncAccounts(ObservableCollection<MintAccount> accountlist)
         {
-            var nextRunID = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault().RunId + 1;
+            int? nextRunId = 0;
+            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            if (latestRun != null) nextRunId = latestRun.RunId + 1;
             DateTime asOfDate = System.DateTime.Now;
 
             // Sync accounts with DB
@@ -25,7 +27,7 @@ namespace MintFinancialExport
                     accountItem.AccountName = account.Name;
                 }
 
-                DataAccess.SaveItem(accountItem);
+                //DataAccess.SaveItem(accountItem);
 
                 // Store off a snapshot of account history
                 AccountHistory accountHistory = new AccountHistory();
@@ -33,7 +35,7 @@ namespace MintFinancialExport
                 accountHistory.AccountId = accountItem.ObjectId;
                 accountHistory.Amount = account.Value;
                 accountHistory.AsOfDate = asOfDate;
-                accountHistory.RunId = nextRunID;
+                accountHistory.RunId = nextRunId;
 
                 DataAccess.SaveItem(accountHistory);
             }
@@ -60,12 +62,12 @@ namespace MintFinancialExport
                 accountHistory.AccountId = account.ObjectId;
                 accountHistory.Amount = model.Value;
                 accountHistory.AsOfDate = asOfDate;
-                accountHistory.RunId = nextRunID;
+                accountHistory.RunId = nextRunId;
 
                 DataAccess.SaveItem(accountHistory);
             }
 
-            SyncNetWorth(nextRunID);
+            SyncNetWorth(nextRunId);
         }
 
         public static void SyncNetWorth(int? runId)
@@ -90,7 +92,9 @@ namespace MintFinancialExport
             }
 
             NetWorthHistory NetWorthHistory = new NetWorthHistory();
-            NetWorthHistory.Amount = assetsTotal + debtsTotal;
+            NetWorthHistory.NetWorthAmount = assetsTotal + debtsTotal;
+            NetWorthHistory.AssetAmount = assetsTotal;
+            NetWorthHistory.DebtAmount = debtsTotal;
             NetWorthHistory.AsOfDate = DateTime.Now;
             NetWorthHistory.RunId = runId;
 

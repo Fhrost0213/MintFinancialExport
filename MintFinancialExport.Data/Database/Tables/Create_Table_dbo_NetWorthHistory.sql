@@ -1,7 +1,9 @@
 CREATE TABLE [dbo].[NetWorthHistory]
 (
 	ObjectID INT IDENTITY NOT NULL PRIMARY KEY,
-	Amount money,
+	NetWorthAmount money,
+	AssetAmount money,
+	DebtAmount money,
 	AsOfDate DATETIME,
 	RunID INT
 )

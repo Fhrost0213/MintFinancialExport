@@ -32,13 +32,13 @@
             <TextBox x:Name="txtUserName" Text="{Binding UserName}" />
         </StackPanel>
 
-        <!--<StackPanel Grid.Row="2">
-            <Label Content="Password:"/>
-            <TextBox x:Name="txtPassword" Text="{Binding Password}" />
-        </StackPanel>-->
         <StackPanel Grid.Row="2">
             <Label Content="Password:"/>
-            <PasswordBox x:Name="txtPassword" PasswordChanged="txtPassword_PasswordChanged"/>
+            <TextBox x:Name="txtPassword" Text="{Binding Password}" />
         </StackPanel>
+        <!--<StackPanel Grid.Row="2">
+            <Label Content="Password:"/>
+            <PasswordBox x:Name="txtPassword" PasswordChanged="txtPassword_PasswordChanged"/>
+        </StackPanel>-->
     </Grid>
 </Window>
