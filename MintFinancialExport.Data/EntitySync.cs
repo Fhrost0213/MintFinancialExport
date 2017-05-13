@@ -41,11 +41,11 @@ namespace MintFinancialExport.Data
                     accountItem.AccountName = account.Name;
                 }
 
-                //DataAccess.SaveItem(accountItem);
+                DataAccess.SaveItem(accountItem);
 
                 // Store off a snapshot of account history
                 AccountHistory accountHistory = new AccountHistory();
-                accountHistory.Account = accountItem;
+                //accountHistory.Account = accountItem;
                 accountHistory.AccountId = accountItem.ObjectId;
                 accountHistory.Amount = account.Value;
                 accountHistory.AsOfDate = asOfDate;
