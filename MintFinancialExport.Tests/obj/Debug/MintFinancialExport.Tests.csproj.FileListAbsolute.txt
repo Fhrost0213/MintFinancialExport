@@ -38,3 +38,6 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Tests.dll.config
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.SqlServer.xml
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Tests.dll.config
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.SqlServer.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.SqlServer.xml

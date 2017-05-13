@@ -1,5 +1,5 @@
-﻿using MintFinancialExport.Data;
-using MintFinancialExport.Models;
+﻿using MintFinancialExport.Core.Entities;
+using MintFinancialExport.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,15 +52,34 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
+        private ICommand _saveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return _saveCommand;
+            }
+            set
+            {
+                _saveCommand = value;
+            }
+        }
+
+        private void SaveCommandExecuted(object obj)
+        {
+            AccountInfo.UserName = UserName;
+            AccountInfo.Password = Password;
+        }
+
         public AccountInfoViewModel()
         {
+            SaveCommand = new RelayCommand(SaveCommandExecuted);
+
             var lastUsedUser = DataAccess.GetList<User>().OrderByDescending(d => d.LastUsedDate).FirstOrDefault();
             if (lastUsedUser != null)
             {
                 UserName = lastUsedUser.UserName;
             }
-            
-            // Get Account Info from DB if it exists
         }
     }
 }

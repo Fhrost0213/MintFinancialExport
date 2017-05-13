@@ -1,27 +1,17 @@
 ﻿using MintFinancialExport.Core.Entities;
-using MintFinancialExport.Views;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MintFinancialExport
 {
     public class MintApi
     {
-        private string UserName { get; set; }
-        private string Password { get; set; }
-
         public void GetTransactions()
         {
-            SetAccountInfo();
-
             DateTime startDate = DateTime.Now.AddYears(-1); 
-            var data = GetMintInfo("--extended-transactions --start-date " + startDate + " --include-investment " + UserName + " " + Password);
+            var data = GetMintInfo("--extended-transactions --start-date " + startDate + " --include-investment " + AccountInfo.UserName + " " + AccountInfo.Password);
         }
 
         public void GetNetWorth()
@@ -31,8 +21,7 @@ namespace MintFinancialExport
 
         public ObservableCollection<MintAccount> GetAccounts()
         {
-            SetAccountInfo();
-            return GetAccounts(UserName, Password);
+            return GetAccounts(AccountInfo.UserName, AccountInfo.Password);
         }
 
         public ObservableCollection<MintAccount> GetAccounts(string userName, string password)
@@ -54,13 +43,6 @@ namespace MintFinancialExport
             //var data = GetMintInfo("--budgets");
 
             //var test = JsonConvert.DeserializeObject<Budget>(data);
-        }
-
-        public void RefreshAccounts()
-        {
-            var accounts = GetAccounts();
-
-            Data.EntitySync.SyncAccounts(accounts);
         }
 
         public string GetMintInfo(string arguments)
@@ -85,14 +67,6 @@ namespace MintFinancialExport
             process.Close();
 
             return data;
-        }
-
-        private void SetAccountInfo()
-        {
-            AccountInfoView accountInfoView = new AccountInfoView();
-            accountInfoView.ShowDialog();
-            UserName = accountInfoView.txtUserName.Text;
-            Password = accountInfoView.txtPassword.Text;
         }
     }
 }

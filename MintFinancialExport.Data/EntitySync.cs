@@ -89,5 +89,14 @@ namespace MintFinancialExport.Data
 
             DataAccess.SaveItem(NetWorthHistory);
         }
+
+        public static void RefreshAccounts()
+        {
+            MintApi mintApi = new MintApi();
+
+            var accounts = mintApi.GetAccounts();
+
+            SyncAccounts(accounts);
+        }
     }
 }

@@ -25,7 +25,6 @@ F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Vie
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\AccountView.g.cs
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\MintFinancialExportView.g.cs
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\App.g.cs
-F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport_Content.g.cs
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\GeneratedInternalTypeHelper.g.cs
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport_MarkupCompile.cache
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport_MarkupCompile.lref

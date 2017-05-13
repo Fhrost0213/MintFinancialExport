@@ -92,6 +92,9 @@ namespace MintFinancialExport.ViewModels
 
         private void RetrieveAccountsCommandExecuted(object obj)
         {
+            AccountInfoView infoView = new AccountInfoView();
+            infoView.ShowDialog();
+
             //Export export = new Export();
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in

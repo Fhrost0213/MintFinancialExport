@@ -16,7 +16,7 @@ namespace MintFinancialExport.Tests.Data
             Data.ExportObjects exportObjects = new ExportObjects();
             exportObjects.GetListOfExportAccount();
 
-            Assert.IsInstanceOf<List<Core.Entities.ExportAccount>>(exportObjects);
+            Assert.IsInstanceOf<List<MintFinancialExport.Core.Entities.ExportAccount>>(exportObjects);
             Assert.That(exportObjects != null);        
         }
     }

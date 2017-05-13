@@ -58,8 +58,7 @@ namespace MintFinancialExport.ViewModels
 
         private void RefreshAccountsCommandExecuted(object obj)
         {
-            MintApi mintApi = new MintApi();
-            mintApi.RefreshAccounts();
+            EntitySync.RefreshAccounts();
 
             AccountList = DataAccess.GetList<Account>();
         }

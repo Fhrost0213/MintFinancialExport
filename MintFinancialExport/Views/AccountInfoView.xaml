@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
-            <Button IsCancel="True">
+            <Button IsCancel="True" Command="{Binding SaveCommand}" >
                 <StackPanel Orientation="Horizontal">
                     <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
                     <TextBlock Text="Save"/>

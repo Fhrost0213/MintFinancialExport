@@ -23,3 +23,5 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\b
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\obj\Debug\MintFinancialExport.Data.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\obj\Debug\MintFinancialExport.Data.pdb
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\Newtonsoft.Json.dll
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\Newtonsoft.Json.xml
