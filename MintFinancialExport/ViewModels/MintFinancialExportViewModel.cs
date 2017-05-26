@@ -99,6 +99,8 @@ namespace MintFinancialExport.ViewModels
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
 
+            var runId = DataAccess.GetNextRunId();
+
             AccountList = _mintApi.GetAccounts();
 
 
@@ -110,25 +112,36 @@ namespace MintFinancialExport.ViewModels
 
             foreach (var account in manualAccounts)
             {
-                ManualAccountView view = new ManualAccountView();
-                ManualAccountViewModel model = new ManualAccountViewModel();
-                view.DataContext = model;
-                model.AccountName = account.AccountName;
+                var type = account.AccountMappings.FirstOrDefault();
+                if (type.AccountType.AccountTypeName == "Physical")
+                {
+                    PreciousMetalsView preciousMetalsView = new PreciousMetalsView();
+                    PreciousMetalsViewModel preciousMetalsViewModel = new PreciousMetalsViewModel(runId);
+                    preciousMetalsView.DataContext = preciousMetalsViewModel;
+                    preciousMetalsView.ShowDialog();
+                }
+                else
+                {
+                    ManualAccountView view = new ManualAccountView();
+                    ManualAccountViewModel model = new ManualAccountViewModel();
+                    view.DataContext = model;
+                    model.AccountName = account.AccountName;
 
-                var previousHistory = DataAccess.GetList<AccountHistory>().Where(a => a.AccountId == account.ObjectId).OrderByDescending(r => r.RunId).FirstOrDefault();
+                    var previousHistory = DataAccess.GetList<AccountHistory>().Where(a => a.AccountId == account.ObjectId).OrderByDescending(r => r.RunId).FirstOrDefault();
 
-                if (previousHistory != null) model.Value = previousHistory.Amount;
+                    if (previousHistory != null) model.Value = previousHistory.Amount;
 
-                view.ShowDialog();
+                    view.ShowDialog();
 
-                AccountHistory accountHistory = new AccountHistory();
-                accountHistory.Account = account;
-                accountHistory.AccountId = account.ObjectId;
-                accountHistory.Amount = model.Value;
-                accountHistory.AsOfDate = System.DateTime.Now;
-                accountHistory.RunId = DataAccess.GetNextRunId();
+                    AccountHistory accountHistory = new AccountHistory();
+                    //accountHistory.Account = account;
+                    accountHistory.AccountId = account.ObjectId;
+                    accountHistory.Amount = model.Value;
+                    accountHistory.AsOfDate = System.DateTime.Now;
+                    accountHistory.RunId = runId;
 
-                manualAccountHistory.Add(accountHistory);
+                    manualAccountHistory.Add(accountHistory);
+                }
             }
 
             EntitySync.SyncAccounts(AccountList, manualAccountHistory);

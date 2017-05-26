@@ -11,7 +11,7 @@ namespace MintFinancialExport.Core
 {
     public class PreciousMetalsPriceApi
     {
-        public double GetPreciousMetalsPrice(Enums.PreciousMetalsTypes metalsType)
+        public decimal? GetPreciousMetalsPrice(Enums.PreciousMetalsTypes metalsType)
         {
             string value = "0";
 
@@ -29,7 +29,7 @@ namespace MintFinancialExport.Core
                 }
             }
 
-            return Convert.ToDouble(value);
+            return Convert.ToDecimal(value);
         }
     }
 }

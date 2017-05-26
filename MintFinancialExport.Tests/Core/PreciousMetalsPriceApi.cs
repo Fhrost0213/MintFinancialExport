@@ -10,7 +10,7 @@ namespace MintFinancialExport.Tests.Core
         {
             MintFinancialExport.Core.PreciousMetalsPriceApi priceApi = new MintFinancialExport.Core.PreciousMetalsPriceApi();
 
-            double value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Gold);
+            var value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Gold);
             Assert.That(value > 0);
         }
 
@@ -19,7 +19,7 @@ namespace MintFinancialExport.Tests.Core
         {
             MintFinancialExport.Core.PreciousMetalsPriceApi priceApi = new MintFinancialExport.Core.PreciousMetalsPriceApi();
 
-            double value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Silver);
+            var value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Silver);
             Assert.That(value > 0);
         }
 
@@ -28,7 +28,7 @@ namespace MintFinancialExport.Tests.Core
         {
             MintFinancialExport.Core.PreciousMetalsPriceApi priceApi = new MintFinancialExport.Core.PreciousMetalsPriceApi();
 
-            double value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Platinum);
+            var value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Platinum);
             Assert.That(value > 0);
         }
 
@@ -37,7 +37,7 @@ namespace MintFinancialExport.Tests.Core
         {
             MintFinancialExport.Core.PreciousMetalsPriceApi priceApi = new MintFinancialExport.Core.PreciousMetalsPriceApi();
 
-            double value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Palladium);
+            var value = priceApi.GetPreciousMetalsPrice(MintFinancialExport.Core.Entities.Enums.PreciousMetalsTypes.Palladium);
             Assert.That(value > 0);
         }
     }

@@ -82,3 +82,5 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\De
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.g.resources
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.Properties.Resources.resources
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.Application.csproj.GenerateResource.Cache
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\PreciousMetalsView.g.cs
+F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\PreciousMetalsView.baml

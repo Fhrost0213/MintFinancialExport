@@ -65,6 +65,7 @@
       <DependentUpon>MFEDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Partial Entities\NetWorthHistory.cs" />
+    <Compile Include="Partial Entities\PreciousMetal.cs" />
     <Compile Include="Partial Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +81,7 @@
     <Content Include="Database\Tables\Create_Table_dbo_AccountMapping.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_AccountType.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_NetWorthHistory.sql" />
+    <Content Include="Database\Tables\Create_Table_dbo_PreciousMetalsHistory.sql" />
     <Content Include="Database\Tables\Create_Table_dbo_User.sql" />
     <Content Include="Database\Views\Create_View_vAccountHistory.sql" />
     <Content Include="MFEDb.tt">
