@@ -90,11 +90,16 @@ namespace MintFinancialExport.Data
 
         public static int? GetNextRunId()
         {
-            int? nextRunId = 0;
-            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
-            if (latestRun != null) nextRunId = latestRun.RunId + 1;
+            return GetCurrentRunId() + 1;
+        }
 
-            return nextRunId;
+        public static int? GetCurrentRunId()
+        {
+            int? currentRunId = 0;
+            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            if (latestRun != null) currentRunId = latestRun.RunId;
+
+            return currentRunId;
         }
     }
 }

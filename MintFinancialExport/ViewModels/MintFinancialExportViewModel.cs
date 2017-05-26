@@ -10,21 +10,18 @@ namespace MintFinancialExport.ViewModels
 {
     class MintFinancialExportViewModel : BaseViewModel, IMintFinancialExportViewModel
     {
+
+        #region "Private fields"
         MintApi _mintApi;
-
-        public ObservableCollection<Core.Entities.MintAccount> AccountList { get; set; }
-
-        public MintFinancialExportViewModel()
-        {
-            _mintApi = new MintApi();
-
-            RetrieveAccountsCommand = new RelayCommand(RetrieveAccountsCommandExecuted);
-            ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
-            AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
-            AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
-        }
-
+        private decimal? _netWorthAmount;
+        private System.DateTime? _asOfDate;
         private ICommand _retrieveAccountsCommand;
+        private ICommand _exportNetWorthCommand;
+        private ICommand _accountMappingCommand;
+        private ICommand _accountBrowserCommand;
+        #endregion
+
+        #region "Public commands"
         public ICommand RetrieveAccountsCommand
         {
             get
@@ -37,7 +34,6 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        private ICommand _exportNetWorthCommand;
         public ICommand ExportNetWorthCommand
         {
             get
@@ -50,7 +46,6 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        private ICommand _accountMappingCommand;
         public ICommand AccountMappingCommand
         {
             get
@@ -63,7 +58,6 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        private ICommand _accountBrowserCommand;
         public ICommand AccountBrowserCommand
         {
             get
@@ -75,6 +69,23 @@ namespace MintFinancialExport.ViewModels
                 _accountBrowserCommand = value;
             }
         }
+        #endregion
+
+        #region "Public properties"
+        public decimal? NetWorthAmount
+        {
+            get { return _netWorthAmount; }
+            set { _netWorthAmount = value; }
+        }
+
+        public System.DateTime? AsOfDate
+        {
+            get { return _asOfDate; }
+            set { _asOfDate = value; }
+        }
+
+        public List<AccountHistory> AccountList { get; set; }
+        #endregion
 
         private void AccountBrowserCommandExecuted(object obj)
         {
@@ -95,16 +106,14 @@ namespace MintFinancialExport.ViewModels
             AccountInfoView infoView = new AccountInfoView();
             infoView.ShowDialog();
 
-            //Export export = new Export();
-
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
 
+            //AccountList = _mintApi.GetAccounts();
+
+            // Does this block of code need to be pulled out and refactored?
+            // Prompt for manual values
             var runId = DataAccess.GetNextRunId();
 
-            AccountList = _mintApi.GetAccounts();
-
-
-            // Prompt for manual values
             var accounts = DataAccess.GetList<Account>();
             var manualAccounts = accounts.FindAll(m => m.IsManual == true);
 
@@ -144,18 +153,7 @@ namespace MintFinancialExport.ViewModels
                 }
             }
 
-            EntitySync.SyncAccounts(AccountList, manualAccountHistory);
-
-            //export.ExportToExcel(AccountList, _physicalAssetsAmount, _mortgageAmount);
-
-            //GetBudget();
-
-            //GetNetWorth();
-
-            //GetTransactions();
-
-            
-            //db.MspAccountInsert(2, "EntityTest");
+            EntitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
         }
 
         private void ExportNetWorthCommandExecuted(object obj)
@@ -164,6 +162,31 @@ namespace MintFinancialExport.ViewModels
             ExportObjects objects = new ExportObjects();
 
             export.ExportAccounts(objects.GetExportAccountList());
+        } 
+
+        public MintFinancialExportViewModel()
+        {
+            _mintApi = new MintApi();
+
+            RetrieveAccountsCommand = new RelayCommand(RetrieveAccountsCommandExecuted);
+            ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
+            AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
+            AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
+
+            RefreshAccountInfo();
         }
+
+        private void RefreshAccountInfo()
+        {
+            // Get latest account history
+            var runId = DataAccess.GetCurrentRunId();
+            AccountList = DataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList();
+
+            var netWorthInfo = DataAccess.GetList<NetWorthHistory>().Where(r => r.RunId == runId);
+            NetWorthAmount = netWorthInfo.FirstOrDefault().NetWorthAmount;
+            AsOfDate = netWorthInfo.FirstOrDefault().AsOfDate;
+        }
+
+        
     }
 }
