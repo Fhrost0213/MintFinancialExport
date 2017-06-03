@@ -1,4 +1,6 @@
-﻿namespace MintFinancialExport.Core.Entities
+﻿using System;
+
+namespace MintFinancialExport.Core.Entities
 {
     public class ExportAccount
     {
@@ -32,5 +34,14 @@
             get { return _isAsset; }
             set { _isAsset = value; }
         }
+
+        private DateTime? _asOfDate;
+
+        public DateTime? AsOfDate
+        {
+            get { return _asOfDate; }
+            set { _asOfDate = value; }
+        }
+
     }
 }

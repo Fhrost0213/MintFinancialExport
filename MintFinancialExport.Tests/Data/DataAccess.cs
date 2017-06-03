@@ -95,5 +95,22 @@ namespace MintFinancialExport.Tests.Data
 
             Assert.That(nextRunId == nextRunIdCompare);
         }
+
+        [Test]
+        public void verify_previousrunid_value()
+        {
+            // Arrange
+            int? currentRunId = 0;
+            currentRunId = MintFinancialExport.Data.DataAccess.GetCurrentRunId();
+
+            // Act
+            int? previousRunId = MintFinancialExport.Data.DataAccess.GetPreviousRunId(currentRunId);
+
+            // Assert
+            if (currentRunId == 0)
+                Assert.LessOrEqual(previousRunId, currentRunId);
+            else
+                Assert.Less(previousRunId, currentRunId);
+        }
     }
 }

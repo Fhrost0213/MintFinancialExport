@@ -24,6 +24,7 @@ namespace MintFinancialExport.ViewModels
         private decimal? _silverTotal { get; set; }
         private decimal? _platinumTotal { get; set; }
         private decimal? _palladiumTotal { get; set; }
+        private int? _runId { get; set; }
 
 
         public decimal? GoldSpotPrice
@@ -212,6 +213,7 @@ namespace MintFinancialExport.ViewModels
             history.PlatinumSpotPrice = PlatinumSpotPrice;
             history.PalladiumOunces = PalladiumOunces;
             history.PalladiumSpotPrice = PalladiumSpotPrice;
+            history.RunId = _runId;
 
             DataAccess.SaveItem(history);
         }
@@ -235,6 +237,8 @@ namespace MintFinancialExport.ViewModels
 
         private void RefreshProperties(int? runId)
         {
+            _runId = runId;
+
             PreciousMetalsPriceApi prices = new PreciousMetalsPriceApi();
             GoldSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Gold);
             SilverSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Silver);
@@ -259,6 +263,12 @@ namespace MintFinancialExport.ViewModels
             PalladiumTotal = PalladiumSpotPrice * PalladiumOunces;
         }
 
-        
+        public decimal? GetTotals()
+        {
+            RecalculateTotals();
+
+            return GoldTotal + SilverTotal + PlatinumTotal + PalladiumTotal;
+        }
+
     }
 }

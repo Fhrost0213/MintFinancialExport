@@ -11,8 +11,7 @@ namespace MintFinancialExport.Data
     {
         public List<ExportAccount> GetExportAccountList()
         {
-            var latestRunId = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).First().RunId;
-            return GetExportAccountList(latestRunId);
+            return GetExportAccountList(DataAccess.GetCurrentRunId());
         }
 
         public List<ExportAccount> GetExportAccountList(int? runId)
@@ -40,8 +39,9 @@ namespace MintFinancialExport.Data
                     var mapping = item.Account.AccountMappings.First();
                     var typeID = (int)mapping.AccountTypeId;
 
-                    var value = exportAccountList.Where(i => i.AccountTypeID == typeID).First();
-                    value.Value = value.Value + item.Amount;
+                    var account = exportAccountList.Where(i => i.AccountTypeID == typeID).First();
+                    account.Value = account.Value + item.Amount;
+                    account.AsOfDate = item.AsOfDate;
                 }
                 else
                 {

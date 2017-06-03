@@ -101,5 +101,15 @@ namespace MintFinancialExport.Data
 
             return currentRunId;
         }
+
+        public static int? GetPreviousRunId(int? runId)
+        {
+            int? previousRunId = 0;
+
+            var previousRun = GetList<AccountHistory>().OrderByDescending(a => a.RunId).Where(a => a.RunId < runId).FirstOrDefault();
+            if (previousRun != null) previousRunId = previousRun.RunId;
+
+            return previousRunId;
+        }
     }
 }

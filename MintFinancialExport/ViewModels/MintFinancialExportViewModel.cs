@@ -110,7 +110,7 @@ namespace MintFinancialExport.ViewModels
 
             //AccountList = _mintApi.GetAccounts();
 
-            // Does this block of code need to be pulled out and refactored?
+            // TODO: Does this block of code need to be pulled out and refactored?
             // Prompt for manual values
             var runId = DataAccess.GetNextRunId();
 
@@ -121,6 +121,12 @@ namespace MintFinancialExport.ViewModels
 
             foreach (var account in manualAccounts)
             {
+                AccountHistory accountHistory = new AccountHistory();
+
+                accountHistory.AccountId = account.ObjectId;
+                accountHistory.AsOfDate = System.DateTime.Now;
+                accountHistory.RunId = runId;
+
                 var type = account.AccountMappings.FirstOrDefault();
                 if (type.AccountType.AccountTypeName == "Physical")
                 {
@@ -128,6 +134,8 @@ namespace MintFinancialExport.ViewModels
                     PreciousMetalsViewModel preciousMetalsViewModel = new PreciousMetalsViewModel(runId);
                     preciousMetalsView.DataContext = preciousMetalsViewModel;
                     preciousMetalsView.ShowDialog();
+
+                    accountHistory.Amount = preciousMetalsViewModel.GetTotals();
                 }
                 else
                 {
@@ -141,16 +149,12 @@ namespace MintFinancialExport.ViewModels
                     if (previousHistory != null) model.Value = previousHistory.Amount;
 
                     view.ShowDialog();
-
-                    AccountHistory accountHistory = new AccountHistory();
-                    //accountHistory.Account = account;
-                    accountHistory.AccountId = account.ObjectId;
+                    
                     accountHistory.Amount = model.Value;
-                    accountHistory.AsOfDate = System.DateTime.Now;
-                    accountHistory.RunId = runId;
 
-                    manualAccountHistory.Add(accountHistory);
                 }
+
+                manualAccountHistory.Add(accountHistory);
             }
 
             EntitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
@@ -161,7 +165,7 @@ namespace MintFinancialExport.ViewModels
             Export export = new Export();
             ExportObjects objects = new ExportObjects();
 
-            export.ExportAccounts(objects.GetExportAccountList());
+            export.ExportAccounts(objects.GetExportAccountList(), objects.GetExportAccountList(DataAccess.GetPreviousRunId(DataAccess.GetCurrentRunId())));
         } 
 
         public MintFinancialExportViewModel()

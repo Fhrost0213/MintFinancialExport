@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ViewModels\PreciousMetalsViewModel.cs" />
     <Compile Include="Core\PreciousMetalsPriceApi.cs" />
     <Compile Include="Data\DataAccess.cs" />
     <Compile Include="Data\ExportObjects.cs" />
@@ -76,7 +77,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Application\" />
     <Folder Include="Web\" />
   </ItemGroup>
   <ItemGroup>

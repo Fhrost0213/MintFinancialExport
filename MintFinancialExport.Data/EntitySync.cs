@@ -31,6 +31,8 @@ namespace MintFinancialExport.Data
 
         public static void SyncAccounts(ObservableCollection<MintAccount> accountlist, List<AccountHistory> manualAccountHistory, int? nextRunId, DateTime asOfDate)
         {
+            decimal? amount;
+
             // Sync accounts with DB
             foreach (var account in accountlist)
             {
@@ -43,11 +45,23 @@ namespace MintFinancialExport.Data
 
                 DataAccess.SaveItem(accountItem);
 
+                var mapping = accountItem.AccountMappings.FirstOrDefault();
+                if (mapping.AccountTypeId == DataAccess.GetList<AccountType>().First(n => n.AccountTypeName == "Physical").ObjectId)
+                {
+                    var preciousMetalsItem = DataAccess.GetList<PreciousMetalsHistory>().OrderByDescending(d => d.AsOfDate).FirstOrDefault();
+                    amount = (preciousMetalsItem.GoldOunces * preciousMetalsItem.GoldSpotPrice) + (preciousMetalsItem.SilverOunces * preciousMetalsItem.SilverSpotPrice)
+                        + (preciousMetalsItem.PlatinumOunces * preciousMetalsItem.PlatinumSpotPrice) + (preciousMetalsItem.PalladiumOunces * preciousMetalsItem.PalladiumSpotPrice);
+                }
+                else
+                {
+                    amount = account.Value;
+                }
+
                 // Store off a snapshot of account history
                 AccountHistory accountHistory = new AccountHistory();
                 //accountHistory.Account = accountItem;
                 accountHistory.AccountId = accountItem.ObjectId;
-                accountHistory.Amount = account.Value;
+                accountHistory.Amount = amount;
                 accountHistory.AsOfDate = asOfDate;
                 accountHistory.RunId = nextRunId;
 
