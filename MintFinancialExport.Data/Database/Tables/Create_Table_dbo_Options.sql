@@ -1,0 +1,6 @@
+CREATE TABLE [dbo].[Options]
+(
+	ObjectID INT IDENTITY NOT NULL PRIMARY KEY,
+	OptionKey VARCHAR(255) NOT NULL,
+	OptionValue VARCHAR(255)
+)
