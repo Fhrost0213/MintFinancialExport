@@ -1,0 +1,73 @@
+﻿<Window x:Class="MintFinancialExport.WPF.Views.PreciousMetalsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MintFinancialExport.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="PreciousMetalsView" Height="300" Width="300">
+    <Window.DataContext>
+        <local:PreciousMetalsViewModel/>
+    </Window.DataContext>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <ToolBar Grid.Row="0">
+                <Button Command="{Binding SaveCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
+                        <TextBlock Text="Save"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Spot Price" Grid.Column="1"/>
+            <Label Content="Units" Grid.Column="2"/>
+            <Label Content="Total" Grid.Column="3"/>
+
+
+            <Label Content="Gold" Grid.Row="1" Grid.Column="0"/>
+            <TextBox Text="{Binding GoldSpotPrice, Mode=OneTime}" Grid.Row="1" Grid.Column="1" IsReadOnly="True"/>
+            <TextBox Text="{Binding GoldOunces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="2"/>
+            <TextBox Text="{Binding GoldTotal}" Grid.Row="1" Grid.Column="3"/>
+
+            <Label Content="Silver" Grid.Row="2" Grid.Column="0"/>
+            <TextBox Text="{Binding SilverSpotPrice, Mode=OneTime}" Grid.Row="2" Grid.Column="1" IsReadOnly="True"/>
+            <TextBox Text="{Binding SilverOunces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="2"/>
+            <TextBox Text="{Binding SilverTotal}" Grid.Row="2" Grid.Column="3"/>
+
+            <Label Content="Platinum" Grid.Row="3" Grid.Column="0"/>
+            <TextBox Text="{Binding PlatinumSpotPrice, Mode=OneTime}" Grid.Row="3" Grid.Column="1" IsReadOnly="True"/>
+            <TextBox Text="{Binding PlatinumOunces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="2"/>
+            <TextBox Text="{Binding PlatinumTotal}" Grid.Row="3" Grid.Column="3"/>
+            
+            <Label Content="Palladium" Grid.Row="4" Grid.Column="0"/>
+            <TextBox Text="{Binding PalladiumSpotPrice, Mode=OneTime}" Grid.Row="4" Grid.Column="1" IsReadOnly="True"/>
+            <TextBox Text="{Binding PalladiumOunces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="2"/>
+            <TextBox Text="{Binding PalladiumTotal}" Grid.Row="4" Grid.Column="3"/>
+
+        </Grid>
+    </Grid>
+</Window>

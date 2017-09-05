@@ -1,9 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MintFinancialExport.Tests.Application.ViewModels
 {
@@ -16,7 +11,7 @@ namespace MintFinancialExport.Tests.Application.ViewModels
             decimal? total;
 
             // Arrange
-            MintFinancialExport.ViewModels.PreciousMetalsViewModel sut = new MintFinancialExport.ViewModels.PreciousMetalsViewModel();
+            WPF.ViewModels.PreciousMetalsViewModel sut = new WPF.ViewModels.PreciousMetalsViewModel();
             sut.GoldOunces = 1;
             sut.GoldSpotPrice = 100;
             sut.SilverOunces = 1;

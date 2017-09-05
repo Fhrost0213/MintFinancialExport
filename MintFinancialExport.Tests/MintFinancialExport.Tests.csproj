@@ -63,9 +63,9 @@
       <Project>{380ce60f-fcd2-481d-a83b-ddbcd991fc0d}</Project>
       <Name>MintFinancialExport.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MintFinancialExport\MintFinancialExport.Application.csproj">
+    <ProjectReference Include="..\MintFinancialExport.WPF\MintFinancialExport.WPF.csproj">
       <Project>{ea2e77fc-46f8-4bbf-b2fb-a7e2f20d9010}</Project>
-      <Name>MintFinancialExport.Application</Name>
+      <Name>MintFinancialExport.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

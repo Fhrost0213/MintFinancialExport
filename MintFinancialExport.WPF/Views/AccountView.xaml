@@ -1,0 +1,44 @@
+﻿<Window x:Class="MintFinancialExport.WPF.Views.AccountView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MintFinancialExport.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="AccountView" Height="300" Width="300">
+    <Window.DataContext>
+        <local:AccountViewModel/>
+    </Window.DataContext>
+    <Grid>
+        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Button Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Save"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding RefreshAccountsCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Refresh_grey.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Refresh Account List"/>
+                </StackPanel>
+            </Button>
+        </ToolBar>
+
+
+        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountList, Mode=TwoWay}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Account Name" Binding="{Binding AccountName, Mode=TwoWay}"/>
+                <DataGridCheckBoxColumn Header="Is Manual?" Binding="{Binding IsManual, Mode=TwoWay}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

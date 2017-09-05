@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MintFinancialExport.Application", "MintFinancialExport\MintFinancialExport.Application.csproj", "{EA2E77FC-46F8-4BBF-B2FB-A7E2F20D9010}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MintFinancialExport.WPF", "MintFinancialExport.WPF\MintFinancialExport.WPF.csproj", "{EA2E77FC-46F8-4BBF-B2FB-A7E2F20D9010}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MintFinancialExport.Tests", "MintFinancialExport.Tests\MintFinancialExport.Tests.csproj", "{FD8994CE-909E-405D-9175-27C4A32C4C83}"
 EndProject

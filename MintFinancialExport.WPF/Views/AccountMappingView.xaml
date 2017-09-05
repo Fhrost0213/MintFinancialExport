@@ -1,0 +1,68 @@
+﻿<Window x:Class="MintFinancialExport.WPF.Views.AccountMappingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MintFinancialExport.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="AccountMappingView" Height="300" Width="300">
+    <Window.DataContext>
+        <local:AccountMappingViewModel/>
+    </Window.DataContext>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Button Command="{Binding SaveCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/Save.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Save"/>
+                </StackPanel>
+            </Button>
+        </ToolBar>
+
+
+        <DataGrid x:Name="dgAccountMapping" Grid.Row="1" ItemsSource="{Binding AccountMappingList, Mode=TwoWay}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn Header="Account" 
+                                        DisplayMemberPath="AccountName"
+                                        SelectedValuePath="ObjectId" 
+                                        SelectedValueBinding="{Binding AccountId, Mode=TwoWay}">
+
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Account Type" 
+                                        DisplayMemberPath="AccountTypeDesc"
+                                        SelectedValuePath="ObjectId" 
+                                        SelectedValueBinding="{Binding AccountTypeId, Mode=TwoWay}">
+
+                    <DataGridComboBoxColumn.ElementStyle>
+                    <Style TargetType="{x:Type ComboBox}">
+                        <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountTypesList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                    </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.AccountTypesList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+    </Grid>
+</Window>

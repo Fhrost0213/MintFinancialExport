@@ -24,12 +24,10 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Tests.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Tests.pdb
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Core.dll
-C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.exe
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\nunit.framework.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\Newtonsoft.Json.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Core.pdb
-C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.pdb
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\nunit.framework.xml
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.xml
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\Newtonsoft.Json.xml
@@ -40,4 +38,6 @@ F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Deb
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.SqlServer.dll
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.Core.dll.config
-C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.exe.config
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.WPF.exe
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.WPF.pdb
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Tests\bin\Debug\MintFinancialExport.WPF.exe.config
