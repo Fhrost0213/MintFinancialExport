@@ -38,6 +38,11 @@
                     <MenuItem Header="Create Asset Allocation Sheet"/>
                 </MenuItem>
             </Menu>
+            <Menu x:Name="mnuTools">
+                <MenuItem Header="Tools">
+                    <MenuItem Header="Options" Command="{Binding OptionsCommand}"/>
+                </MenuItem>
+            </Menu>
         </ToolBar>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">

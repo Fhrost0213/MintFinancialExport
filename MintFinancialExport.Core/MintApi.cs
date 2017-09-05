@@ -47,16 +47,18 @@ namespace MintFinancialExport.Core
 
         public string GetMintInfo(string arguments)
         {
+            string pythonFolderLocation = DataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
+
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.FileName = @"C:\Users\Bryan\AppData\Local\Programs\Python\Python36-32\python.exe";
+            startInfo.FileName = pythonFolderLocation + @"\python.exe";
             startInfo.WorkingDirectory = "C:\\windows\\system32";
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
             startInfo.CreateNoWindow = true;
 
-            startInfo.Arguments = @"C:\Users\Bryan\AppData\Local\Programs\Python\Python36-32\Scripts\mintapi-script.py " + arguments;
+            startInfo.Arguments = pythonFolderLocation + @"\Scripts\mintapi-script.py " + arguments;
             process.StartInfo = startInfo;
             process.Start();
 

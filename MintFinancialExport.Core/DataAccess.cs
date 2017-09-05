@@ -108,5 +108,26 @@ namespace MintFinancialExport.Core
 
             return previousRunId;
         }
+
+        public static string GetOption(string optionName)
+        {
+            MyDbContext db = new MyDbContext();
+
+            return db.Options.FirstOrDefault(o => o.OptionKey == optionName)?.OptionValue;
+        }
+
+        public static void SaveOption(string optionKey, string optionValue)
+        {
+            MyDbContext db = new MyDbContext();
+
+            Option option = db.Options.FirstOrDefault(o => o.OptionKey == optionKey) ?? new Option();
+
+            option.OptionKey = optionKey;
+            option.OptionValue = optionValue;
+
+            db.Set<Option>().AddOrUpdate(option);
+
+            db.SaveChanges();
+        }
     }
 }

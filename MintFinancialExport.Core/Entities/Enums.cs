@@ -9,5 +9,10 @@
             Platinum,
             Palladium
         }
+
+        public enum Options
+        {
+            PythonFolderLocation
+        }
     }
 }

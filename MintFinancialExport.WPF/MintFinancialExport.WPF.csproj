@@ -87,9 +87,13 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\ManualAccountViewModel.cs" />
+    <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\PreciousMetalsViewModel.cs" />
     <Compile Include="Views\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PreciousMetalsView.xaml.cs">
       <DependentUpon>PreciousMetalsView.xaml</DependentUpon>
@@ -134,6 +138,10 @@
       <DependentUpon>MintFinancialExportView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\OptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PreciousMetalsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,7 +183,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MintFinancialExport.Data\MintFinancialExport.Core.csproj">
+    <ProjectReference Include="..\MintFinancialExport.Core\MintFinancialExport.Core.csproj">
       <Project>{380ce60f-fcd2-481d-a83b-ddbcd991fc0d}</Project>
       <Name>MintFinancialExport.Core</Name>
     </ProjectReference>

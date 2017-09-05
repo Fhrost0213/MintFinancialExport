@@ -1,4 +1,5 @@
-﻿using MintFinancialExport.Core;
+﻿using System;
+using MintFinancialExport.Core;
 using MintFinancialExport.WPF.Interfaces;
 using MintFinancialExport.WPF.Views;
 using System.Collections.Generic;
@@ -12,76 +13,26 @@ namespace MintFinancialExport.WPF.ViewModels
 
         #region "Private fields"
         MintApi _mintApi;
-        private decimal? _netWorthAmount;
-        private System.DateTime? _asOfDate;
-        private ICommand _retrieveAccountsCommand;
-        private ICommand _exportNetWorthCommand;
-        private ICommand _accountMappingCommand;
-        private ICommand _accountBrowserCommand;
+
         #endregion
 
         #region "Public commands"
-        public ICommand RetrieveAccountsCommand
-        {
-            get
-            {
-                return _retrieveAccountsCommand;
-            }
-            set
-            {
-                _retrieveAccountsCommand = value;
-            }
-        }
+        public ICommand RetrieveAccountsCommand { get; set; }
 
-        public ICommand ExportNetWorthCommand
-        {
-            get
-            {
-                return _exportNetWorthCommand;
-            }
-            set
-            {
-                _exportNetWorthCommand = value;
-            }
-        }
+        public ICommand ExportNetWorthCommand { get; set; }
 
-        public ICommand AccountMappingCommand
-        {
-            get
-            {
-                return _accountMappingCommand;
-            }
-            set
-            {
-                _accountMappingCommand = value;
-            }
-        }
+        public ICommand OptionsCommand { get; set; }
 
-        public ICommand AccountBrowserCommand
-        {
-            get
-            {
-                return _accountBrowserCommand;
-            }
-            set
-            {
-                _accountBrowserCommand = value;
-            }
-        }
+        public ICommand AccountMappingCommand { get; set; }
+
+        public ICommand AccountBrowserCommand { get; set; }
+
         #endregion
 
         #region "Public properties"
-        public decimal? NetWorthAmount
-        {
-            get { return _netWorthAmount; }
-            set { _netWorthAmount = value; }
-        }
+        public decimal? NetWorthAmount { get; set; }
 
-        public System.DateTime? AsOfDate
-        {
-            get { return _asOfDate; }
-            set { _asOfDate = value; }
-        }
+        public System.DateTime? AsOfDate { get; set; }
 
         public List<AccountHistory> AccountList { get; set; }
         #endregion
@@ -165,7 +116,15 @@ namespace MintFinancialExport.WPF.ViewModels
             ExportObjects objects = new ExportObjects();
 
             export.ExportAccounts(objects.GetExportAccountList(), objects.GetExportAccountList(DataAccess.GetPreviousRunId(DataAccess.GetCurrentRunId())));
-        } 
+        }
+
+        private void OptionsCommandExecuted(object obj)
+        {
+            OptionsViewModel model = new OptionsViewModel();
+            OptionsView view = new OptionsView {DataContext = model};
+
+            view.ShowDialog();
+        }
 
         public MintFinancialExportViewModel()
         {
@@ -175,6 +134,7 @@ namespace MintFinancialExport.WPF.ViewModels
             ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
             AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
             AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
+            OptionsCommand = new RelayCommand(OptionsCommandExecuted);
 
             RefreshAccountInfo();
         }
