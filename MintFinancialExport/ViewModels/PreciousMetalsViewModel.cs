@@ -1,11 +1,7 @@
 ﻿using MintFinancialExport.Core;
 using MintFinancialExport.Core.Entities;
-using MintFinancialExport.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MintFinancialExport.ViewModels

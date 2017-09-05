@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\
 MintFinancialExport
 none
 false
 DEBUG;TRACE
-F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\App.xaml
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\App.xaml
 6924663651
 
 19-1076889170
-26-880424974
+25865738591
 Views\AccountInfoView.xaml;Views\AccountMappingView.xaml;Views\AccountView.xaml;Views\ManualAccountView.xaml;Views\MintFinancialExportView.xaml;Views\PreciousMetalsView.xaml;
 
 False

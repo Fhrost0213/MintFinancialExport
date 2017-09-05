@@ -1,11 +1,8 @@
-﻿using MintFinancialExport.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 
-namespace MintFinancialExport.Data
+namespace MintFinancialExport.Core
 {
     public static class DataAccess
     {
@@ -39,14 +36,14 @@ namespace MintFinancialExport.Data
         {
             MyDbContext db = new MyDbContext();
 
-            return db.Set<T>().Where(a => a.ObjectId == objectId).First();
+            return db.Set<T>().First(a => a.ObjectId == objectId);
         }
 
         public static void DeleteItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
         {
             MyDbContext db = new MyDbContext();
 
-            T instance = db.Set<T>().Where(a => a.ObjectId == objectId).First();
+            T instance = db.Set<T>().First(a => a.ObjectId == objectId);
 
             db.Set<T>().Remove(instance);
 
@@ -78,14 +75,14 @@ namespace MintFinancialExport.Data
         {
             MyDbContext db = new MyDbContext();
 
-            return db.AccountMappings.Where(a => a.Account.AccountName == accountName).FirstOrDefault().AccountTypeId;
+            return db.AccountMappings.FirstOrDefault(a => a.Account.AccountName == accountName)?.AccountTypeId;
         }
 
         public static User GetUserFromUserName(string userName)
         {
             MyDbContext db = new MyDbContext();
 
-            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            return db.Users.FirstOrDefault(u => u.UserName == userName);
         }
 
         public static int? GetNextRunId()
@@ -106,7 +103,7 @@ namespace MintFinancialExport.Data
         {
             int? previousRunId = 0;
 
-            var previousRun = GetList<AccountHistory>().OrderByDescending(a => a.RunId).Where(a => a.RunId < runId).FirstOrDefault();
+            var previousRun = GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault(a => a.RunId < runId);
             if (previousRun != null) previousRunId = previousRun.RunId;
 
             return previousRunId;

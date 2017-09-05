@@ -1,6 +1,6 @@
-﻿namespace MintFinancialExport.Data
+﻿namespace MintFinancialExport.Core
 {
-    public partial class NetWorthHistory : Core.Interfaces.IObjectIdEntity
+    public partial class NetWorthHistory : Interfaces.IObjectIdEntity
     {
     }
 }

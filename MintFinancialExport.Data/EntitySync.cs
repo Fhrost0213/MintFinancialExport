@@ -1,11 +1,10 @@
 ﻿using MintFinancialExport.Core.Entities;
-using MintFinancialExport.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace MintFinancialExport.Data
+namespace MintFinancialExport.Core
 {
     public static class EntitySync
     {

@@ -25,3 +25,6 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\o
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\obj\Debug\MintFinancialExport.Data.pdb
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\Newtonsoft.Json.dll
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport.Data\bin\Debug\Newtonsoft.Json.xml
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\bin\Debug\MintFinancialExport.Core.dll.config
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport.Data\bin\Debug\Newtonsoft.Json.xml

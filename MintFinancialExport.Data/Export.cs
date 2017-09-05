@@ -5,7 +5,7 @@ using MintFinancialExport.Core.Entities;
 using System;
 using Microsoft.Win32;
 
-namespace MintFinancialExport.Data
+namespace MintFinancialExport.Core
 {
     public class Export
     {

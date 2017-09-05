@@ -175,13 +175,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MintFinancialExport.Core\MintFinancialExport.Core.csproj">
-      <Project>{cae8a8bf-3cd9-435d-b5b1-28fa2ec70b3b}</Project>
-      <Name>MintFinancialExport.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MintFinancialExport.Data\MintFinancialExport.Data.csproj">
+    <ProjectReference Include="..\MintFinancialExport.Data\MintFinancialExport.Core.csproj">
       <Project>{380ce60f-fcd2-481d-a83b-ddbcd991fc0d}</Project>
-      <Name>MintFinancialExport.Data</Name>
+      <Name>MintFinancialExport.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

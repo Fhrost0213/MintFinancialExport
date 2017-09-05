@@ -7,8 +7,8 @@
     <ProjectGuid>{380CE60F-FCD2-481D-A83B-DDBCD991FC0D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MintFinancialExport.Data</RootNamespace>
-    <AssemblyName>MintFinancialExport.Data</AssemblyName>
+    <RootNamespace>MintFinancialExport.Core</RootNamespace>
+    <AssemblyName>MintFinancialExport.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,6 +39,9 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -53,8 +56,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess.cs" />
+    <Compile Include="Entities\AccountInfo.cs" />
+    <Compile Include="Entities\Budget.cs" />
+    <Compile Include="Entities\Enums.cs" />
+    <Compile Include="Entities\ExportAccount.cs" />
+    <Compile Include="Entities\MintAccount.cs" />
+    <Compile Include="Entities\Spend.cs" />
     <Compile Include="EntitySync.cs" />
     <Compile Include="ExportObjects.cs" />
+    <Compile Include="Interfaces\IObjectIdEntity.cs" />
+    <Compile Include="MintApi.cs" />
     <Compile Include="Partial Entities\Account.cs" />
     <Compile Include="Partial Entities\AccountHistory.cs" />
     <Compile Include="Partial Entities\AccountMapping.cs" />
@@ -68,6 +79,7 @@
     <Compile Include="Partial Entities\NetWorthHistory.cs" />
     <Compile Include="Partial Entities\PreciousMetal.cs" />
     <Compile Include="Partial Entities\User.cs" />
+    <Compile Include="PreciousMetalsPriceApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,12 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MintFinancialExport.Core\MintFinancialExport.Core.csproj">
-      <Project>{cae8a8bf-3cd9-435d-b5b1-28fa2ec70b3b}</Project>
-      <Name>MintFinancialExport.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

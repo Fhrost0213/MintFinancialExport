@@ -1,6 +1,6 @@
-﻿namespace MintFinancialExport.Data
+﻿namespace MintFinancialExport.Core
 {
-    public partial class AccountMapping : Core.Interfaces.IObjectIdEntity
+    public partial class AccountMapping : Interfaces.IObjectIdEntity
     {
     }
 }

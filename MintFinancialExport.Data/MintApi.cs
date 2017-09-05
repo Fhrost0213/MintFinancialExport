@@ -4,7 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace MintFinancialExport
+namespace MintFinancialExport.Core
 {
     public class MintApi
     {

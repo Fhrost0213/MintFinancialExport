@@ -63,10 +63,8 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\De
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\Microsoft.Scripting.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\Microsoft.Scripting.Metadata.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\MintFinancialExport.Core.dll
-C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\MintFinancialExport.Data.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\Newtonsoft.Json.dll
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\MintFinancialExport.Core.pdb
-C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\MintFinancialExport.Data.pdb
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\EntityFramework.xml
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\Microsoft.Dynamic.xml
@@ -84,3 +82,6 @@ C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\De
 C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\MintFinancialExport.Application.csproj.GenerateResource.Cache
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\PreciousMetalsView.g.cs
 F:\Git\MintFinancialExport\MintFinancialExport\MintFinancialExport\obj\Debug\Views\PreciousMetalsView.baml
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\bin\Debug\MintFinancialExport.Core.dll.config
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\Views\PreciousMetalsView.g.cs
+C:\Users\bryan.vieregge\Documents\MintFinancialExport\MintFinancialExport\obj\Debug\Views\PreciousMetalsView.baml

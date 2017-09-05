@@ -1,6 +1,5 @@
-﻿using MintFinancialExport.Data;
+﻿using MintFinancialExport.Core;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 
 namespace MintFinancialExport.ViewModels
@@ -8,7 +7,7 @@ namespace MintFinancialExport.ViewModels
     class AccountMappingViewModel : BaseViewModel
     {
         private List<AccountMapping> _accountMappingList;
-        private List<Data.Account> _accountList;
+        private List<Core.Account> _accountList;
         private List<AccountType> _accountTypesList;
 
         public List<AccountMapping> AccountMappingList
@@ -21,7 +20,7 @@ namespace MintFinancialExport.ViewModels
             }
         }
 
-        public List<Data.Account> AccountList
+        public List<Core.Account> AccountList
         {
             get { return _accountList; }
             set

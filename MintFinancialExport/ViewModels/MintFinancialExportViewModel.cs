@@ -1,8 +1,7 @@
-﻿using MintFinancialExport.Data;
+﻿using MintFinancialExport.Core;
 using MintFinancialExport.Interfaces;
 using MintFinancialExport.Views;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 

@@ -1,12 +1,9 @@
-﻿using MintFinancialExport.Data;
+﻿using MintFinancialExport.Core;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MintFinancialExport.Tests.Data
+namespace MintFinancialExport.Tests.Core
 {
     [TestFixture]
     public class DataAccess
@@ -14,28 +11,28 @@ namespace MintFinancialExport.Tests.Data
         [Test]
         public void GetListOfAccount()
         {
-            var list = MintFinancialExport.Data.DataAccess.GetList<Account>();
+            var list = MintFinancialExport.Core.DataAccess.GetList<Account>();
             Assert.IsInstanceOf<List<Account>>(list);
         }
 
         [Test]
         public void GetListOfAccountHistory()
         {
-            var list = MintFinancialExport.Data.DataAccess.GetList<AccountHistory>();
+            var list = MintFinancialExport.Core.DataAccess.GetList<AccountHistory>();
             Assert.IsInstanceOf<List<AccountHistory>>(list);
         }
 
         [Test]
         public void GetListOfAccountMapping()
         {
-            var list = MintFinancialExport.Data.DataAccess.GetList<AccountMapping>();
+            var list = MintFinancialExport.Core.DataAccess.GetList<AccountMapping>();
             Assert.IsInstanceOf<List<AccountMapping>>(list);
         }
 
         [Test]
         public void GetListOfAccountType()
         {
-            var list = MintFinancialExport.Data.DataAccess.GetList<AccountType>();
+            var list = MintFinancialExport.Core.DataAccess.GetList<AccountType>();
             Assert.IsInstanceOf<List<AccountType>>(list);
         }
 
@@ -46,15 +43,15 @@ namespace MintFinancialExport.Tests.Data
             string name = "NUnit Tests - SaveListOfAccount";
             account.AccountName = name;
 
-            MintFinancialExport.Data.DataAccess.SaveItem(account);
+            MintFinancialExport.Core.DataAccess.SaveItem(account);
 
-            var savedItem = MintFinancialExport.Data.DataAccess.GetList<Account>().Where(n => n.AccountName == name).First();
+            var savedItem = MintFinancialExport.Core.DataAccess.GetList<Account>().Where(n => n.AccountName == name).First();
 
             Assert.That(savedItem != null);
 
-            MintFinancialExport.Data.DataAccess.DeleteItem<Account>(savedItem.ObjectId);
+            MintFinancialExport.Core.DataAccess.DeleteItem<Account>(savedItem.ObjectId);
 
-            Assert.That(MintFinancialExport.Data.DataAccess.DoesItemExist<Account>(savedItem.ObjectId) == false);
+            Assert.That(MintFinancialExport.Core.DataAccess.DoesItemExist<Account>(savedItem.ObjectId) == false);
         }
 
         [Test]
@@ -62,25 +59,25 @@ namespace MintFinancialExport.Tests.Data
         {
             bool added = false;
 
-            var item = MintFinancialExport.Data.DataAccess.GetList<Account>().FirstOrDefault();
+            var item = MintFinancialExport.Core.DataAccess.GetList<Account>().FirstOrDefault();
 
             if (item == null)
             {
                 Account account = new Account();
                 account.AccountName = "NUnit Tests - DoesAccountExist";
 
-                MintFinancialExport.Data.DataAccess.SaveItem(account);
+                MintFinancialExport.Core.DataAccess.SaveItem(account);
                 added = true;
             }
 
-            item = MintFinancialExport.Data.DataAccess.GetList<Account>().FirstOrDefault();
+            item = MintFinancialExport.Core.DataAccess.GetList<Account>().FirstOrDefault();
 
-            bool isExists = MintFinancialExport.Data.DataAccess.DoesItemExist<Account>(item.ObjectId);
+            bool isExists = MintFinancialExport.Core.DataAccess.DoesItemExist<Account>(item.ObjectId);
             Assert.That(isExists == true);
 
             if (added)
             {
-                MintFinancialExport.Data.DataAccess.DeleteItem<Account>(item.ObjectId);
+                MintFinancialExport.Core.DataAccess.DeleteItem<Account>(item.ObjectId);
             }
         }
 
@@ -88,10 +85,10 @@ namespace MintFinancialExport.Tests.Data
         public void DoesGetNextRunIdGetCorrectly()
         {
             int? nextRunId = 0;
-            var latestRun = MintFinancialExport.Data.DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            var latestRun = MintFinancialExport.Core.DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
             if (latestRun != null) nextRunId = latestRun.RunId + 1;
 
-            int? nextRunIdCompare = MintFinancialExport.Data.DataAccess.GetNextRunId();
+            int? nextRunIdCompare = MintFinancialExport.Core.DataAccess.GetNextRunId();
 
             Assert.That(nextRunId == nextRunIdCompare);
         }
@@ -101,10 +98,10 @@ namespace MintFinancialExport.Tests.Data
         {
             // Arrange
             int? currentRunId = 0;
-            currentRunId = MintFinancialExport.Data.DataAccess.GetCurrentRunId();
+            currentRunId = MintFinancialExport.Core.DataAccess.GetCurrentRunId();
 
             // Act
-            int? previousRunId = MintFinancialExport.Data.DataAccess.GetPreviousRunId(currentRunId);
+            int? previousRunId = MintFinancialExport.Core.DataAccess.GetPreviousRunId(currentRunId);
 
             // Assert
             if (currentRunId == 0)
