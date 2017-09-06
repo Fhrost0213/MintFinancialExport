@@ -119,11 +119,11 @@ namespace MintFinancialExport.Core
             DataAccess.SaveItem(NetWorthHistory);
         }
 
-        public static void RefreshAccounts()
+        public static async void RefreshAccounts()
         {
             MintApi mintApi = new MintApi();
 
-            var accounts = mintApi.GetAccounts();
+            var accounts = await mintApi.GetAccountsAsync();
 
             SyncAccounts(accounts);
         }

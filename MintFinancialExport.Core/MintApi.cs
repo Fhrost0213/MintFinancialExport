@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MintFinancialExport.Core
 {
@@ -11,26 +12,26 @@ namespace MintFinancialExport.Core
         public void GetTransactions()
         {
             DateTime startDate = DateTime.Now.AddYears(-1); 
-            var data = GetMintInfo("--extended-transactions --start-date " + startDate + " --include-investment " + AccountInfo.UserName + " " + AccountInfo.Password);
+            var data = GetMintInfoAsync("--extended-transactions --start-date " + startDate + " --include-investment " + AccountInfo.UserName + " " + AccountInfo.Password);
         }
 
         public void GetNetWorth()
         {
-            //var data = GetMintInfo("--net-worth");
+            //var data = GetMintInfoAsync("--net-worth");
         }
 
-        public ObservableCollection<MintAccount> GetAccounts()
+        public async Task<ObservableCollection<MintAccount>> GetAccountsAsync()
         {
-            return GetAccounts(AccountInfo.UserName, AccountInfo.Password);
+            return await GetAccountsAsync(AccountInfo.UserName, AccountInfo.Password);
         }
 
-        public ObservableCollection<MintAccount> GetAccounts(string userName, string password)
+        public async Task<ObservableCollection<MintAccount>> GetAccountsAsync(string userName, string password)
         {
             ObservableCollection<MintAccount> accounts = new ObservableCollection<MintAccount>();
 
             if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
             {
-                var data = GetMintInfo("--accounts " + userName + " " + password);
+                var data = await GetMintInfoAsync("--accounts " + userName + " " + password);
 
                 accounts = JsonConvert.DeserializeObject<ObservableCollection<MintAccount>>(data);
             }
@@ -40,12 +41,12 @@ namespace MintFinancialExport.Core
 
         public void GetBudget()
         {
-            //var data = GetMintInfo("--budgets");
+            //var data = GetMintInfoAsync("--budgets");
 
             //var test = JsonConvert.DeserializeObject<Budget>(data);
         }
 
-        public string GetMintInfo(string arguments)
+        public async Task<string> GetMintInfoAsync(string arguments)
         {
             string pythonFolderLocation = DataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
 
@@ -57,15 +58,14 @@ namespace MintFinancialExport.Core
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardOutput = true;
             startInfo.CreateNoWindow = true;
-
             startInfo.Arguments = pythonFolderLocation + @"\Scripts\mintapi-script.py " + arguments;
             process.StartInfo = startInfo;
             process.Start();
 
-            var data = process.StandardOutput.ReadToEnd();
+            var data = await process.StandardOutput.ReadToEndAsync();
 
             process.WaitForExit();
-            var exitCode = process.ExitCode;
+            //var exitCode = process.ExitCode;
             process.Close();
 
             return data;

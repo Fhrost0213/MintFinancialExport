@@ -4,6 +4,7 @@ using MintFinancialExport.WPF.Interfaces;
 using MintFinancialExport.WPF.Views;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MintFinancialExport.WPF.ViewModels
@@ -58,7 +59,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
 
-            //AccountList = _mintApi.GetAccounts();
+            //AccountList = _mintApi.GetAccountsAsync();
 
             // TODO: Does this block of code need to be pulled out and refactored?
             // Prompt for manual values
@@ -107,7 +108,18 @@ namespace MintFinancialExport.WPF.ViewModels
                 manualAccountHistory.Add(accountHistory);
             }
 
-            EntitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
+            CallSyncAccountsAsync(manualAccountHistory);
+        }
+
+        private async void CallSyncAccountsAsync(List<AccountHistory> manualAccountHistory)
+        {
+            Task task = new Task(() =>
+            {
+                EntitySync.SyncAccounts(_mintApi.GetAccountsAsync().Result, manualAccountHistory);
+            });
+
+            task.Start();
+            await task;
         }
 
         private void ExportNetWorthCommandExecuted(object obj)
