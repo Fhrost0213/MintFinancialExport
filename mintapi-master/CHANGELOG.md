@@ -1,3 +1,15 @@
+1.27
+---
+- fix NoneType error when getting cookies via chromedriver (thanks @dherg!)
+
+1.26
+---
+- properly display messages when webdriver raises a URLError (thanks @dherg!)
+
+1.25
+---
+- use Excel-compatible datetime formatting and allow customizing (thanks @felciano!)
+
 1.24
 ---
 - fix "Unknown" categories when categories in budgets (thanks @drunnells!)

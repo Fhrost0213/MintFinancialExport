@@ -180,7 +180,7 @@ class Mint(requests.Session):
                                "the chromedriver selenium plugin. Please ensure "
                                "that the `selenium` and `chromedriver` packages "
                                "are installed.\n\nThe original error message was: " +
-                               (e.args[0] if len(e.args) > 0 else 'No error message found.'))
+                               (str(e.args[0]) if len(e.args) > 0 else 'No error message found.'))
 
         driver.get("https://www.mint.com")
         driver.implicitly_wait(20)  # seconds
@@ -194,13 +194,26 @@ class Mint(requests.Session):
         while not driver.current_url.startswith('https://mint.intuit.com/overview.event'):
             time.sleep(1)
 
-        try:
-            return {
-                'ius_session': driver.get_cookie('ius_session')['value'],
-                'thx_guid': driver.get_cookie('thx_guid')['value']
-            }
-        finally:
-            driver.close()
+        # get ius_session cookie by going to accounts.intuit.com
+        driver.get("http://accounts.intuit.com")
+        ius_session = driver.get_cookie('ius_session')['value']
+
+        if ius_session is None:
+            raise MintException('ius_session cookie not provided, and could not be retrieved automatically.')
+
+        # get thx_guid cookie by going to pf.intuit.com
+        driver.get('https://pf.intuit.com/fp/tags?js=0&org_id=v60nf4oj&session_id=' + str(ius_session))
+        thx_guid = driver.get_cookie('thx_guid')['value']
+
+        if thx_guid is None:
+            raise MintException('thx_guid cookie not provided, and could not be retrieved automatically.')
+
+        driver.close()
+
+        return {
+            'ius_session': ius_session,
+            'thx_guid': thx_guid
+        }
 
     def get_accounts(self, get_detail=False):  # {{{
         # Issue service request.
@@ -587,11 +600,18 @@ def get_net_worth(email, password):
     return mint.get_net_worth(account_data)
 
 
-def make_accounts_presentable(accounts):
+
+def make_accounts_presentable(accounts, presentable_format='EXCEL'):
+    formatter = {
+        'DATE': '%Y-%m-%d',
+        'ISO8601': '%Y-%m-%dT%H:%M:%SZ',
+        'EXCEL': '%Y-%m-%d %H:%M:%S',
+    }[presentable_format]
+
     for account in accounts:
         for k, v in account.items():
             if isinstance(v, datetime):
-                account[k] = repr(v)
+                account[k] = v.strftime(formatter)
     return accounts
 
 

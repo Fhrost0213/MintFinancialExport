@@ -59,7 +59,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
 
-            //AccountList = _mintApi.GetAccountsAsync();
+            //AccountList = _mintApi.GetAccounts();
 
             // TODO: Does this block of code need to be pulled out and refactored?
             // Prompt for manual values
@@ -115,7 +115,7 @@ namespace MintFinancialExport.WPF.ViewModels
         {
             Task task = new Task(() =>
             {
-                EntitySync.SyncAccounts(_mintApi.GetAccountsAsync().Result, manualAccountHistory);
+                EntitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
             });
 
             task.Start();

@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MintFinancialExport.Core
@@ -12,26 +14,26 @@ namespace MintFinancialExport.Core
         public void GetTransactions()
         {
             DateTime startDate = DateTime.Now.AddYears(-1); 
-            var data = GetMintInfoAsync("--extended-transactions --start-date " + startDate + " --include-investment " + AccountInfo.UserName + " " + AccountInfo.Password);
+            var data = GetMintInfo("--extended-transactions --start-date " + startDate + " --include-investment " + AccountInfo.UserName + " " + AccountInfo.Password);
         }
 
         public void GetNetWorth()
         {
-            //var data = GetMintInfoAsync("--net-worth");
+            //var data = GetMintInfo("--net-worth");
         }
 
-        public async Task<ObservableCollection<MintAccount>> GetAccountsAsync()
+        public ObservableCollection<MintAccount> GetAccounts()
         {
-            return await GetAccountsAsync(AccountInfo.UserName, AccountInfo.Password);
+            return GetAccounts(AccountInfo.UserName, AccountInfo.Password);
         }
 
-        public async Task<ObservableCollection<MintAccount>> GetAccountsAsync(string userName, string password)
+        public ObservableCollection<MintAccount> GetAccounts(string userName, string password)
         {
             ObservableCollection<MintAccount> accounts = new ObservableCollection<MintAccount>();
 
             if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
             {
-                var data = await GetMintInfoAsync("--accounts " + userName + " " + password);
+                var data = GetMintInfo("--accounts " + userName + " " + password);
 
                 accounts = JsonConvert.DeserializeObject<ObservableCollection<MintAccount>>(data);
             }
@@ -41,34 +43,86 @@ namespace MintFinancialExport.Core
 
         public void GetBudget()
         {
-            //var data = GetMintInfoAsync("--budgets");
+            //var data = GetMintInfo("--budgets");
 
             //var test = JsonConvert.DeserializeObject<Budget>(data);
         }
 
-        public async Task<string> GetMintInfoAsync(string arguments)
+        public string GetMintInfo(string arguments)
         {
             string pythonFolderLocation = DataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
 
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.FileName = pythonFolderLocation + @"\python.exe";
-            startInfo.WorkingDirectory = "C:\\windows\\system32";
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.CreateNoWindow = true;
-            startInfo.Arguments = pythonFolderLocation + @"\Scripts\mintapi-script.py " + arguments;
-            process.StartInfo = startInfo;
-            process.Start();
+            int timeout = 60000;
 
-            var data = await process.StandardOutput.ReadToEndAsync();
+            StringBuilder output = new StringBuilder();
+            StringBuilder error = new StringBuilder();
 
-            process.WaitForExit();
-            //var exitCode = process.ExitCode;
-            process.Close();
+            using (Process process = new Process())
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.FileName = pythonFolderLocation + @"\python.exe";
+                startInfo.WorkingDirectory = "C:\\windows\\system32";
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.CreateNoWindow = true;
+                startInfo.Arguments = pythonFolderLocation + @"\Scripts\mintapi-script.py " + arguments;
+                process.StartInfo = startInfo;
 
-            return data;
+                using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
+                using (AutoResetEvent errorWaitHandle = new AutoResetEvent(false))
+                {
+                    process.OutputDataReceived += (sender, e) =>
+                    {
+                        if (e.Data == null)
+                        {
+                            outputWaitHandle.Set();
+                        }
+                        else
+                        {
+                            output.AppendLine(e.Data);
+                        }
+                    };
+                    process.ErrorDataReceived += (sender, e) =>
+                    {
+                        if (e.Data == null)
+                        {
+                            errorWaitHandle.Set();
+                        }
+                        else
+                        {
+                            error.AppendLine(e.Data);
+                        }
+                    };
+
+                    process.Start();
+
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    if (process.WaitForExit(timeout) &&
+                        outputWaitHandle.WaitOne(timeout) &&
+                        errorWaitHandle.WaitOne(timeout))
+                    {
+                        // Process completed. Check process.ExitCode here.
+                    }
+                    else
+                    {
+                        // Timed out.
+                    }
+                }
+            }
+
+            //var data = process.StandardOutput.ReadToEnd();
+
+            //process.WaitForExit();
+            ////var exitCode = process.ExitCode;
+            //process.Close();
+
+            if (!String.IsNullOrEmpty(error.ToString())) throw new Exception(error.ToString());
+
+            return output.ToString();
         }
     }
 }
