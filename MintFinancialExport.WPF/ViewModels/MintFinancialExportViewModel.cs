@@ -141,10 +141,10 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void ExportNetWorthCommandExecuted(object obj)
         {
-            Export export = new Export();
-            ExportObjects objects = new ExportObjects();
-
-            export.ExportAccounts(objects.GetExportAccountList(), objects.GetExportAccountList(DataAccess.GetPreviousRunId(DataAccess.GetCurrentRunId())));
+            ExportOptionsView view = new ExportOptionsView();
+            //ExportOptionsViewModel viewModel = new ExportOptionsViewModel();
+            //view.DataContext = viewModel;
+            view.Show();
         }
 
         private void OptionsCommandExecuted(object obj)

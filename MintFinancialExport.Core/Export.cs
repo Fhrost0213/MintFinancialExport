@@ -13,7 +13,7 @@ namespace MintFinancialExport.Core
         private int _debtsStart;
         private int _totalStart;
 
-        public void ExportAccounts(List<ExportAccount> exportAccountList, List<ExportAccount> compareAccountList = null)
+        public void ExportAccounts(List<ExportAccount> exportAccountList, string filePath, List<ExportAccount> compareAccountList = null)
         {
             int exportAccountListColumn = 2;
             int compareAccountListColumn = 0;
@@ -34,7 +34,7 @@ namespace MintFinancialExport.Core
 
             if (compareAccountList != null) WriteDifferences(worksheet);
 
-            workbook.SaveAs(GetSaveFilePath());
+            workbook.SaveAs(filePath);
 
             workbook.Close();
         }
@@ -199,17 +199,6 @@ namespace MintFinancialExport.Core
             worksheet.Cells[iCnt, 1] = "Total";
             ((Range)worksheet.Cells[iCnt, 1]).Font.Bold = true;
             ((Range)worksheet.Cells[iCnt, 1]).Font.Underline = true;
-        }
-
-        private string GetSaveFilePath()
-        {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.FileName = "NetWorthStatement_" + DateTime.Now.ToShortDateString().Replace("/", "_") + ".xlsx";
-            dialog.Filter = "Excel (*.xlsx)|*.xlsx";
-
-            dialog.ShowDialog();
-
-            return dialog.FileName;
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿<Controls:MetroWindow x:Class="MintFinancialExport.WPF.Views.ExportOptionsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:MintFinancialExport.WPF.Views"
+        xmlns:viewModels="clr-namespace:MintFinancialExport.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="ExportOptionsView" Height="300" Width="300">
+    <Controls:MetroWindow.DataContext>
+        <viewModels:ExportOptionsViewModel/>
+    </Controls:MetroWindow.DataContext>
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Button Command="{Binding ExportCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/ExportToExcel.ico"  Width="18" Height="18"/>
+                    <TextBlock Text="Export"/>
+                </StackPanel>
+            </Button>
+        </ToolBar>
+
+        <StackPanel Grid.Row="1">
+            <Label Content="Date to export:"/>
+            <ComboBox ItemsSource="{Binding AccountHistoryList}" DisplayMemberPath="AsOfDate" SelectedValue="{Binding SelectedExportRunId}" SelectedValuePath="RunId"/>
+            <CheckBox Content="Compare to a previous statement?" IsChecked="{Binding ChkCompare}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Visibility="{Binding CompareVisibility}">
+            <Label Content="Date to compare to:"/>
+            <ComboBox ItemsSource="{Binding AccountHistoryList}" DisplayMemberPath="AsOfDate" SelectedValue="{Binding SelectedCompareRunId}" SelectedValuePath="RunId"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3">
+            <Label Content="Location to export to:"/>
+            <StackPanel  Orientation="Horizontal">
+                <TextBox MinWidth="265" Text="{Binding FilePath}"/>
+                <Button Content="..." Width="30" Command="{Binding FileBrowserCommand}"/>
+           </StackPanel>
+        </StackPanel>
+
+
+    </Grid>
+</Controls:MetroWindow>

@@ -40,7 +40,7 @@ namespace MintFinancialExport.Core
                     var typeId = (int)mapping.AccountTypeId;
 
                     var account = exportAccountList.First(i => i.AccountTypeID == typeId);
-                    account.Value = account.Value + item.Amount;
+                    account.Value += item.Amount;
                     account.AsOfDate = item.AsOfDate;
                 }
                 else

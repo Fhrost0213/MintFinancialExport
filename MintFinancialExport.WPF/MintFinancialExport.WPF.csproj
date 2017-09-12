@@ -99,11 +99,15 @@
     <Compile Include="Interfaces\IMintFinancialExportViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\ExportOptionsViewModel.cs" />
     <Compile Include="ViewModels\ManualAccountViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\PreciousMetalsViewModel.cs" />
     <Compile Include="Views\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExportOptionsView.xaml.cs">
+      <DependentUpon>ExportOptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OptionsView.xaml.cs">
       <DependentUpon>OptionsView.xaml</DependentUpon>
@@ -120,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExportOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,6 +217,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Refresh_grey.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ExportToExcel.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
