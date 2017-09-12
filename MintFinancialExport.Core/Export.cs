@@ -1,9 +1,8 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Interop;
 using MintFinancialExport.Core.Entities;
-using System;
-using Microsoft.Win32;
 
 namespace MintFinancialExport.Core
 {
@@ -12,6 +11,12 @@ namespace MintFinancialExport.Core
         private int _assetsStart;
         private int _debtsStart;
         private int _totalStart;
+
+        private string _numberFormat = "$#,##0.00_);[Red]($#,##0.00)";
+        private string _amountChangeAssetsFormat = "$#,##0.00_);[Red]($#,##0.00)";
+        private string _amountChangeDebtsFormat = "[Red]$#,##0.00_);($#,##0.00)";
+        private string _totalsFormat = "$#,##0.00_);[Red]($#,##0.00)";
+        private string _percentFormat = "0.00%;[Red](0.00%)";
 
         public void ExportAccounts(List<ExportAccount> exportAccountList, string filePath, List<ExportAccount> compareAccountList = null)
         {
@@ -23,7 +28,7 @@ namespace MintFinancialExport.Core
                 exportAccountListColumn = 3;
             }
 
-            var excel = new Microsoft.Office.Interop.Excel.Application();
+            var excel = new Application();
             var workbook = excel.Workbooks.Add();
             var worksheet = workbook.Sheets.Add();
 
@@ -50,28 +55,27 @@ namespace MintFinancialExport.Core
             int iCnt = _assetsStart;
             int iColumn = 4;
 
-            worksheet.Cells[2, iColumn] = "Amount Difference";
-            ((Range)worksheet.Cells[2, iColumn]).Font.Bold = true;
-            ((Range)worksheet.Cells[2, iColumn]).HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            worksheet.Cells[1, iColumn] = "Change ($)";
+            ((Range)worksheet.Cells[1, iColumn]).Font.Bold = true;
+            ((Range)worksheet.Cells[1, iColumn]).HorizontalAlignment = XlHAlign.xlHAlignRight;
+            ((Range)worksheet.Cells[1, iColumn]).Borders.Weight = 2d;
+            ((Range)worksheet.Cells[1, iColumn]).Borders.LineStyle = XlLineStyle.xlContinuous;
 
-            while (iCnt < _debtsStart - 2)
+            while (iCnt < _totalStart + 1)
             {
                 iCnt++;
 
                 worksheet.Cells[iCnt, iColumn] = worksheet.Cells[iCnt, iColumn - 1].Value2 - worksheet.Cells[iCnt, iColumn - 2].Value2;
-                worksheet.Cells[iCnt, iColumn].NumberFormat = "$#,##0.00_);[Red]($#,##0.00)";
+
+                if (iCnt < _debtsStart + 1 || iCnt >= _totalStart)
+                {
+                    worksheet.Cells[iCnt, iColumn].NumberFormat = _amountChangeAssetsFormat;
+                }
+                else
+                {
+                    worksheet.Cells[iCnt, iColumn].NumberFormat = _amountChangeDebtsFormat;
+                }
             }
-
-            while (iCnt < _totalStart - 2)
-            {
-                iCnt++;
-
-                worksheet.Cells[iCnt, iColumn] = worksheet.Cells[iCnt, iColumn - 1].Value2 - worksheet.Cells[iCnt, iColumn - 2].Value2;
-                worksheet.Cells[iCnt, iColumn].NumberFormat = "$#,##0.00_);[Red]($#,##0.00)";
-            }
-
-            worksheet.Cells[_totalStart, iColumn] = worksheet.Cells[_totalStart, iColumn - 1].Value2 - worksheet.Cells[_totalStart, iColumn - 2].Value2;
-            worksheet.Cells[_totalStart, iColumn].NumberFormat = "$#,##0.00_);[Red]($#,##0.00)";
         }
 
         private void WriteDeltaDifferences(dynamic worksheet)
@@ -79,28 +83,27 @@ namespace MintFinancialExport.Core
             int iCnt = _assetsStart;
             int iColumn = 5;
 
-            worksheet.Cells[2, iColumn] = "Delta";
-            ((Range)worksheet.Cells[2, iColumn]).Font.Bold = true;
-            ((Range)worksheet.Cells[2, iColumn]).HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+            worksheet.Cells[1, iColumn] = "Change (%)";
+            ((Range)worksheet.Cells[1, iColumn]).Font.Bold = true;
+            ((Range)worksheet.Cells[1, iColumn]).HorizontalAlignment = XlHAlign.xlHAlignRight;
+            ((Range)worksheet.Cells[1, iColumn]).Borders.Weight = 2d;
+            ((Range)worksheet.Cells[1, iColumn]).Borders.LineStyle = XlLineStyle.xlContinuous;
 
-            while (iCnt < _debtsStart - 2)
+            while (iCnt < _totalStart + 1)
             {
                 iCnt++;
 
-                worksheet.Cells[iCnt, iColumn] = (worksheet.Cells[iCnt, iColumn - 2].Value2 - worksheet.Cells[iCnt, iColumn - 3].Value2) / worksheet.Cells[iCnt, iColumn - 3].Value2;
-                worksheet.Cells[iCnt, iColumn].NumberFormat = "0.00%";
+                if (worksheet.Cells[iCnt, iColumn - 3].Value2 == 0)
+                {
+                    worksheet.Cells[iCnt, iColumn] = 0;
+                }
+                else
+                {
+                    worksheet.Cells[iCnt, iColumn] = (worksheet.Cells[iCnt, iColumn - 2].Value2 - worksheet.Cells[iCnt, iColumn - 3].Value2) / worksheet.Cells[iCnt, iColumn - 3].Value2;
+                }
+
+                worksheet.Cells[iCnt, iColumn].NumberFormat = _percentFormat;
             }
-
-            while (iCnt < _totalStart - 2)
-            {
-                iCnt++;
-
-                worksheet.Cells[iCnt, iColumn] = (worksheet.Cells[iCnt, iColumn - 2].Value2 - worksheet.Cells[iCnt, iColumn - 3].Value2) / worksheet.Cells[iCnt, iColumn - 3].Value2;
-                worksheet.Cells[iCnt, iColumn].NumberFormat = "0.00%";
-            }
-
-            worksheet.Cells[_totalStart, iColumn] = (worksheet.Cells[_totalStart, iColumn - 2].Value2 - worksheet.Cells[_totalStart, iColumn - 3].Value2) / worksheet.Cells[_totalStart, iColumn - 3].Value2;
-            worksheet.Cells[_totalStart, iColumn].NumberFormat = "0.00%";
         }
 
         private void WriteListValues(int iColumn, IEnumerable<ExportAccount> list, dynamic worksheet)
@@ -108,38 +111,58 @@ namespace MintFinancialExport.Core
             decimal? assetsTotal = 0;
             decimal? debtsTotal = 0;
 
-            worksheet.Cells[2, iColumn] = list.FirstOrDefault().AsOfDate;
-            ((Range)worksheet.Cells[2, iColumn]).Font.Bold = true;
+            worksheet.Cells[1, iColumn] = list.FirstOrDefault().AsOfDate;
+            ((Range)worksheet.Cells[1, iColumn]).Font.Bold = true;
+            ((Range)worksheet.Cells[1, iColumn]).Borders.Weight = 2d;
+            ((Range)worksheet.Cells[1, iColumn]).Borders.LineStyle = XlLineStyle.xlContinuous;
 
             var assets = list.Where(n => n.IsAsset == true && n.AccountTypeID != 99);
             var debts = list.Where(n => n.IsAsset == false && n.AccountTypeID != 99);
 
             int iCnt = _assetsStart;
 
+            // Write individual asset values
             foreach (var asset in assets)
             {
                 iCnt++;
 
                 worksheet.Cells[iCnt, iColumn] = asset.Value;
-                worksheet.Cells[iCnt, iColumn].NumberFormat = "$#,##0.00_);[Red]($#,##0.00)";
+                worksheet.Cells[iCnt, iColumn].NumberFormat = _numberFormat;
                 assetsTotal = assetsTotal + asset.Value;
             }
 
+            iCnt++;
+            // Assets Total
+            worksheet.Cells[iCnt, iColumn] = assetsTotal;
+            worksheet.Cells[iCnt, iColumn].NumberFormat = _totalsFormat;
+            ((Range)worksheet.Cells[iCnt, iColumn]).Font.Bold = true;
+            ((Range)worksheet.Cells[iCnt, iColumn]).Font.Underline = true;
+
             iCnt = _debtsStart;
 
+            // Write individual debt values
             foreach (var debt in debts)
             {
                 iCnt++;
 
                 worksheet.Cells[iCnt, iColumn] = debt.Value;
-                worksheet.Cells[iCnt, iColumn].NumberFormat = "$#,##0.00_);[Red]($#,##0.00)";
+                worksheet.Cells[iCnt, iColumn].NumberFormat = _numberFormat;
                 debtsTotal = debtsTotal + debt.Value;
             }
 
+            iCnt++;
+
+            // Debts Total
+            worksheet.Cells[iCnt, iColumn] = debtsTotal;
+            worksheet.Cells[iCnt, iColumn].NumberFormat = _totalsFormat;
+            ((Range)worksheet.Cells[iCnt, iColumn]).Font.Bold = true;
+            ((Range)worksheet.Cells[iCnt, iColumn]).Font.Underline = true;
+
             iCnt = _totalStart;
 
+            // Net Worth Total
             worksheet.Cells[iCnt, iColumn] = assetsTotal + debtsTotal;
-            worksheet.Cells[iCnt, iColumn].NumberFormat = "$#,##0.00_);[Red]($#,##0.00)";
+            worksheet.Cells[iCnt, iColumn].NumberFormat = _numberFormat;
             ((Range)worksheet.Cells[iCnt, iColumn]).Font.Bold = true;
             ((Range)worksheet.Cells[iCnt, iColumn]).Font.Underline = true;
         }
@@ -147,20 +170,21 @@ namespace MintFinancialExport.Core
         private void SetHeader(dynamic worksheet)
         {
             int iHeaderColumn = 1;
-            int iCnt = 3;
+            int iCnt = 1;
 
-            worksheet.Columns("A").ColumnWidth = 25;
+            worksheet.Columns("A").ColumnWidth = 30;
             worksheet.Columns("B").ColumnWidth = 17;
             worksheet.Columns("C").ColumnWidth = 17;
             worksheet.Columns("D").ColumnWidth = 17;
+            worksheet.Columns("E").ColumnWidth = 17;
 
             worksheet.Cells[1, iHeaderColumn] = "Net Worth Statement";
             ((Range)worksheet.Cells[1, iHeaderColumn]).Font.Bold = true;
             ((Range)worksheet.Cells[1, iHeaderColumn]).Font.Underline = true;
 
-            worksheet.Cells[3, iHeaderColumn] = "Assets";
-            ((Range)worksheet.Cells[3, iHeaderColumn]).Font.Bold = true;
-            ((Range)worksheet.Cells[3, iHeaderColumn]).Font.Underline = true;
+            //worksheet.Cells[3, iHeaderColumn] = "Assets";
+            //((Range)worksheet.Cells[3, iHeaderColumn]).Font.Bold = true;
+            //((Range)worksheet.Cells[3, iHeaderColumn]).Font.Underline = true;
 
             var types = DataAccess.GetList<AccountType>().Where(t => t.ObjectId != 99);
 
@@ -172,16 +196,18 @@ namespace MintFinancialExport.Core
             foreach (var type in assetTypes)
             {
                 iCnt++;
-                worksheet.Cells[iCnt, iHeaderColumn] = type.AccountTypeDesc;
-                
+                worksheet.Cells[iCnt, iHeaderColumn] = type.AccountTypeDesc;    
             }
 
-            iCnt++; // Add space
-            iCnt++; // Add space
+            iCnt++;
+            worksheet.Cells[iCnt, iHeaderColumn] = "ASSETS TOTAL";
+            ((Range)worksheet.Rows[iCnt]).Font.Bold = true;
+            ((Range)worksheet.Rows[iCnt]).Font.Underline = true;
+            //iCnt++; // Add space
 
-            worksheet.Cells[iCnt, 1] = "Debts";
-            ((Range)worksheet.Cells[iCnt, 1]).Font.Bold = true;
-            ((Range)worksheet.Cells[iCnt, 1]).Font.Underline = true;
+            //worksheet.Cells[iCnt, 1] = "Debts";
+            //((Range)worksheet.Cells[iCnt, 1]).Font.Bold = true;
+            //((Range)worksheet.Cells[iCnt, 1]).Font.Underline = true;
 
             _debtsStart = iCnt;
 
@@ -191,14 +217,17 @@ namespace MintFinancialExport.Core
                 worksheet.Cells[iCnt, iHeaderColumn] = type.AccountTypeDesc;
             }
 
-            iCnt++; // Add space
+            iCnt++;
+            worksheet.Cells[iCnt, iHeaderColumn] = "DEBTS TOTAL";
+            ((Range)worksheet.Rows[iCnt]).Font.Bold = true;
+            ((Range)worksheet.Rows[iCnt]).Font.Underline = true;
             iCnt++; // Add space
 
             _totalStart = iCnt;
 
-            worksheet.Cells[iCnt, 1] = "Total";
-            ((Range)worksheet.Cells[iCnt, 1]).Font.Bold = true;
-            ((Range)worksheet.Cells[iCnt, 1]).Font.Underline = true;
+            worksheet.Cells[iCnt, 1] = "NET WORTH";
+            ((Range)worksheet.Rows[iCnt]).Font.Bold = true;
+            ((Range)worksheet.Rows[iCnt]).Font.Underline = true;
         }
     }
 }

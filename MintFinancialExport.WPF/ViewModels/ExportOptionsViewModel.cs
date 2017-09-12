@@ -73,6 +73,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
         #endregion
 
+        #region "Constructors"
         public ExportOptionsViewModel()
         {
             AccountHistoryList = DataAccess.GetList<AccountHistory>()
@@ -80,14 +81,22 @@ namespace MintFinancialExport.WPF.ViewModels
                 .Select(x => x.First())
                 .ToList();
 
-            ExportCommand = new RelayCommand(ExportCommandExecuted);
+            ExportCommand = new RelayCommand(ExportCommandExecuted, ExportCommandCanExecute);
             FileBrowserCommand = new RelayCommand(FileBrowserCommandExecuted);
             ChkCompare = false;
         }
+        #endregion
 
+        #region "Private Methods"
         private void FileBrowserCommandExecuted(object obj)
         {
             FilePath = GetSaveFilePath();
+        }
+
+        private bool ExportCommandCanExecute(object obj)
+        {
+            if (String.IsNullOrEmpty(FilePath)) return false;
+                return true;
         }
 
         private void ExportCommandExecuted(object obj)
@@ -114,5 +123,6 @@ namespace MintFinancialExport.WPF.ViewModels
 
             return dialog.FileName;
         }
+        #endregion
     }
 }
