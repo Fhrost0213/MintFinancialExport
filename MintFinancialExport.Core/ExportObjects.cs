@@ -37,9 +37,9 @@ namespace MintFinancialExport.Core
                 if (item.Account.AccountMappings.Count != 0)
                 {
                     var mapping = item.Account.AccountMappings.First();
-                    var typeID = (int)mapping.AccountTypeId;
+                    var typeId = (int)mapping.AccountTypeId;
 
-                    var account = exportAccountList.Where(i => i.AccountTypeID == typeID).First();
+                    var account = exportAccountList.First(i => i.AccountTypeID == typeId);
                     account.Value = account.Value + item.Amount;
                     account.AsOfDate = item.AsOfDate;
                 }

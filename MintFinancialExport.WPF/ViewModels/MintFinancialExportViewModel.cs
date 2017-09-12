@@ -14,6 +14,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
         #region "Private fields"
         MintApi _mintApi;
+        private double _currentProgress;
 
         #endregion
 
@@ -33,7 +34,17 @@ namespace MintFinancialExport.WPF.ViewModels
         #region "Public properties"
         public decimal? NetWorthAmount { get; set; }
 
-        public System.DateTime? AsOfDate { get; set; }
+        public double CurrentProgress
+        {
+            get { return _currentProgress; }
+            private set
+            {
+                _currentProgress = value;
+                OnPropertyChanged("CurrentProgress");
+            }
+        }
+
+        public DateTime? AsOfDate { get; set; }
 
         public List<AccountHistory> AccountList { get; set; }
         #endregion
@@ -75,7 +86,7 @@ namespace MintFinancialExport.WPF.ViewModels
                 AccountHistory accountHistory = new AccountHistory();
 
                 accountHistory.AccountId = account.ObjectId;
-                accountHistory.AsOfDate = System.DateTime.Now;
+                accountHistory.AsOfDate = DateTime.Now;
                 accountHistory.RunId = runId;
 
                 var type = account.AccountMappings.FirstOrDefault();
@@ -108,13 +119,19 @@ namespace MintFinancialExport.WPF.ViewModels
                 manualAccountHistory.Add(accountHistory);
             }
 
+            CurrentProgress = 10;
             CallSyncAccountsAsync(manualAccountHistory);
+            CurrentProgress = 90;
+
+            RefreshAccountInfo();
+            CurrentProgress = 100;
         }
 
         private async void CallSyncAccountsAsync(List<AccountHistory> manualAccountHistory)
         {
             Task task = new Task(() =>
             {
+                //EntitySync.SyncAccounts(_mintApi.GetAccountsExtended(), manualAccountHistory);
                 EntitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
             });
 
@@ -157,11 +174,13 @@ namespace MintFinancialExport.WPF.ViewModels
             var runId = DataAccess.GetCurrentRunId();
             AccountList = DataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList();
 
-            var netWorthInfo = DataAccess.GetList<NetWorthHistory>().Where(r => r.RunId == runId);
-            NetWorthAmount = netWorthInfo.FirstOrDefault().NetWorthAmount;
-            AsOfDate = netWorthInfo.FirstOrDefault().AsOfDate;
-        }
+            var netWorthInfo = DataAccess.GetList<NetWorthHistory>().FirstOrDefault(r => r.RunId == runId);
 
-        
+            if (netWorthInfo != null)
+            {
+                NetWorthAmount = netWorthInfo.NetWorthAmount;
+                AsOfDate = netWorthInfo.AsOfDate;
+            }
+        }
     }
 }

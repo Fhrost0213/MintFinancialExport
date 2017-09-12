@@ -48,6 +48,13 @@ namespace MintFinancialExport.Core
             //var test = JsonConvert.DeserializeObject<Budget>(data);
         }
 
+        public ObservableCollection<MintAccount> GetAccountsExtended()
+        {
+            // What does extended give you over regular? Can you add start and end dates?
+            var data = GetMintInfo("--extended-accounts " + AccountInfo.UserName + " " + AccountInfo.Password);
+            return new ObservableCollection<MintAccount>();
+        }
+
         public string GetMintInfo(string arguments)
         {
             string pythonFolderLocation = DataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
