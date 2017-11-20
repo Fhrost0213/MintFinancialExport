@@ -8,12 +8,12 @@ namespace MintFinancialExport.Tests.Core
     [TestFixture]
     public class DataAccess
     {
-        private MintFinancialExport.Core.DataAccess _dataAccess;
+        private IDataAccess _dataAccess;
 
         [SetUp]
         public void SetUp()
         {
-            _dataAccess = ServiceLocator.GetInstance<MintFinancialExport.Core.DataAccess>();
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
         }
 
         [Test]
