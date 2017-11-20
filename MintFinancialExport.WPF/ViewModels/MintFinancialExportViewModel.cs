@@ -15,7 +15,7 @@ namespace MintFinancialExport.WPF.ViewModels
         #region "Private fields"
         MintApi _mintApi;
         private double _currentProgress;
-
+        private IDataAccess _dataAccess;
         #endregion
 
         #region "Public commands"
@@ -74,9 +74,9 @@ namespace MintFinancialExport.WPF.ViewModels
 
             // TODO: Does this block of code need to be pulled out and refactored?
             // Prompt for manual values
-            var runId = DataAccess.GetNextRunId();
+            var runId = _dataAccess.GetNextRunId();
 
-            var accounts = DataAccess.GetList<Account>();
+            var accounts = _dataAccess.GetList<Account>();
             var manualAccounts = accounts.FindAll(m => m.IsManual == true);
 
             List<AccountHistory> manualAccountHistory = new List<AccountHistory>();
@@ -106,7 +106,7 @@ namespace MintFinancialExport.WPF.ViewModels
                     view.DataContext = model;
                     model.AccountName = account.AccountName;
 
-                    var previousHistory = DataAccess.GetList<AccountHistory>().Where(a => a.AccountId == account.ObjectId).OrderByDescending(r => r.RunId).FirstOrDefault();
+                    var previousHistory = _dataAccess.GetList<AccountHistory>().Where(a => a.AccountId == account.ObjectId).OrderByDescending(r => r.RunId).FirstOrDefault();
 
                     if (previousHistory != null) model.Value = previousHistory.Amount;
 
@@ -157,6 +157,10 @@ namespace MintFinancialExport.WPF.ViewModels
 
         public MintFinancialExportViewModel()
         {
+            Bootstrapper.ConfigureStructureMap();
+
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
             _mintApi = new MintApi();
 
             RetrieveAccountsCommand = new RelayCommand(RetrieveAccountsCommandExecuted);
@@ -171,10 +175,10 @@ namespace MintFinancialExport.WPF.ViewModels
         private void RefreshAccountInfo()
         {
             // Get latest account history
-            var runId = DataAccess.GetCurrentRunId();
-            AccountList = DataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList();
+            var runId = _dataAccess.GetCurrentRunId();
+            AccountList = _dataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList();
 
-            var netWorthInfo = DataAccess.GetList<NetWorthHistory>().FirstOrDefault(r => r.RunId == runId);
+            var netWorthInfo = _dataAccess.GetList<NetWorthHistory>().FirstOrDefault(r => r.RunId == runId);
 
             if (netWorthInfo != null)
             {

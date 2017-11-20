@@ -5,9 +5,13 @@ namespace MintFinancialExport.WPF.ViewModels
 {
     class OptionsViewModel : BaseViewModel
     {
+        private IDataAccess _dataAccess;
+
         public OptionsViewModel()
         {
-            PythonFolderLocation = DataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
+            PythonFolderLocation = _dataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
         }
 
         private string _pythonFolderLocation;
@@ -25,7 +29,7 @@ namespace MintFinancialExport.WPF.ViewModels
                 {
                     _pythonFolderLocation = value;
 
-                    DataAccess.SaveOption(Enums.Options.PythonFolderLocation.ToString(), value);
+                    _dataAccess.SaveOption(Enums.Options.PythonFolderLocation.ToString(), value);
 
                     OnPropertyChanged("PythonFolderLocation");
                 }

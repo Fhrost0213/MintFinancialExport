@@ -7,8 +7,20 @@ namespace MintFinancialExport.WPF.ViewModels
     class AccountMappingViewModel : BaseViewModel
     {
         private List<AccountMapping> _accountMappingList;
-        private List<Core.Account> _accountList;
+        private List<Account> _accountList;
         private List<AccountType> _accountTypesList;
+
+        private IDataAccess _dataAccess;
+
+        public AccountMappingViewModel()
+        {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
+            AccountList = _dataAccess.GetList<Account>();
+            AccountMappingList = _dataAccess.GetList<AccountMapping>();
+            AccountTypesList = _dataAccess.GetList<AccountType>();
+            SaveCommand = new RelayCommand(SaveCommandExecuted);
+        }
 
         public List<AccountMapping> AccountMappingList
         {
@@ -40,14 +52,6 @@ namespace MintFinancialExport.WPF.ViewModels
             }
         }
 
-        public AccountMappingViewModel()
-        { 
-            AccountList = DataAccess.GetList<Account>();
-            AccountMappingList = DataAccess.GetList<AccountMapping>();
-            AccountTypesList = DataAccess.GetList<AccountType>();
-            SaveCommand = new RelayCommand(SaveCommandExecuted);
-        }
-
         private ICommand _saveCommand;
         public ICommand SaveCommand
         {
@@ -63,7 +67,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void SaveCommandExecuted(object obj)
         {
-            DataAccess.SaveList(AccountMappingList);
+            _dataAccess.SaveList(AccountMappingList);
         }
     }
 }

@@ -11,6 +11,13 @@ namespace MintFinancialExport.Core
 {
     public class MintApi
     {
+        private IDataAccess _dataAccess;
+
+        public MintApi()
+        {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+        }
+
         public void GetTransactions()
         {
             DateTime startDate = DateTime.Now.AddYears(-1); 
@@ -57,7 +64,7 @@ namespace MintFinancialExport.Core
 
         public string GetMintInfo(string arguments)
         {
-            string pythonFolderLocation = DataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
+            string pythonFolderLocation = _dataAccess.GetOption(Enums.Options.PythonFolderLocation.ToString());
 
             int timeout = 60000;
 

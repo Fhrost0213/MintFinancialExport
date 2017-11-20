@@ -9,16 +9,23 @@ namespace MintFinancialExport.Core
 {
     public class ExportObjects
     {
+        private IDataAccess _dataAccess;
+
+        public ExportObjects()
+        {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+        }
+
         public List<ExportAccount> GetExportAccountList()
         {
-            return GetExportAccountList(DataAccess.GetCurrentRunId());
+            return GetExportAccountList(_dataAccess.GetCurrentRunId());
         }
 
         public List<ExportAccount> GetExportAccountList(int? runId)
         {
             List<ExportAccount> exportAccountList = new List<ExportAccount>();
 
-            List<AccountType> types = DataAccess.GetList<AccountType>();
+            List<AccountType> types = _dataAccess.GetList<AccountType>();
 
             foreach (AccountType type in types)
             {
@@ -30,7 +37,7 @@ namespace MintFinancialExport.Core
                 exportAccountList.Add(exportAccount);
             }
 
-            var accountHistoryList = DataAccess.GetList<AccountHistory>().Where(a => a.RunId.Equals(runId));
+            var accountHistoryList = _dataAccess.GetList<AccountHistory>().Where(a => a.RunId.Equals(runId));
 
             foreach (var item in accountHistoryList)
             {

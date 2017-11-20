@@ -8,6 +8,7 @@ namespace MintFinancialExport.WPF.ViewModels
 {
     public class PreciousMetalsViewModel : BaseViewModel
     {
+        private IDataAccess _dataAccess;
         private decimal? _goldSpotPrice { get; set; }
         private decimal? _silverSpotPrice { get; set; }
         private decimal? _platinumSpotPrice { get; set; }
@@ -211,7 +212,7 @@ namespace MintFinancialExport.WPF.ViewModels
             history.PalladiumSpotPrice = PalladiumSpotPrice;
             history.RunId = _runId;
 
-            DataAccess.SaveItem(history);
+            _dataAccess.SaveItem(history);
         }
 
         public PreciousMetalsViewModel(int? runId)
@@ -223,11 +224,12 @@ namespace MintFinancialExport.WPF.ViewModels
         public PreciousMetalsViewModel()
         {
             Initialize();
-            RefreshProperties(DataAccess.GetNextRunId());
+            RefreshProperties(_dataAccess.GetNextRunId());
         }
 
         private void Initialize()
         {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
             SaveCommand = new RelayCommand(SaveCommandExecuted);
         }
 
@@ -241,7 +243,7 @@ namespace MintFinancialExport.WPF.ViewModels
             PlatinumSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Platinum);
             PalladiumSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Palladium);
 
-            var history = DataAccess.GetList<PreciousMetalsHistory>().OrderByDescending(r => r.RunId).FirstOrDefault();
+            var history = _dataAccess.GetList<PreciousMetalsHistory>().OrderByDescending(r => r.RunId).FirstOrDefault();
             if (history != null)
             {
                 GoldOunces = history.GoldOunces;

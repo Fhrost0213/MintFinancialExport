@@ -6,6 +6,8 @@ namespace MintFinancialExport.WPF.ViewModels
 {
     class AccountViewModel : BaseViewModel
     {
+        private IDataAccess _dataAccess;
+
         private List<Account> _accountList;
         public List<Account> AccountList
         {
@@ -19,9 +21,11 @@ namespace MintFinancialExport.WPF.ViewModels
 
         public AccountViewModel()
         {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
             SaveCommand = new RelayCommand(SaveCommandExecuted);
             RefreshAccountsCommand = new RelayCommand(RefreshAccountsCommandExecuted);
-            AccountList = DataAccess.GetList<Account>();
+            AccountList = _dataAccess.GetList<Account>();
         }
 
 
@@ -53,14 +57,14 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void SaveCommandExecuted(object obj)
         {
-            DataAccess.SaveList(AccountList);
+            _dataAccess.SaveList(AccountList);
         }
 
         private void RefreshAccountsCommandExecuted(object obj)
         {
             EntitySync.RefreshAccounts();
 
-            AccountList = DataAccess.GetList<Account>();
+            AccountList = _dataAccess.GetList<Account>();
         }
     }
 }

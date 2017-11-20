@@ -8,10 +8,17 @@ namespace MintFinancialExport.Core
 {
     public static class EntitySync
     {
+        private static IDataAccess _dataAccess;
+
+        static EntitySync()
+        {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+        }
+
         public static void SyncAccounts(ObservableCollection<MintAccount> accountlist)
         {
             int? nextRunId = 0;
-            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            var latestRun = _dataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
             if (latestRun != null) nextRunId = latestRun.RunId + 1;
             DateTime asOfDate = System.DateTime.Now;
 
@@ -21,7 +28,7 @@ namespace MintFinancialExport.Core
         public static void SyncAccounts(ObservableCollection<MintAccount> accountlist, List<AccountHistory> manualAccountHistory)
         {
             int? nextRunId = 0;
-            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            var latestRun = _dataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
             if (latestRun != null) nextRunId = latestRun.RunId + 1;
             DateTime asOfDate = System.DateTime.Now;
 
@@ -35,14 +42,14 @@ namespace MintFinancialExport.Core
             // Sync accounts with DB
             foreach (var account in accountlist)
             {
-                Account accountItem = DataAccess.GetList<Account>().FirstOrDefault(n => n.AccountName.Equals(account.Name));
+                Account accountItem = _dataAccess.GetList<Account>().FirstOrDefault(n => n.AccountName.Equals(account.Name));
                 if (accountItem == null)
                 {
                     accountItem = new Account();
                     accountItem.AccountName = account.Name;
                 }
 
-                DataAccess.SaveItem(accountItem);
+                _dataAccess.SaveItem(accountItem);
 
                 // Store off a snapshot of account history
                 AccountHistory accountHistory = new AccountHistory();
@@ -52,18 +59,18 @@ namespace MintFinancialExport.Core
                 accountHistory.AsOfDate = asOfDate;
                 accountHistory.RunId = nextRunId;
 
-                DataAccess.SaveItem(accountHistory);
+                _dataAccess.SaveItem(accountHistory);
             }
 
             // Process manual accounts
             foreach (var manualAccount in manualAccountList)
             {
-                Account accountItem = DataAccess.GetList<Account>().FirstOrDefault(n => n.ObjectId.Equals(manualAccount.AccountId));
+                Account accountItem = _dataAccess.GetList<Account>().FirstOrDefault(n => n.ObjectId.Equals(manualAccount.AccountId));
                 var mapping = accountItem.AccountMappings.FirstOrDefault();
 
-                if (mapping.AccountTypeId == DataAccess.GetList<AccountType>().First(n => n.AccountTypeName == "Physical").ObjectId)
+                if (mapping.AccountTypeId == _dataAccess.GetList<AccountType>().First(n => n.AccountTypeName == "Physical").ObjectId)
                 {
-                    var preciousMetalsItem = DataAccess.GetList<PreciousMetalsHistory>().OrderByDescending(d => d.AsOfDate).FirstOrDefault();
+                    var preciousMetalsItem = _dataAccess.GetList<PreciousMetalsHistory>().OrderByDescending(d => d.AsOfDate).FirstOrDefault();
                     amount = (preciousMetalsItem.GoldOunces * preciousMetalsItem.GoldSpotPrice) + (preciousMetalsItem.SilverOunces * preciousMetalsItem.SilverSpotPrice)
                         + (preciousMetalsItem.PlatinumOunces * preciousMetalsItem.PlatinumSpotPrice) + (preciousMetalsItem.PalladiumOunces * preciousMetalsItem.PalladiumSpotPrice);
                 }
@@ -80,10 +87,10 @@ namespace MintFinancialExport.Core
                 accountHistory.AsOfDate = asOfDate;
                 accountHistory.RunId = nextRunId;
 
-                DataAccess.SaveItem(accountHistory);
+                _dataAccess.SaveItem(accountHistory);
             }
 
-            if (manualAccountList != null) DataAccess.SaveList(manualAccountList);
+            if (manualAccountList != null) _dataAccess.SaveList(manualAccountList);
 
             SyncNetWorth(nextRunId);
         }
@@ -116,7 +123,7 @@ namespace MintFinancialExport.Core
             NetWorthHistory.AsOfDate = DateTime.Now;
             NetWorthHistory.RunId = runId;
 
-            DataAccess.SaveItem(NetWorthHistory);
+            _dataAccess.SaveItem(NetWorthHistory);
         }
 
         public static void RefreshAccounts()

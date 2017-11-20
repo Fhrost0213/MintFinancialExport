@@ -1,10 +1,26 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using MintFinancialExport.Core;
+using NUnit.Framework;
+using Moq;
 
 namespace MintFinancialExport.Tests.Application.ViewModels
 {
     [TestFixture]
     class PreciousMetalsViewModel
     {
+        [SetUp]
+        public void SetUp()
+        {
+            var dataAccessMock = new Mock<IDataAccess>();
+
+            dataAccessMock.Setup(x => x.GetNextRunId()).Returns(0);
+            dataAccessMock.Setup(x => x.GetList<PreciousMetalsHistory>())
+                .Returns(new List<PreciousMetalsHistory>());
+
+            ServiceLocator.AddItem(dataAccessMock.Object);
+        }
+
         [Test]
         public void should_gettotals_return_correctly()
         {

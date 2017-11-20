@@ -17,6 +17,7 @@ namespace MintFinancialExport.WPF.ViewModels
         private bool _chkCompare;
         private List<AccountHistory> _accountHistoryList;
         private string _filePath;
+        private IDataAccess _dataAccess;
         #endregion
 
         #region "Public Properties"
@@ -32,7 +33,6 @@ namespace MintFinancialExport.WPF.ViewModels
                 OnPropertyChanged(nameof(FilePath));
             }
         }
-
 
         public Visibility CompareVisibility
         {
@@ -76,7 +76,9 @@ namespace MintFinancialExport.WPF.ViewModels
         #region "Constructors"
         public ExportOptionsViewModel()
         {
-            AccountHistoryList = DataAccess.GetList<AccountHistory>()
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
+            AccountHistoryList = _dataAccess.GetList<AccountHistory>()
                 .GroupBy(r => r.RunId)
                 .Select(x => x.First())
                 .ToList();

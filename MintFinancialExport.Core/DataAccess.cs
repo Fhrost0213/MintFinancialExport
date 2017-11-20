@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace MintFinancialExport.Core
 {
-    public static class DataAccess
+    public class DataAccess : IDataAccess
     {
-        public static void SaveList<T>(List<T> itemList) where T : class
+        public void SaveList<T>(List<T> itemList) where T : class
         {
             MyDbContext db = new MyDbContext();
 
@@ -18,7 +18,7 @@ namespace MintFinancialExport.Core
             db.SaveChanges();
         }
 
-        public static void SaveItem<T>(T item) where T : class
+        public void SaveItem<T>(T item) where T : class
         {
             MyDbContext db = new MyDbContext();
             db.Set<T>().AddOrUpdate(item);
@@ -26,20 +26,20 @@ namespace MintFinancialExport.Core
             db.SaveChanges();
         }
 
-        public static List<T> GetList<T>() where T : class
+        public List<T> GetList<T>() where T : class
         {
             MyDbContext db = new MyDbContext();
             return db.Set<T>().ToList();
         }
 
-        public static T GetItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
+        public T GetItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
         {
             MyDbContext db = new MyDbContext();
 
             return db.Set<T>().First(a => a.ObjectId == objectId);
         }
 
-        public static void DeleteItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
+        public void DeleteItem<T>(int objectId) where T: class, Core.Interfaces.IObjectIdEntity
         {
             MyDbContext db = new MyDbContext();
 
@@ -50,7 +50,7 @@ namespace MintFinancialExport.Core
             db.SaveChanges();
         }
 
-        public static void DeleteItem<T>(T item) where T : class
+        public void DeleteItem<T>(T item) where T : class
         {
             MyDbContext db = new MyDbContext();
 
@@ -59,47 +59,47 @@ namespace MintFinancialExport.Core
             db.SaveChanges();
         }
 
-        public static bool DoesItemExist<T>(int objectId) where T : class, Core.Interfaces.IObjectIdEntity
+        public bool DoesItemExist<T>(int objectId) where T : class, Core.Interfaces.IObjectIdEntity
         {
             MyDbContext db = new MyDbContext();
             return db.Set<T>().Any(a => a.ObjectId == objectId);
         }
 
-        public static bool DoesItemExist<T>(T item) where T : class, Core.Interfaces.IObjectIdEntity
+        public bool DoesItemExist<T>(T item) where T : class, Core.Interfaces.IObjectIdEntity
         {
             MyDbContext db = new MyDbContext();
             return db.Set<T>().Any(i => i.ObjectId == item.ObjectId);
         }
 
-        public static int? GetAccountTypeIdFromAccountName(string accountName)
+        public int? GetAccountTypeIdFromAccountName(string accountName)
         {
             MyDbContext db = new MyDbContext();
 
             return db.AccountMappings.FirstOrDefault(a => a.Account.AccountName == accountName)?.AccountTypeId;
         }
 
-        public static User GetUserFromUserName(string userName)
+        public User GetUserFromUserName(string userName)
         {
             MyDbContext db = new MyDbContext();
 
             return db.Users.FirstOrDefault(u => u.UserName == userName);
         }
 
-        public static int? GetNextRunId()
+        public int? GetNextRunId()
         {
             return GetCurrentRunId() + 1;
         }
 
-        public static int? GetCurrentRunId()
+        public int? GetCurrentRunId()
         {
             int? currentRunId = 0;
-            var latestRun = DataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
+            var latestRun = GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
             if (latestRun != null) currentRunId = latestRun.RunId;
 
             return currentRunId;
         }
 
-        public static int? GetPreviousRunId(int? runId)
+        public int? GetPreviousRunId(int? runId)
         {
             int? previousRunId = 0;
 
@@ -109,14 +109,14 @@ namespace MintFinancialExport.Core
             return previousRunId;
         }
 
-        public static string GetOption(string optionName)
+        public string GetOption(string optionName)
         {
             MyDbContext db = new MyDbContext();
 
             return db.Options.FirstOrDefault(o => o.OptionKey == optionName)?.OptionValue;
         }
 
-        public static void SaveOption(string optionKey, string optionValue)
+        public void SaveOption(string optionKey, string optionValue)
         {
             MyDbContext db = new MyDbContext();
 

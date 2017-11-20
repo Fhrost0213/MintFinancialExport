@@ -18,6 +18,13 @@ namespace MintFinancialExport.Core
         private string _totalsFormat = "$#,##0.00_);[Red]($#,##0.00)";
         private string _percentFormat = "0.00%;[Red](0.00%)";
 
+        private IDataAccess _dataAccess;
+
+        public Export()
+        {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+        }
+
         public void ExportAccounts(List<ExportAccount> exportAccountList, string filePath, List<ExportAccount> compareAccountList = null)
         {
             int exportAccountListColumn = 2;
@@ -186,7 +193,7 @@ namespace MintFinancialExport.Core
             //((Range)worksheet.Cells[3, iHeaderColumn]).Font.Bold = true;
             //((Range)worksheet.Cells[3, iHeaderColumn]).Font.Underline = true;
 
-            var types = DataAccess.GetList<AccountType>().Where(t => t.ObjectId != 99);
+            var types = _dataAccess.GetList<AccountType>().Where(t => t.ObjectId != 99);
 
             var assetTypes = types.Where(t => t.IsAsset == true);
             var debtTypes = types.Where(t => t.IsAsset == false);

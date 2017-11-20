@@ -11,6 +11,21 @@ namespace MintFinancialExport.WPF.ViewModels
         private string _userName { get; set; }
         private string _password { get; set; }
 
+        private IDataAccess _dataAccess;
+
+        public AccountInfoViewModel()
+        {
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
+            SaveCommand = new RelayCommand(SaveCommandExecuted);
+
+            var lastUsedUser = _dataAccess.GetList<User>().OrderByDescending(d => d.LastUsedDate).FirstOrDefault();
+            if (lastUsedUser != null)
+            {
+                UserName = lastUsedUser.UserName;
+            }
+        }
+
         public string UserName
         {
             get
@@ -21,7 +36,7 @@ namespace MintFinancialExport.WPF.ViewModels
             {
                 _userName = value;
 
-                User user = DataAccess.GetUserFromUserName(_userName);
+                User user = _dataAccess.GetUserFromUserName(_userName);
                 if (user == null)
                 {
                     user = new User();
@@ -29,7 +44,7 @@ namespace MintFinancialExport.WPF.ViewModels
                 }
                 
                 user.LastUsedDate = DateTime.Now;
-                DataAccess.SaveItem(user);
+                _dataAccess.SaveItem(user);
 
                 OnPropertyChanged("UserName");
             }
@@ -65,17 +80,6 @@ namespace MintFinancialExport.WPF.ViewModels
         {
             AccountInfo.UserName = UserName;
             AccountInfo.Password = Password;
-        }
-
-        public AccountInfoViewModel()
-        {
-            SaveCommand = new RelayCommand(SaveCommandExecuted);
-
-            var lastUsedUser = DataAccess.GetList<User>().OrderByDescending(d => d.LastUsedDate).FirstOrDefault();
-            if (lastUsedUser != null)
-            {
-                UserName = lastUsedUser.UserName;
-            }
         }
     }
 }
