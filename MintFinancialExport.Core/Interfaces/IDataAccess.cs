@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MintFinancialExport.Core
+namespace MintFinancialExport.Core.Interfaces
 {
     public interface IDataAccess
     {

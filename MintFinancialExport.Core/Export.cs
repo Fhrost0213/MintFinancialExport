@@ -1,8 +1,8 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Interop;
 using MintFinancialExport.Core.Entities;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.Core
 {

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.Tests.Core
 {
@@ -13,6 +14,8 @@ namespace MintFinancialExport.Tests.Core
         [SetUp]
         public void SetUp()
         {
+            IDataAccess dataAccess = new MintFinancialExport.Core.DataAccess();
+            ServiceLocator.AddItem(dataAccess);
             _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
         }
 

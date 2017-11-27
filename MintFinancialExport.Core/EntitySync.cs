@@ -3,19 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.Core
 {
-    public static class EntitySync
+    public class EntitySync : IEntitySync
     {
-        private static IDataAccess _dataAccess;
+        private IDataAccess _dataAccess;
 
-        static EntitySync()
+        public EntitySync()
         {
             _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
         }
 
-        public static void SyncAccounts(ObservableCollection<MintAccount> accountlist)
+        public void SyncAccounts(ObservableCollection<MintAccount> accountlist)
         {
             int? nextRunId = 0;
             var latestRun = _dataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
@@ -25,7 +26,7 @@ namespace MintFinancialExport.Core
             SyncAccounts(accountlist, null, nextRunId, asOfDate);
         }
 
-        public static void SyncAccounts(ObservableCollection<MintAccount> accountlist, List<AccountHistory> manualAccountHistory)
+        public void SyncAccounts(ObservableCollection<MintAccount> accountlist, List<AccountHistory> manualAccountHistory)
         {
             int? nextRunId = 0;
             var latestRun = _dataAccess.GetList<AccountHistory>().OrderByDescending(a => a.RunId).FirstOrDefault();
@@ -35,7 +36,7 @@ namespace MintFinancialExport.Core
             SyncAccounts(accountlist, manualAccountHistory, nextRunId, asOfDate);
         }
 
-        public static void SyncAccounts(ObservableCollection<MintAccount> accountlist, List<AccountHistory> manualAccountList, int? nextRunId, DateTime asOfDate)
+        public void SyncAccounts(ObservableCollection<MintAccount> accountlist, List<AccountHistory> manualAccountList, int? nextRunId, DateTime asOfDate)
         {
             decimal? amount;
 
@@ -95,7 +96,7 @@ namespace MintFinancialExport.Core
             SyncNetWorth(nextRunId);
         }
 
-        public static void SyncNetWorth(int? runId)
+        public void SyncNetWorth(int? runId)
         {
             decimal? assetsTotal = 0;
             decimal? debtsTotal = 0;
@@ -126,7 +127,7 @@ namespace MintFinancialExport.Core
             _dataAccess.SaveItem(NetWorthHistory);
         }
 
-        public static void RefreshAccounts()
+        public void RefreshAccounts()
         {
             MintApi mintApi = new MintApi();
 

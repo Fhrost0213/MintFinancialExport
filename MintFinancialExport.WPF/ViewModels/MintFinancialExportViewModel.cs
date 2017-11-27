@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
 {
@@ -129,10 +130,12 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private async void CallSyncAccountsAsync(List<AccountHistory> manualAccountHistory)
         {
+            var entitySync = ServiceLocator.GetInstance<IEntitySync>();
+
             Task task = new Task(() =>
             {
                 //EntitySync.SyncAccounts(_mintApi.GetAccountsExtended(), manualAccountHistory);
-                EntitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
+                entitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
             });
 
             task.Start();

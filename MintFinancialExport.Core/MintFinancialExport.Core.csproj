@@ -67,8 +67,10 @@
     <Compile Include="Entities\Spend.cs" />
     <Compile Include="EntitySync.cs" />
     <Compile Include="ExportObjects.cs" />
-    <Compile Include="IDataAccess.cs" />
+    <Compile Include="Interfaces\IEntitySync.cs" />
+    <Compile Include="Interfaces\IDataAccess.cs" />
     <Compile Include="Interfaces\IObjectIdEntity.cs" />
+    <Compile Include="Interfaces\IPreciousMetalsPriceApi.cs" />
     <Compile Include="MintApi.cs" />
     <Compile Include="Partial Entities\Account.cs" />
     <Compile Include="Partial Entities\AccountHistory.cs" />

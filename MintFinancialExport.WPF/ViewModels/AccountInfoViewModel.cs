@@ -3,6 +3,7 @@ using MintFinancialExport.Core;
 using System;
 using System.Linq;
 using System.Windows.Input;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
 {

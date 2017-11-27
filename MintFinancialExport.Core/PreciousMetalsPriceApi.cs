@@ -6,10 +6,11 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.Core
 {
-    public class PreciousMetalsPriceApi
+    public class PreciousMetalsPriceApi : IPreciousMetalsPriceApi
     {
         public decimal? GetPreciousMetalsPrice(Enums.PreciousMetalsTypes metalsType)
         {

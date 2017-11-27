@@ -3,6 +3,7 @@ using MintFinancialExport.Core.Entities;
 using System;
 using System.Linq;
 using System.Windows.Input;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
 {
@@ -237,7 +238,7 @@ namespace MintFinancialExport.WPF.ViewModels
         {
             _runId = runId;
 
-            PreciousMetalsPriceApi prices = new PreciousMetalsPriceApi();
+            var prices = ServiceLocator.GetInstance<IPreciousMetalsPriceApi>();
             GoldSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Gold);
             SilverSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Silver);
             PlatinumSpotPrice = prices.GetPreciousMetalsPrice(Enums.PreciousMetalsTypes.Platinum);

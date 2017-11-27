@@ -1,6 +1,7 @@
 ﻿using MintFinancialExport.Core;
 using System.Collections.Generic;
 using System.Windows.Input;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
 {

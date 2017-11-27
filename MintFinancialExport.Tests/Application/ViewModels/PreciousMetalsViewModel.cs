@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MintFinancialExport.Core;
+using MintFinancialExport.Core.Interfaces;
 using NUnit.Framework;
 using Moq;
 
@@ -19,6 +20,10 @@ namespace MintFinancialExport.Tests.Application.ViewModels
                 .Returns(new List<PreciousMetalsHistory>());
 
             ServiceLocator.AddItem(dataAccessMock.Object);
+
+            // Should I mock this so I don't make a web client call?
+            IPreciousMetalsPriceApi preciousMetalsPriceApi = new PreciousMetalsPriceApi();
+            ServiceLocator.AddItem(typeof(IPreciousMetalsPriceApi), preciousMetalsPriceApi);
         }
 
         [Test]

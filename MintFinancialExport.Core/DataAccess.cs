@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.Core
 {

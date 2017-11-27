@@ -1,5 +1,6 @@
 ﻿using MintFinancialExport.Core;
 using MintFinancialExport.Core.Entities;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
 {

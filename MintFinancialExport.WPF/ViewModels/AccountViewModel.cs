@@ -1,6 +1,7 @@
 ﻿using MintFinancialExport.Core;
 using System.Collections.Generic;
 using System.Windows.Input;
+using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
 {
@@ -62,7 +63,8 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void RefreshAccountsCommandExecuted(object obj)
         {
-            EntitySync.RefreshAccounts();
+            var entitySync = ServiceLocator.GetInstance<IEntitySync>();
+            entitySync.RefreshAccounts();
 
             AccountList = _dataAccess.GetList<Account>();
         }
