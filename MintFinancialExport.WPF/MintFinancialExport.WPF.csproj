@@ -99,6 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AccountInfoHandler.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Interfaces\IMintFinancialExportViewModel.cs" />
     <Compile Include="RelayCommand.cs" />

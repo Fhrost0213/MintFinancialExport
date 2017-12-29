@@ -11,5 +11,10 @@ namespace MintFinancialExport.WPF.Views
         {
             InitializeComponent();
         }
+
+        public System.Security.SecureString Password
+        {
+            get { return txtPassword.SecurePassword; }
+        }
     }
 }

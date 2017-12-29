@@ -10,7 +10,7 @@ namespace MintFinancialExport.WPF.ViewModels
     class AccountInfoViewModel : BaseViewModel
     {
         private string _userName { get; set; }
-        private string _password { get; set; }
+        private System.Security.SecureString _password { get; set; }
 
         private IDataAccess _dataAccess;
 
@@ -51,7 +51,7 @@ namespace MintFinancialExport.WPF.ViewModels
             }
         }
 
-        public string Password
+        public System.Security.SecureString Password
         {
             get
             {
@@ -80,7 +80,7 @@ namespace MintFinancialExport.WPF.ViewModels
         private void SaveCommandExecuted(object obj)
         {
             AccountInfo.UserName = UserName;
-            AccountInfo.Password = Password;
+            //AccountInfo.Password = Password;
         }
     }
 }

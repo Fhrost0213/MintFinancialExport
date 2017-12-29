@@ -5,7 +5,7 @@ using MintFinancialExport.Core.Interfaces;
 using NUnit.Framework;
 using Moq;
 
-namespace MintFinancialExport.Tests.Application.ViewModels
+namespace MintFinancialExport.Tests.WPF.ViewModels
 {
     [TestFixture]
     class PreciousMetalsViewModel
@@ -32,7 +32,7 @@ namespace MintFinancialExport.Tests.Application.ViewModels
             decimal? total;
 
             // Arrange
-            WPF.ViewModels.PreciousMetalsViewModel sut = new WPF.ViewModels.PreciousMetalsViewModel();
+            MintFinancialExport.WPF.ViewModels.PreciousMetalsViewModel sut = new MintFinancialExport.WPF.ViewModels.PreciousMetalsViewModel();
             sut.GoldOunces = 1;
             sut.GoldSpotPrice = 100;
             sut.SilverOunces = 1;

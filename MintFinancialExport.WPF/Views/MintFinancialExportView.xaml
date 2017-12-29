@@ -67,7 +67,7 @@
         
         <!--<lvc:LineSeries Grid.Row="3"></lvc:LineSeries>-->
 
-        <Controls:MetroProgressBar Grid.Row="3" x:Name="ProgressBar" Value="{Binding CurrentProgress, Mode=OneWay}" Minimum="0" Maximum="100"/>
+        <Controls:MetroProgressBar Grid.Row="3" x:Name="ProgressBar" Value="{Binding CurrentProgress, Mode=OneWay}" Visibility="{Binding ProgressVisibility}" Minimum="0" Maximum="100"/>
 
     </Grid>
 </Controls:MetroWindow>

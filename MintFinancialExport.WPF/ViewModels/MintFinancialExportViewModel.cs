@@ -3,9 +3,11 @@ using MintFinancialExport.Core;
 using MintFinancialExport.WPF.Interfaces;
 using MintFinancialExport.WPF.Views;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MintFinancialExport.Core.Entities;
 using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.WPF.ViewModels
@@ -17,6 +19,11 @@ namespace MintFinancialExport.WPF.ViewModels
         MintApi _mintApi;
         private double _currentProgress;
         private IDataAccess _dataAccess;
+        private decimal? _netWorthAmount;
+        private DateTime? _asOfDate;
+        private bool _progressVisibility;
+        private readonly BackgroundWorker _progressBarWorker;
+        private readonly ICommand _progressBarWorkCommand;
         #endregion
 
         #region "Public commands"
@@ -33,19 +40,55 @@ namespace MintFinancialExport.WPF.ViewModels
         #endregion
 
         #region "Public properties"
-        public decimal? NetWorthAmount { get; set; }
+
+        public decimal? NetWorthAmount
+        {
+            get
+            {
+                return _netWorthAmount;
+            }
+            set
+            {
+                _netWorthAmount = value;
+                OnPropertyChanged("NetWorthAmount");
+            }
+        }
 
         public double CurrentProgress
         {
             get { return _currentProgress; }
             private set
             {
-                _currentProgress = value;
-                OnPropertyChanged("CurrentProgress");
+                if (_currentProgress != value)
+                {
+                    _currentProgress = value;
+                    OnPropertyChanged("CurrentProgress");
+                }
             }
         }
 
-        public DateTime? AsOfDate { get; set; }
+        public bool ProgressVisibility
+        {
+            get { return _progressVisibility; }
+            private set
+            {
+                _progressVisibility = value;
+                OnPropertyChanged("ProgressVisibility");
+            }
+        }
+
+        public DateTime? AsOfDate
+        {
+            get
+            {
+                return _asOfDate;
+            }
+            set
+            {
+                _asOfDate = value;
+                OnPropertyChanged("AsOfDate");
+            }
+        }
 
         public List<AccountHistory> AccountList { get; set; }
         #endregion
@@ -66,8 +109,79 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void RetrieveAccountsCommandExecuted(object obj)
         {
-            AccountInfoView infoView = new AccountInfoView();
-            infoView.ShowDialog();
+            AccountInfoHandler accountInfoHandler = new AccountInfoHandler();
+            accountInfoHandler.Show();
+
+            // Call new method
+            _progressBarWorker.RunWorkerAsync();
+        }
+
+        private async void CallSyncAccountsAsync(List<AccountHistory> manualAccountHistory)
+        {
+            var entitySync = ServiceLocator.GetInstance<IEntitySync>();
+
+            Task task = new Task(() =>
+            {
+                //EntitySync.SyncAccounts(_mintApi.GetAccountsExtended(), manualAccountHistory);
+                entitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
+            });
+
+            task.Start();
+            await task;
+        }
+
+        private void CallSyncAccounts(List<AccountHistory> manualAccountHistory)
+        {
+            var entitySync = ServiceLocator.GetInstance<IEntitySync>();
+
+            entitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
+        }
+
+        private void ExportNetWorthCommandExecuted(object obj)
+        {
+            ExportOptionsView view = new ExportOptionsView();
+            //ExportOptionsViewModel viewModel = new ExportOptionsViewModel();
+            //view.DataContext = viewModel;
+            view.Show();
+        }
+
+        private void OptionsCommandExecuted(object obj)
+        {
+            OptionsViewModel model = new OptionsViewModel();
+            OptionsView view = new OptionsView {DataContext = model};
+
+            view.ShowDialog();
+        }
+
+        public MintFinancialExportViewModel()
+        {
+            Bootstrapper.ConfigureStructureMap();
+
+            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
+
+            _mintApi = new MintApi();
+
+            _progressBarWorkCommand = new RelayCommand(o => _progressBarWorker.RunWorkerAsync(),
+                                                        o => !_progressBarWorker.IsBusy);
+
+            _progressBarWorker = new BackgroundWorker();
+            _progressBarWorker.DoWork += SyncAccountsWork;
+            _progressBarWorker.ProgressChanged += ProgressChanged;
+
+            RetrieveAccountsCommand = new RelayCommand(RetrieveAccountsCommandExecuted);
+            ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
+            AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
+            AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
+            OptionsCommand = new RelayCommand(OptionsCommandExecuted);
+
+            RefreshAccountInfo();
+        }
+
+        private void SyncAccountsWork(object sender, DoWorkEventArgs e)
+        {
+            ProgressVisibility = true;
+
+            ProgressChanged(null, new ProgressChangedEventArgs(10, e));
 
             // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
 
@@ -112,7 +226,7 @@ namespace MintFinancialExport.WPF.ViewModels
                     if (previousHistory != null) model.Value = previousHistory.Amount;
 
                     view.ShowDialog();
-                    
+
                     accountHistory.Amount = model.Value;
 
                 }
@@ -120,66 +234,31 @@ namespace MintFinancialExport.WPF.ViewModels
                 manualAccountHistory.Add(accountHistory);
             }
 
-            CurrentProgress = 10;
-            CallSyncAccountsAsync(manualAccountHistory);
-            CurrentProgress = 90;
+            ProgressChanged(null, new ProgressChangedEventArgs(20, e));
+            CallSyncAccounts(manualAccountHistory);
+            ProgressChanged(null, new ProgressChangedEventArgs(90, e));
 
             RefreshAccountInfo();
-            CurrentProgress = 100;
+            ProgressChanged(null, new ProgressChangedEventArgs(100, e));
+
+            ProgressVisibility = false;
         }
 
-        private async void CallSyncAccountsAsync(List<AccountHistory> manualAccountHistory)
+        private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var entitySync = ServiceLocator.GetInstance<IEntitySync>();
-
-            Task task = new Task(() =>
-            {
-                //EntitySync.SyncAccounts(_mintApi.GetAccountsExtended(), manualAccountHistory);
-                entitySync.SyncAccounts(_mintApi.GetAccounts(), manualAccountHistory);
-            });
-
-            task.Start();
-            await task;
-        }
-
-        private void ExportNetWorthCommandExecuted(object obj)
-        {
-            ExportOptionsView view = new ExportOptionsView();
-            //ExportOptionsViewModel viewModel = new ExportOptionsViewModel();
-            //view.DataContext = viewModel;
-            view.Show();
-        }
-
-        private void OptionsCommandExecuted(object obj)
-        {
-            OptionsViewModel model = new OptionsViewModel();
-            OptionsView view = new OptionsView {DataContext = model};
-
-            view.ShowDialog();
-        }
-
-        public MintFinancialExportViewModel()
-        {
-            Bootstrapper.ConfigureStructureMap();
-
-            _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
-
-            _mintApi = new MintApi();
-
-            RetrieveAccountsCommand = new RelayCommand(RetrieveAccountsCommandExecuted);
-            ExportNetWorthCommand = new RelayCommand(ExportNetWorthCommandExecuted);
-            AccountMappingCommand = new RelayCommand(AccountMappingCommandExecuted);
-            AccountBrowserCommand = new RelayCommand(AccountBrowserCommandExecuted);
-            OptionsCommand = new RelayCommand(OptionsCommandExecuted);
-
-            RefreshAccountInfo();
+            this.CurrentProgress = e.ProgressPercentage;
         }
 
         private void RefreshAccountInfo()
         {
-            // Get latest account history
             var runId = _dataAccess.GetCurrentRunId();
-            AccountList = _dataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList();
+
+            if (AccountList == null)
+                AccountList = _dataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList();
+
+            AccountList.Clear();
+            
+            AccountList.AddRange(_dataAccess.GetList<AccountHistory>().Where(r => r.RunId == runId).ToList());
 
             var netWorthInfo = _dataAccess.GetList<NetWorthHistory>().FirstOrDefault(r => r.RunId == runId);
 
