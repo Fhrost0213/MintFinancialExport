@@ -11,8 +11,8 @@ SELECT
 	[RunID]
 FROM [dbo].[AccountHistory] AH
 INNER JOIN [dbo].[Account] A
-ON [AH].[ObjectID] = [A].[ObjectID]
+ON [AH].[AccountID] = [A].[ObjectID]
 INNER JOIN [dbo].[AccountMapping] AM
-ON [A].[ObjectID] = [AM].[ObjectID]
+ON [A].[ObjectID] = [AM].[AccountID]
 INNER JOIN [dbo].[AccountType] AT
-ON [AM].[ObjectID] = [AT].[ObjectID]
+ON [AM].[AccountTypeID] = [AT].[ObjectID]
