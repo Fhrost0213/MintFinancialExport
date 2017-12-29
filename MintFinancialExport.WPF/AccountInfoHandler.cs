@@ -6,11 +6,12 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using MintFinancialExport.Core.Entities;
+using MintFinancialExport.WPF.Interfaces;
 using MintFinancialExport.WPF.Views;
 
 namespace MintFinancialExport.WPF
 {
-    public class AccountInfoHandler
+    public class AccountInfoHandler : IAccountInfoHandler
     {
         public void Show()
         {

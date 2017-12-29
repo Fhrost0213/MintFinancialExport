@@ -16,14 +16,13 @@ namespace MintFinancialExport.WPF.ViewModels
     {
 
         #region "Private fields"
-        MintApi _mintApi;
+        IMintApi _mintApi;
         private double _currentProgress;
         private IDataAccess _dataAccess;
         private decimal? _netWorthAmount;
         private DateTime? _asOfDate;
         private bool _progressVisibility;
         private readonly BackgroundWorker _progressBarWorker;
-        private readonly ICommand _progressBarWorkCommand;
         #endregion
 
         #region "Public commands"
@@ -109,7 +108,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void RetrieveAccountsCommandExecuted(object obj)
         {
-            AccountInfoHandler accountInfoHandler = new AccountInfoHandler();
+            var accountInfoHandler = ServiceLocator.GetInstance<IAccountInfoHandler>();
             accountInfoHandler.Show();
 
             // Call new method
@@ -159,10 +158,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
             _dataAccess = ServiceLocator.GetInstance<IDataAccess>();
 
-            _mintApi = new MintApi();
-
-            _progressBarWorkCommand = new RelayCommand(o => _progressBarWorker.RunWorkerAsync(),
-                                                        o => !_progressBarWorker.IsBusy);
+            _mintApi = ServiceLocator.GetInstance<IMintApi>();
 
             _progressBarWorker = new BackgroundWorker();
             _progressBarWorker.DoWork += SyncAccountsWork;
@@ -182,10 +178,6 @@ namespace MintFinancialExport.WPF.ViewModels
             ProgressVisibility = true;
 
             ProgressChanged(null, new ProgressChangedEventArgs(10, e));
-
-            // TODO: Fixing password to be secure. Store in DB encrypted to avoid typing it in
-
-            //AccountList = _mintApi.GetAccounts();
 
             // TODO: Does this block of code need to be pulled out and refactored?
             // Prompt for manual values
@@ -246,7 +238,7 @@ namespace MintFinancialExport.WPF.ViewModels
 
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.CurrentProgress = e.ProgressPercentage;
+            CurrentProgress = e.ProgressPercentage;
         }
 
         private void RefreshAccountInfo()

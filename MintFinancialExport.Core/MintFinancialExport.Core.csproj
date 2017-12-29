@@ -67,6 +67,7 @@
     <Compile Include="Entities\Spend.cs" />
     <Compile Include="EntitySync.cs" />
     <Compile Include="ExportObjects.cs" />
+    <Compile Include="Interfaces\IMintApi.cs" />
     <Compile Include="Interfaces\IEntitySync.cs" />
     <Compile Include="Interfaces\IDataAccess.cs" />
     <Compile Include="Interfaces\IObjectIdEntity.cs" />

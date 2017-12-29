@@ -10,7 +10,7 @@ using MintFinancialExport.Core.Interfaces;
 
 namespace MintFinancialExport.Core
 {
-    public class MintApi
+    public class MintApi : IMintApi
     {
         private IDataAccess _dataAccess;
 
