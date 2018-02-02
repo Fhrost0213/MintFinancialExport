@@ -1,0 +1,7 @@
+CREATE TABLE dbo.Person
+(
+	PersonId INT NOT NULL IDENTITY,
+	FirstName VARCHAR(100),
+	LastName VARCHAR(100),
+	PRIMARY KEY (PersonId)
+)
