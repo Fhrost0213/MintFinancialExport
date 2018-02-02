@@ -14,7 +14,18 @@
     </Window.DataContext>
     <Grid>
 
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="192" Margin="43,83,0,0" VerticalAlignment="Top" Width="393" ItemsSource="{Binding People}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Content="Add New Person" Command="{Binding AddNewPersonCommand}"/>
+            <Button Content="Open Person" Command="{Binding OpenPersonCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItem}"/>
+            <Button Content="Refresh List" Command="{Binding RefreshCommand}"/>
+        </StackPanel>
+
+        <ListView x:Name="listView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding People}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="LeftDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenPersonCommand}"/>
@@ -24,14 +35,10 @@
                 <GridView>
                     <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
                     <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
-                    <GridViewColumn Header="Latest Note" DisplayMemberBinding="{Binding LatestNote}"/>
+                    <GridViewColumn Header="Last Note Info" DisplayMemberBinding="{Binding LatestNoteInfo}"/>
+                    <GridViewColumn Header="Last Note Date" DisplayMemberBinding="{Binding LatestNoteDate}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        
-        <Button Content="Add New Person" HorizontalAlignment="Left" Margin="43,48,0,0" VerticalAlignment="Top" Width="113" Command="{Binding AddNewPersonCommand}"/>
-        <Button Content="Refresh" HorizontalAlignment="Left" Margin="360,48,0,0" VerticalAlignment="Top" Width="75" Command="{Binding RefreshCommand}"/>
-        <Button Content="Open Person" HorizontalAlignment="Left" Margin="188,48,0,0" VerticalAlignment="Top" Width="86" Command="{Binding OpenPersonCommand}" CommandParameter="{Binding ElementName=listView, Path=SelectedItem}"/>
-
     </Grid>
 </Controls:MetroWindow>

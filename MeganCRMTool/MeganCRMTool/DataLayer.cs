@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,19 @@ namespace MeganCRMTool
         public static List<T> GetList<T>() where T : class
         {
             return _db.Set<T>().ToList();
+        }
+
+        public static ObservableCollection<T> GetObservableCollection<T>() where T : class
+        {
+            ObservableCollection<T> coll = new ObservableCollection<T>();
+
+            var list = _db.Set<T>().ToList();
+            foreach (var item in list)
+            {
+                coll.Add(item);
+            }
+
+            return coll;
         }
 
         public static void SaveList<T>(List<T> itemList) where T : class

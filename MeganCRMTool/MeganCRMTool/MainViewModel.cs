@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,11 @@ namespace MeganCRMTool
         public List<Person> People
         {
             get { return _people; }
-            set { _people = value; }
+            set
+            {
+                _people = value;
+                OnPropertyChanged("People");
+            }
         }
 
         public ICommand RefreshCommand { get; set; }

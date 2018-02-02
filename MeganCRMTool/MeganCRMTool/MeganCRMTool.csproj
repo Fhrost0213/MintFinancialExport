@@ -72,7 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DisplayPerson.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="NewPersonViewModel.cs" />
     <Compile Include="NoteView.xaml.cs">
       <DependentUpon>NoteView.xaml</DependentUpon>
